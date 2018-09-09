@@ -18,5 +18,9 @@ app.register_blueprint(patient_blueprint)
 app.register_blueprint(doctor_blueprint)
 app.register_blueprint(clerk_blueprint)
 
+@app.route('/logout')
+def logout():
+    return ''
+
 if __name__ == '__main__':
     app.run(debug=True, host='0.0.0.0', port=8080)

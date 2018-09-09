@@ -12,11 +12,25 @@ patient_blueprint = Blueprint(
 # setting
 def patientSetting():
     settings = {
-        'sys_name' : 'Patient Manage',
-        'sys_name_agg' : 'PM'
+        'title' : 'Patient',
+        'menu' : {
+            'Home' : url_for('patient.index'),
+            'Appointment' : {
+                'Make Appointment' : url_for('patient.makeAppointment'),
+                'Delete Appointment' : url_for('patient.deleteAppointment')
+            }
+        }
     }
     return settings
 
 @patient_blueprint.route('/')
-def patientIndex():
+def index():
     return render_template('index.html', **patientSetting())
+
+@patient_blueprint.route('/make_appointment')
+def makeAppointment():
+    return render_template('calendar.html', **patientSetting())
+
+@patient_blueprint.route('/delete_appointment')
+def deleteAppointment():
+    return render_template('calendar.html', **patientSetting())

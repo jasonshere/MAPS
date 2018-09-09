@@ -2,30 +2,38 @@
 {% block title %}{{ title }}{% endblock %}
 
 {% block styles %}
-{{super()}}
-<link rel="stylesheet" href="{{url_for('static', filename='css/style.css')}}">
+    <link rel="stylesheet" href="{{url_for('static', filename='iconfonts/mdi/css/materialdesignicons.min.css')}}">
+    <link rel="stylesheet" href="{{url_for('static', filename='css/vendor.bundle.base.css')}}">
+    <link rel="stylesheet" href="{{url_for('static', filename='css/vendor.bundle.addons.css')}}">
+    <link rel="stylesheet" href="{{url_for('static', filename='css/style.css')}}">
 {% endblock %}
 
 {% block content %}
-<div class="wrapper">
-    {% include "include/__sidebar.html" %}
-    <!-- Page Content  -->
-    <div id="content">
-        {% include "include/__nav.html" %}
-        {% block mybody %}{% endblock %}
+<div class="container-scroller">
+    {% include 'include/__nav.html' %}
+    <!-- main body -->
+    <div class="container-fluid page-body-wrapper">
+        {% include 'include/__sidebar.html' %}
+        <!-- main panel -->
+        <div class="main-panel">
+            {% block mybody %} {% endblock %}
+            <!-- content-wrapper ends -->
+            <!-- _footer.html -->
+            {% include 'include/__footer.html' %}
+        </div>
+        <!-- main-panel ends -->
     </div>
+    <!-- page-body-wrapper ends -->
 </div>
+<!-- container-scroller -->
 {% endblock %}
 
 {% block scripts %}
-{{super()}}
-<script src="https://use.fontawesome.com/releases/v5.0.13/js/solid.js"></script>
-<script src="https://use.fontawesome.com/releases/v5.0.13/js/fontawesome.js"></script>
-<script>
-  $(document).ready(function () {
-    $('#sidebarCollapse').on('click', function () {
-        $('#sidebar').toggleClass('active');
-    });
-  });
-</script>
+    
+    <script src="{{url_for('static', filename='js/vendor.bundle.base.js')}}"></script>
+    <script src="{{url_for('static', filename='js/vendor.bundle.addons.js')}}"></script>
+    <script src="{{url_for('static', filename='js/off-canvas.js')}}"></script>
+    <script src="{{url_for('static', filename='js/misc.js')}}"></script>
+    <script src="{{url_for('static', filename='js/dashboard.js')}}"></script>
+
 {% endblock %}

@@ -5,18 +5,17 @@ from flask import Blueprint, Flask, render_template, session, redirect, url_for,
 clerk_blueprint = Blueprint(
     'clerk', 
     __name__,
-    template_folder='../../templates',
+    template_folder='./templates',
     url_prefix='/clerk'
 )
 
 # setting
 def clerkSetting():
     settings = {
-        'sys_name' : 'Clerk Manage',
-        'sys_name_agg' : 'CM'
+        'title' : 'Clerk Manage'
     }
     return settings
 
 @clerk_blueprint.route('/')
-def patientIndex():
+def index():
     return render_template('index.html', **clerkSetting())
