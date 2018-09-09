@@ -3,17 +3,29 @@
 
 {% block styles %}
 {{super()}}
-<link rel="stylesheet"
-      href="{{url_for('.static', filename='mystyle.css')}}">
+<link rel="stylesheet" href="{{url_for('static', filename='css/style.css')}}">
 {% endblock %}
 
-{% block navbar %}
-<div class="navbar navbar-fixed-top">
-  <!-- ... -->
+{% block content %}
+<div class="wrapper">
+    {% include "include/__sidebar.html" %}
+    <!-- Page Content  -->
+    <div id="content">
+        {% include "include/__nav.html" %}
+        {% block mybody %}{% endblock %}
+    </div>
 </div>
 {% endblock %}
 
 {% block scripts %}
-<script src="{{url_for('.static', filename='myscripts.js')}}"></script>
 {{super()}}
+<script src="https://use.fontawesome.com/releases/v5.0.13/js/solid.js"></script>
+<script src="https://use.fontawesome.com/releases/v5.0.13/js/fontawesome.js"></script>
+<script>
+  $(document).ready(function () {
+    $('#sidebarCollapse').on('click', function () {
+        $('#sidebar').toggleClass('active');
+    });
+  });
+</script>
 {% endblock %}
