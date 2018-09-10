@@ -14,10 +14,17 @@ def patientSetting():
     settings = {
         'title' : 'Patient',
         'menu' : {
-            'Home' : url_for('patient.index'),
+            'Dashboard' : {
+                'url' : url_for('patient.index'),
+                'icon' : 'mdi mdi-elevation-rise'
+            },
             'Appointment' : {
-                'Make Appointment' : url_for('patient.makeAppointment'),
-                'Delete Appointment' : url_for('patient.deleteAppointment')
+                'icon' : 'mdi mdi-calendar-clock',
+                'new' : True,
+                'children' : {
+                    'Make Appointment': url_for('patient.makeAppointment'),
+                    'Delete Appointment': url_for('patient.deleteAppointment')
+                }
             }
         }
     }

@@ -12,7 +12,21 @@ doctor_blueprint = Blueprint(
 # setting
 def doctorSetting():
     settings = {
-        'title' : 'Doctor Manage'
+        'title' : 'Doctor',
+        'menu' : {
+            'Dashboard' : {
+                'url' : url_for('doctor.index'),
+                'icon' : 'mdi mdi-elevation-rise'
+            },
+            'Appointment' : {
+                'icon' : 'mdi mdi-calendar-clock',
+                'new' : True,
+                'children' : {
+                    'Make Appointment': url_for('patient.makeAppointment'),
+                    'Delete Appointment': url_for('patient.deleteAppointment')
+                }
+            }
+        }
     }
     return settings
 
