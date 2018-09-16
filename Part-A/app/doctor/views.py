@@ -36,5 +36,13 @@ def patients():
     return render_template('doctor/patients.html', **doctorSetting())
 
 @doctor_blueprint.route('/edit_notes')
-def patients():
+def editNotes():
     return render_template('doctor/edit_notes.html', **doctorSetting())
+
+@doctor_blueprint.route('/edit_diagnoses')
+def editDiagnoses():
+    return render_template('doctor/edit_diagnoses.html', **doctorSetting())
+
+@doctor_blueprint.route('/history')
+def history():
+    return render_template('doctor/history.html', **doctorSetting())
