@@ -54,3 +54,7 @@ def setCalendar():
 @doctor_blueprint.route('/my_calendar')
 def myCalendar():
     return render_template('doctor/my_calendar.html', **doctorSetting())
+
+@doctor_blueprint.route('/login')
+def doctorLogin():
+    return render_template('public/login.html')

@@ -33,3 +33,11 @@ def makeAppointment():
 @patient_blueprint.route('/delete_appointment')
 def deleteAppointment():
     return render_template('patient/calendar.html', **patientSetting())
+
+@patient_blueprint.route('/register')
+def register():
+    return render_template('patient/register.html', **patientSetting())
+
+@patient_blueprint.route('/login')
+def patientLogin():
+    return render_template('public/login.html')
