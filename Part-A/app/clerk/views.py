@@ -28,10 +28,6 @@ def clerkSetting():
     }
     return settings
 
-@clerk_blueprint.route('/')
-def index():
-    return render_template('clerk/index.html', **clerkSetting())
-
 @clerk_blueprint.route('/patients_calendar')
 def patientsCalendar():
     return render_template('clerk/patients_calendar.html', **clerkSetting())

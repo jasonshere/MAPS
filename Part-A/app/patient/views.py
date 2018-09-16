@@ -14,10 +14,6 @@ def patientSetting():
     settings = {
         'title' : 'Patient',
         'menu' : {
-            'Dashboard' : {
-                'url' : url_for('patient.index'),
-                'icon' : 'mdi mdi-elevation-rise'
-            },
             'Appointment' : {
                 'icon' : 'mdi mdi-calendar-clock',
                 'new' : True,
@@ -29,10 +25,6 @@ def patientSetting():
         }
     }
     return settings
-
-@patient_blueprint.route('/')
-def index():
-    return render_template('patient/index.html', **patientSetting())
 
 @patient_blueprint.route('/make_appointment')
 def makeAppointment():
