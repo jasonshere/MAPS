@@ -5,7 +5,7 @@ from flask import Blueprint, Flask, render_template, session, redirect, url_for,
 doctor_blueprint = Blueprint(
     'doctor', 
     __name__,
-    template_folder='./templates',
+    template_folder='../../templates',
     url_prefix='/doctor'
 )
 
@@ -18,13 +18,10 @@ def doctorSetting():
                 'url' : url_for('doctor.index'),
                 'icon' : 'mdi mdi-elevation-rise'
             },
-            'Appointment' : {
-                'icon' : 'mdi mdi-calendar-clock',
+            'All scheduled patients': {
                 'new' : True,
-                'children' : {
-                    'Make Appointment': url_for('patient.makeAppointment'),
-                    'Delete Appointment': url_for('patient.deleteAppointment')
-                }
+                'icon' : 'mdi mdi-account',
+                'url' : url_for('doctor.patients'),
             }
         }
     }
@@ -32,4 +29,8 @@ def doctorSetting():
 
 @doctor_blueprint.route('/')
 def index():
-    return render_template('index.html', **doctorSetting())
+    return render_template('doctor/index.html', **doctorSetting())
+
+@doctor_blueprint.route('/all_patients')
+def patients():
+    return render_template('doctor/patients.html', **doctorSetting())

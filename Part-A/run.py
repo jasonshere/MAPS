@@ -14,9 +14,9 @@ Bootstrap(app)
 app.secret_key = os.urandom(32)
 
 # register blueprint
-app.register_blueprint(patient_blueprint)
-app.register_blueprint(doctor_blueprint)
-app.register_blueprint(clerk_blueprint)
+app.register_blueprint(patient_blueprint, template_folder='templates')
+app.register_blueprint(doctor_blueprint, template_folder='templates')
+app.register_blueprint(clerk_blueprint, template_folder='templates')
 
 @app.route('/logout')
 def logout():

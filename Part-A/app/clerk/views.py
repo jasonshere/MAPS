@@ -5,7 +5,7 @@ from flask import Blueprint, Flask, render_template, session, redirect, url_for,
 clerk_blueprint = Blueprint(
     'clerk', 
     __name__,
-    template_folder='./templates',
+    template_folder='../../templates',
     url_prefix='/clerk'
 )
 
@@ -32,4 +32,4 @@ def clerkSetting():
 
 @clerk_blueprint.route('/')
 def index():
-    return render_template('index.html', **clerkSetting())
+    return render_template('clerk/index.html', **clerkSetting())

@@ -5,7 +5,7 @@ from flask import Blueprint, Flask, render_template, session, redirect, url_for,
 patient_blueprint = Blueprint(
     'patient', 
     __name__,
-    template_folder='./templates',
+    template_folder='../../templates',
     url_prefix='/patient'
 )
 
@@ -32,12 +32,12 @@ def patientSetting():
 
 @patient_blueprint.route('/')
 def index():
-    return render_template('index.html', **patientSetting())
+    return render_template('patient/index.html', **patientSetting())
 
 @patient_blueprint.route('/make_appointment')
 def makeAppointment():
-    return render_template('calendar.html', **patientSetting())
+    return render_template('patient/calendar.html', **patientSetting())
 
 @patient_blueprint.route('/delete_appointment')
 def deleteAppointment():
-    return render_template('calendar.html', **patientSetting())
+    return render_template('patient/calendar.html', **patientSetting())
