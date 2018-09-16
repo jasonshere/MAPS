@@ -14,17 +14,10 @@ def clerkSetting():
     settings = {
         'title' : 'Clerk',
         'menu' : {
-            'Dashboard' : {
-                'url' : url_for('clerk.index'),
-                'icon' : 'mdi mdi-elevation-rise'
-            },
             'Appointment' : {
                 'icon' : 'mdi mdi-calendar-clock',
+                'url': url_for('clerk.calendar'),
                 'new' : True,
-                'children' : {
-                    'Make Appointment': url_for('patient.makeAppointment'),
-                    'Delete Appointment': url_for('patient.deleteAppointment')
-                }
             }
         }
     }
@@ -33,3 +26,7 @@ def clerkSetting():
 @clerk_blueprint.route('/')
 def index():
     return render_template('clerk/index.html', **clerkSetting())
+
+@clerk_blueprint.route('/calendar')
+def calendar():
+    return render_template('clerk/calendar.html', **clerkSetting())
