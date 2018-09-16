@@ -14,9 +14,14 @@ def clerkSetting():
     settings = {
         'title' : 'Clerk',
         'menu' : {
-            'Appointment' : {
+            'Patient Appointments' : {
                 'icon' : 'mdi mdi-calendar-clock',
-                'url': url_for('clerk.calendar'),
+                'url': url_for('clerk.patientsCalendar'),
+                'new' : True,
+            },
+            'Doctor Appointments' : {
+                'icon' : 'mdi mdi-calendar-clock',
+                'url': url_for('clerk.doctorsCalendar'),
                 'new' : True,
             }
         }
@@ -27,6 +32,10 @@ def clerkSetting():
 def index():
     return render_template('clerk/index.html', **clerkSetting())
 
-@clerk_blueprint.route('/calendar')
-def calendar():
-    return render_template('clerk/calendar.html', **clerkSetting())
+@clerk_blueprint.route('/patients_calendar')
+def patientsCalendar():
+    return render_template('clerk/patients_calendar.html', **clerkSetting())
+
+@clerk_blueprint.route('/doctors_calendar')
+def doctorsCalendar():
+    return render_template('clerk/doctors_calendar.html', **clerkSetting())
