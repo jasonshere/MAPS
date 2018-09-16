@@ -34,3 +34,7 @@ def index():
 @doctor_blueprint.route('/all_patients')
 def patients():
     return render_template('doctor/patients.html', **doctorSetting())
+
+@doctor_blueprint.route('/edit_notes')
+def patients():
+    return render_template('doctor/edit_notes.html', **doctorSetting())
