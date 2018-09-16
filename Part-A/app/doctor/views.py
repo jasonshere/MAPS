@@ -14,14 +14,18 @@ def doctorSetting():
     settings = {
         'title' : 'Doctor',
         'menu' : {
-            'Dashboard' : {
-                'url' : url_for('doctor.index'),
-                'icon' : 'mdi mdi-elevation-rise'
-            },
             'All scheduled patients': {
                 'new' : True,
                 'icon' : 'mdi mdi-account',
                 'url' : url_for('doctor.patients'),
+            },
+            'Set Weekly Availability' : {
+                'icon' : 'mdi mdi-calendar',
+                'url' : url_for('doctor.setCalendar'),
+            },
+            'My Calendar' : {
+                'icon' : 'mdi mdi-calendar',
+                'url' : url_for('doctor.myCalendar'),
             }
         }
     }
@@ -46,3 +50,11 @@ def editDiagnoses():
 @doctor_blueprint.route('/history')
 def history():
     return render_template('doctor/history.html', **doctorSetting())
+
+@doctor_blueprint.route('/set_calendar')
+def setCalendar():
+    return render_template('doctor/set_calendar.html', **doctorSetting())
+
+@doctor_blueprint.route('/my_calendar')
+def myCalendar():
+    return render_template('doctor/my_calendar.html', **doctorSetting())
