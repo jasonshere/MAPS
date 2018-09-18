@@ -2,24 +2,20 @@
 from flask import Flask, render_template, session, redirect, url_for, request, jsonify, make_response
 from flask_bootstrap import Bootstrap
 from flask_httpauth import HTTPBasicAuth
-# from app.patient.views import patient_blueprint
-# from app.doctor.views import doctor_blueprint
-# from app.clerk.views import clerk_blueprint
+from app.patient.endpoints import patient_blueprint
+from app.doctor.endpoints import doctor_blueprint
+from app.clerk.endpoints import clerk_blueprint
 import os
-
-# Initialize framework
-app = Flask(__name__)
-Bootstrap(app)
+from init import app
 
 # create secret key for form to avoid CSRF attack
 app.secret_key = os.urandom(32)
-
 auth = HTTPBasicAuth()
 
 # register blueprint
-# app.register_blueprint(patient_blueprint, template_folder='templates')
-# app.register_blueprint(doctor_blueprint, template_folder='templates')
-# app.register_blueprint(clerk_blueprint, template_folder='templates')
+app.register_blueprint(patient_blueprint)
+app.register_blueprint(doctor_blueprint)
+app.register_blueprint(clerk_blueprint)
 
 @app.errorhandler(404)
 def not_found(error):
