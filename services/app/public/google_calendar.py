@@ -1,0 +1,56 @@
+from __future__ import print_function
+from datetime import datetime
+from datetime import timedelta
+from googleapiclient.discovery import build
+from httplib2 import Http
+from oauth2client import file, client, tools
+import os
+
+# If modifying these scopes, delete the file token.json.
+SCOPES = 'https://www.googleapis.com/auth/calendar'
+store = file.Storage('token.json')
+creds = store.get()
+if not creds or creds.invalid:
+    flow = client.flow_from_clientsecrets(os.path.abspath(os.path.dirname(__file__)) + '/credentials.json', SCOPES)
+    creds = tools.run_flow(flow, store)
+service = build('calendar', 'v3', http=creds.authorize(Http()))
+
+# insert secondary calendar
+def addSecondaryCalendar(summary, description, location, timezone):
+    try:
+        calendar = {
+            'summary': summary,
+            'location': location,
+            'description': description,
+            'timeZone': timezone
+        }
+        created_calendar = service.calendars().insert(body=calendar).execute()
+        return True, created_calendar['id']
+    except Exception as e:
+        return False, e
+
+# add event
+def addEvent(data):
+    try:
+        event = {
+            'summary': data['summary'],
+            'location': data['location'],
+            'description': data['description'],
+            'start': data['start'],
+            'end': data['end'],
+            'attendees': [
+                {'email': data.doctorEmail},
+                {'email': data.patientEmail},
+            ],
+            'reminders': {
+                'useDefault': False,
+                'overrides': [
+                    {'method': 'email', 'minutes': 24 * 60},
+                    {'method': 'popup', 'minutes': 10},
+                ],
+            },
+        }
+        event = service.events().insert(calendarId=data['calendar_id'], body=event).execute()
+        return True, event
+    except Exception as e:
+        return False, e

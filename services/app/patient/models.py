@@ -18,6 +18,7 @@ class Patient(db.Model):
     phone = db.Column(db.String(20), nullable=False)
     age = db.Column(db.Integer, nullable=False)
     sex = db.Column(db.Integer, nullable=False)
+    calendar_id = db.Column(db.String(100), nullable=True)
     created_at = db.Column(db.DateTime, nullable=False)
     updated_at = db.Column(db.DateTime, nullable=False)
 
@@ -42,11 +43,24 @@ class Patient(db.Model):
         else:
             return False, {}
 
+    def getOnePatientById(self, customer_id):
+        result = self.query.get(customer_id)
+        result = patient_schema.dump(result)
+        if result.data :
+            return True, result.data
+        else:
+            return False, {}
+
+    def updateSchema(self, patientId, data):
+        patient = self.query.get(patientId)
+        for field in data:
+            setattr(patient, field, data[field])
+        return db.session.commit()
+
 class PatientSchema(ma.Schema):
     class Meta:
         # Fields to expose
-        fields = ('username', 'email', 'name', 'birthday', 'phone', 'age', 'sex', 'password')
-
+        fields = ('id', 'username', 'email', 'name', 'birthday', 'phone', 'age', 'sex', 'password', 'calendar_id')
 
 patient_schema = PatientSchema()
 patients_schema = PatientSchema(many=True)
