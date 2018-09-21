@@ -30,7 +30,7 @@ def addSecondaryCalendar(summary, description, location, timezone):
         return False, e
 
 # add event
-def addEvent(data):
+def addGoogleEvent(data):
     try:
         event = {
             'summary': data['summary'],
@@ -39,8 +39,8 @@ def addEvent(data):
             'start': data['start'],
             'end': data['end'],
             'attendees': [
-                {'email': data.doctorEmail},
-                {'email': data.patientEmail},
+                {'email': data['doctor_email']},
+                {'email': data['patient_email']},
             ],
             'reminders': {
                 'useDefault': False,
@@ -52,5 +52,21 @@ def addEvent(data):
         }
         event = service.events().insert(calendarId=data['calendar_id'], body=event).execute()
         return True, event
+    except Exception as e:
+        return False, e
+
+# get events
+def getGoogleEvents(calendar_id):
+    try:
+        page_token = None
+        results = []
+        while True:
+            events = service.events().list(calendarId = calendar_id, pageToken = page_token).execute()
+            for event in events['items']:
+                results.append(event)
+            page_token = events.get('nextPageToken')
+            if not page_token:
+                break
+        return True, results
     except Exception as e:
         return False, e

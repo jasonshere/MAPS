@@ -54,7 +54,7 @@ def current():
     except Exception as e:
         return make_response(jsonify({'code': -1, 'msg': str(e)}), 400)
 
-@patient_blueprint.route('/add_calendar', methods=["POST"])
+@patient_blueprint.route('/calendars', methods=["POST"])
 @auth.login_required
 def addCalendar():
     try:
@@ -110,4 +110,67 @@ def addCalendar():
             raise id
     except Exception as e:
         return make_response(jsonify({'code': -1, 'msg': str(e)}), 400)
-        
+
+@patient_blueprint.route('/events', methods=["POST"])
+@auth.login_required
+def addEvents():
+    postData = request.json
+    eventData = postData['event']     
+
+    try:
+        if eventData['summary'] is None:
+            raise Exception('Invalid Parameters')
+        if eventData['description'] is None:
+            raise Exception('Invalid Parameters')
+        if eventData['location'] is None:
+            raise Exception('Invalid Parameters')
+        if eventData['timezone'] is None:
+            raise Exception('Invalid Parameters')
+
+        if eventData['calendar_id'] is None:
+            raise Exception('Invalid Parameters')
+        if eventData['start'] is None:
+            raise Exception('Invalid Parameters')
+        if eventData['end'] is None:
+            raise Exception('Invalid Parameters')
+        if eventData['patient_email'] is None:
+            raise Exception('Invalid Parameters')
+        if eventData['doctor_email'] is None:
+            raise Exception('Invalid Parameters')
+
+        eventData['start'] = {
+            "dateTime": eventData['start'],
+            "timeZone": eventData['timezone']
+        }
+
+        eventData['end'] = {
+            "dateTime": eventData['end'],
+            "timeZone": eventData['timezone']
+        }
+
+        res, event = addGoogleEvent(eventData)
+
+        if res:
+            return make_response(jsonify({'code': 1, 'msg': 'Successfully added!'}), 201)
+        else:
+            raise event
+
+    except Exception as e:
+        return make_response(jsonify({'code': -1, 'msg': str(e)}), 400)
+
+@patient_blueprint.route('/events/calendar_id/<calendar_id>', methods=["GET"])
+@auth.login_required
+def getEvents(calendar_id):
+    try:
+        if calendar_id is None:
+            raise Exception('Invalid Parameters')
+
+        res, events = getGoogleEvents(calendar_id)
+
+        if res:
+            return make_response(jsonify({'code': 1, 'msg': 'Successfully fetched!', 'data': events}), 201)
+        else:
+            raise events
+
+    except Exception as e:
+        return make_response(jsonify({'code': -1, 'msg': str(e)}), 400)
