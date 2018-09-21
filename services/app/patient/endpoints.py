@@ -24,8 +24,10 @@ patient_blueprint = Blueprint(
 def register():
     try:
         patient = Patient(request.json['patient'])
-        patient.addPatient()
-        return make_response(jsonify({'code': 1, 'msg': 'Successfully Created!'}), 201)
+        if patient.addPatient():
+            return make_response(jsonify({'code': 1, 'msg': 'Successfully Created!'}), 201)
+        else:
+            raise Exception('Register failed!')
     except Exception as e:
         return make_response(jsonify({'code': -1, 'msg': str(e)}), 400)
 
@@ -93,8 +95,12 @@ def addCalendar():
                         
                     }
                 }), 201)
-
-        res, id = addSecondaryCalendar(calendarData['summary'], calendarData['description'], calendarData['location'], calendarData['timezone'])
+        res, id = addSecondaryCalendar(
+            calendarData['summary'], 
+            calendarData['description'], 
+            calendarData['location'], 
+            calendarData['timezone']
+        )
         if res:
             # store id to database
             updateData = {
@@ -183,6 +189,8 @@ def getEvents(calendar_id):
 @auth.login_required
 def deleteEvent(calendar_id, event_id):
     try:
+        if calendar_id is None:
+            raise Exception('Invalid Parameters')
         if event_id is None:
             raise Exception('Invalid Parameters')
         res, e = deleteGoogleEvent(calendar_id, event_id)
@@ -191,5 +199,26 @@ def deleteEvent(calendar_id, event_id):
         else:
             raise e
 
+    except Exception as e:
+        return make_response(jsonify({'code': -1, 'msg': str(e)}), 400)
+
+# add history for patient
+@patient_blueprint.route('/histories', methods=["POST"])
+@auth.login_required
+def addHistory():
+    try:
+        historyData = request.json['history']
+        if historyData['patient_id'] is None:
+            raise Exception('Invalid Parameters')
+        if historyData['doctor_id'] is None:
+            raise Exception('Invalid Parameters')
+        if historyData['description'] is None:
+            raise Exception('Invalid Parameters')
+        
+        patientHistory = PatientHistory(historyData)
+        if patientHistory.addHistory():
+            return make_response(jsonify({'code': 1, 'msg': 'Successfully Created!'}), 201)
+        else:
+            raise Exception('Register failed!')
     except Exception as e:
         return make_response(jsonify({'code': -1, 'msg': str(e)}), 400)
