@@ -70,3 +70,11 @@ def getGoogleEvents(calendar_id):
         return True, results
     except Exception as e:
         return False, e
+
+# delete event
+def deleteGoogleEvent(calendar_id, event_id):
+    try:
+        service.events().delete(calendarId = calendar_id, eventId = event_id).execute()
+        return True, {}
+    except Exception as e:
+        return False, e
