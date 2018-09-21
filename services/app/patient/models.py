@@ -71,7 +71,7 @@ patients_schema = PatientSchema(many=True)
 
 # model for history
 class PatientHistory(db.Model):
-    __tablename__ = '{}history'. format(PREFIX)
+    __tablename__ = '{}patient_history'. format(PREFIX)
 
     id = db.Column(db.Integer, primary_key=True)
     patient_id = db.Column(db.Integer, nullable=False)
@@ -86,9 +86,15 @@ class PatientHistory(db.Model):
         db.create_all()
 
     # add a history
-    def addHistory(self, data):
+    def addHistory(self):
         db.session.add(self)
-        return db.session.commit()
+        db.session.commit()
+
+    # get all history
+    def getAllHistory(self):
+        all = self.query.all()
+        result = patient_histories_schema.dump(all)
+        return result.data
 
 class PatientHistorySchema(ma.Schema):
     class Meta:

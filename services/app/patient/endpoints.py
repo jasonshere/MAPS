@@ -7,7 +7,7 @@ sys.path.append(os.path.abspath(os.path.dirname(os.path.dirname(os.path.dirname(
 
 # import necessary packages
 from flask import Blueprint, Flask, render_template, session, redirect, url_for, request, jsonify, make_response, session
-from models import Patient
+from models import Patient, PatientHistory
 from init import auth, session
 from google_calendar import *
 
@@ -24,10 +24,8 @@ patient_blueprint = Blueprint(
 def register():
     try:
         patient = Patient(request.json['patient'])
-        if patient.addPatient():
-            return make_response(jsonify({'code': 1, 'msg': 'Successfully Created!'}), 201)
-        else:
-            raise Exception('Register failed!')
+        patient.addPatient()
+        return make_response(jsonify({'code': 1, 'msg': 'Successfully Created!'}), 201)
     except Exception as e:
         return make_response(jsonify({'code': -1, 'msg': str(e)}), 400)
 
@@ -216,9 +214,18 @@ def addHistory():
             raise Exception('Invalid Parameters')
         
         patientHistory = PatientHistory(historyData)
-        if patientHistory.addHistory():
-            return make_response(jsonify({'code': 1, 'msg': 'Successfully Created!'}), 201)
-        else:
-            raise Exception('Register failed!')
+        patientHistory.addHistory()
+        return make_response(jsonify({'code': 1, 'msg': 'Successfully Created!'}), 201)
+    except Exception as e:
+        return make_response(jsonify({'code': -1, 'msg': str(e)}), 400)
+
+# list history for patient
+@patient_blueprint.route('/histories', methods=["GET"])
+@auth.login_required
+def getHistories():
+    try:
+        patientHistory = PatientHistory({})
+        results = patientHistory.getAllHistory()
+        return make_response(jsonify({'code': 1, 'msg': 'Successfully Fetched!', 'data': results}), 201)
     except Exception as e:
         return make_response(jsonify({'code': -1, 'msg': str(e)}), 400)
