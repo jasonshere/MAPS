@@ -61,6 +61,12 @@ class Patient(db.Model):
             setattr(patient, field, data[field])
         return db.session.commit()
 
+    # get all patients
+    def getAllPatients(self):
+        all = self.query.all()
+        result = patients_schema.dump(all)
+        return result.data
+
 class PatientSchema(ma.Schema):
     class Meta:
         # Fields to expose
@@ -96,6 +102,17 @@ class PatientHistory(db.Model):
         result = patient_histories_schema.dump(all)
         return result.data
 
+    # get all histories by patient id
+    def getAllHistoryByPatientId(self, patient_id):
+        results = self.query.filter(\
+            PatientHistory.patient_id == patient_id
+        ).all()
+        results = patient_histories_schema.dump(results)
+        if results.data :
+            return True, results.data
+        else:
+            return False, []
+
 class PatientHistorySchema(ma.Schema):
     class Meta:
         # Fields to expose
@@ -103,3 +120,85 @@ class PatientHistorySchema(ma.Schema):
 
 patient_history_schema = PatientHistorySchema()
 patient_histories_schema = PatientHistorySchema(many=True)
+
+# model for notes
+class Notes(db.Model):
+    __tablename__ = '{}note'. format(PREFIX)
+
+    id = db.Column(db.Integer, primary_key=True)
+    patient_id = db.Column(db.Integer, nullable=False)
+    doctor_id = db.Column(db.Integer, nullable=False)
+    history_id = db.Column(db.Integer, nullable=False)
+    description = db.Column(db.String(500), nullable=False)
+    created_at = db.Column(db.DateTime, nullable=False)
+
+    # initialise the model
+    def __init__(self, data):
+        for field in data:
+            setattr(self, field, data[field])
+        db.create_all()
+
+    # add a note
+    def addNote(self):
+        db.session.add(self)
+        db.session.commit()
+
+    # get all notes by patient id
+    def getAllNotesByPatientId(self, patient_id):
+        results = self.query.filter(\
+            Notes.patient_id == patient_id
+        ).all()
+        results = notes_schema.dump(results)
+        if results.data :
+            return True, results.data
+        else:
+            return False, []
+
+class NotesSchema(ma.Schema):
+    class Meta:
+        # Fields to expose
+        fields = ('id', 'patient_id', 'doctor_id', 'history_id', 'description', 'created_at')
+
+note_schema = NotesSchema()
+notes_schema = NotesSchema(many=True)
+
+# model for diagnoses
+class Diagnoses(db.Model):
+    __tablename__ = '{}diagnose'. format(PREFIX)
+
+    id = db.Column(db.Integer, primary_key=True)
+    patient_id = db.Column(db.Integer, nullable=False)
+    doctor_id = db.Column(db.Integer, nullable=False)
+    description = db.Column(db.String(500), nullable=False)
+    history_id = db.Column(db.Integer, nullable=False)
+    created_at = db.Column(db.DateTime, nullable=False)
+
+    # initialise the model
+    def __init__(self, data):
+        for field in data:
+            setattr(self, field, data[field])
+        db.create_all()
+
+    # add a diagnose
+    def addDiagnose(self):
+        db.session.add(self)
+        db.session.commit()
+
+    # get all diagnoses by patient id
+    def getAllDiagnosesByPatientId(self, patient_id):
+        results = self.query.filter(\
+            Diagnoses.patient_id == patient_id
+        ).all()
+        results = diags_schema.dump(results)
+        if results.data :
+            return True, results.data
+        else:
+            return False, []
+
+class DiagnosesSchema(ma.Schema):
+    class Meta:
+        # Fields to expose
+        fields = ('id', 'patient_id', 'doctor_id', 'history_id', 'description', 'created_at')
+
+diag_schema = DiagnosesSchema()
+diags_schema = DiagnosesSchema(many=True)

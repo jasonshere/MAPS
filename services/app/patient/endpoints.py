@@ -7,9 +7,10 @@ sys.path.append(os.path.abspath(os.path.dirname(os.path.dirname(os.path.dirname(
 
 # import necessary packages
 from flask import Blueprint, Flask, render_template, session, redirect, url_for, request, jsonify, make_response, session
-from models import Patient, PatientHistory
 from init import auth, session
 from google_calendar import *
+from models import Patient, PatientHistory, Notes, Diagnoses
+from pub_models import Appointment
 
 # create blueprint object
 patient_blueprint = Blueprint(
@@ -54,6 +55,28 @@ def current():
             return make_response(jsonify({'code': 1, 'msg': 'Successfully Fetch!', 'data': data}), 201)
         else:
             return make_response(jsonify({'code': -1, 'msg': 'Not Login'}), 400)
+    except Exception as e:
+        return make_response(jsonify({'code': -1, 'msg': str(e)}), 400)
+
+# list patients
+@patient_blueprint.route('/all', methods=["GET"])
+@auth.login_required
+def getPatients():
+    try:
+        patient = Patient({})
+        results = patient.getAllPatients()
+        return make_response(jsonify({'code': 1, 'msg': 'Successfully Fetched!', 'data': results}), 201)
+    except Exception as e:
+        return make_response(jsonify({'code': -1, 'msg': str(e)}), 400)
+
+# get specific patient
+@patient_blueprint.route('/<patient_id>', methods=["GET"])
+@auth.login_required
+def getOnePatient(patient_id):
+    try:
+        patient = Patient({})
+        results, data = patient.getOnePatientById(patient_id)
+        return make_response(jsonify({'code': 1, 'msg': 'Successfully Fetched!', 'data': data}), 201)
     except Exception as e:
         return make_response(jsonify({'code': -1, 'msg': str(e)}), 400)
 
@@ -227,5 +250,149 @@ def getHistories():
         patientHistory = PatientHistory({})
         results = patientHistory.getAllHistory()
         return make_response(jsonify({'code': 1, 'msg': 'Successfully Fetched!', 'data': results}), 201)
+    except Exception as e:
+        return make_response(jsonify({'code': -1, 'msg': str(e)}), 400)
+
+# get histories for one patient
+@patient_blueprint.route('/<patient_id>/histories', methods=["GET"])
+@auth.login_required
+def getHistoriesByPatientId(patient_id):
+    try:
+        patientHistory = PatientHistory({})
+        results, data = patientHistory.getAllHistoryByPatientId(patient_id)
+        return make_response(jsonify({'code': 1, 'msg': 'Successfully Fetched!', 'data': data}), 201)
+    except Exception as e:
+        return make_response(jsonify({'code': -1, 'msg': str(e)}), 400)
+
+# add appointment
+@patient_blueprint.route('/appointments', methods=["POST"])
+@auth.login_required
+def addAppointments():
+    try:
+        postData = request.json['appointment']
+        if postData['patient_id'] is None:
+            raise Exception('Invalid Parameters')
+        if postData['doctor_id'] is None:
+            raise Exception('Invalid Parameters')
+        if postData['appointed_from'] is None:
+            raise Exception('Invalid Parameters')
+        if postData['appointed_to'] is None:
+            raise Exception('Invalid Parameters')
+
+        appointment = Appointment(postData)
+        appointment.addAppointment()
+        return make_response(jsonify({'code': 1, 'msg': 'Successfully Created!'}), 201)
+    except Exception as e:
+        return make_response(jsonify({'code': -1, 'msg': str(e)}), 400)
+
+# get appointments by patient id
+@patient_blueprint.route('/<patient_id>/appointments', methods=["GET"])
+@auth.login_required
+def getAppointments(patient_id):
+    try:
+        if patient_id is None:
+            raise Exception('Invalid Parameters')
+
+        appointment = Appointment({})
+        results, data = appointment.getAllAppointmentByPatientId(patient_id)
+        if results :
+            return make_response(jsonify({'code': 1, 'msg': 'Successfully Fetched!', 'data': data}), 201)
+        else:
+            raise data
+    except Exception as e:
+        return make_response(jsonify({'code': -1, 'msg': str(e)}), 400)
+
+# delete one appointment
+@patient_blueprint.route('/appointments/<appointment_id>', methods=["DELETE"])
+@auth.login_required
+def deleteAppointment(appointment_id):
+    try:
+        if appointment_id is None:
+            raise Exception('Invalid Parameters')
+        
+        appointment = Appointment({})
+        appointment.deleteAppointmentById(appointment_id)
+        return make_response(jsonify({'code': 1, 'msg': 'Successfully deleted!'}), 201)
+        
+    except Exception as e:
+        return make_response(jsonify({'code': -1, 'msg': str(e)}), 400)
+
+# add one note
+@patient_blueprint.route('/notes', methods=["POST"])
+@auth.login_required
+def addNotes():
+    try:
+        postData = request.json['note']
+        if postData['history_id'] is None:
+            raise Exception('Invalid Parameters')
+        if postData['patient_id'] is None:
+            raise Exception('Invalid Parameters')
+        if postData['doctor_id'] is None:
+            raise Exception('Invalid Parameters')
+        if postData['description'] is None:
+            raise Exception('Invalid Parameters')
+        if postData['created_at'] is None:
+            raise Exception('Invalid Parameters')
+
+        notes = Notes(postData)
+        notes.addNote()
+        return make_response(jsonify({'code': 1, 'msg': 'Successfully Created!'}), 201)
+    except Exception as e:
+        return make_response(jsonify({'code': -1, 'msg': str(e)}), 400)
+
+# get all notes by patient id
+@patient_blueprint.route('/<patient_id>/notes', methods=["GET"])
+@auth.login_required
+def getNotes(patient_id):
+    try:
+        if patient_id is None:
+            raise Exception('Invalid Parameters')
+
+        notes = Notes({})
+        results, data = notes.getAllNotesByPatientId(patient_id)
+        if results :
+            return make_response(jsonify({'code': 1, 'msg': 'Successfully Fetched!', 'data': data}), 201)
+        else:
+            raise data
+    except Exception as e:
+        return make_response(jsonify({'code': -1, 'msg': str(e)}), 400)
+
+# add diagnose
+@patient_blueprint.route('/diagnoses', methods=["POST"])
+@auth.login_required
+def addDiagnoses():
+    try:
+        postData = request.json['diagnose']
+        if postData['history_id'] is None:
+            raise Exception('Invalid Parameters')
+        if postData['patient_id'] is None:
+            raise Exception('Invalid Parameters')
+        if postData['doctor_id'] is None:
+            raise Exception('Invalid Parameters')
+        if postData['description'] is None:
+            raise Exception('Invalid Parameters')
+        if postData['created_at'] is None:
+            raise Exception('Invalid Parameters')
+
+        diags = Diagnoses(postData)
+        diags.addDiagnose()
+        return make_response(jsonify({'code': 1, 'msg': 'Successfully Created!'}), 201)
+    except Exception as e:
+        return make_response(jsonify({'code': -1, 'msg': str(e)}), 400)
+
+# get all diagnoses by patient id
+@patient_blueprint.route('/<patient_id>/diagnoses', methods=["GET"])
+@auth.login_required
+def getDiagnoses(patient_id):
+    try:
+        if patient_id is None:
+            raise Exception('Invalid Parameters')
+
+        diags = Diagnoses({})
+        results, data = diags.getAllDiagnosesByPatientId(patient_id)
+        if results :
+            return make_response(jsonify({'code': 1, 'msg': 'Successfully Fetched!', 'data': data}), 201)
+        else:
+            raise Exception('Fetched Failed')
     except Exception as e:
         return make_response(jsonify({'code': -1, 'msg': str(e)}), 400)
