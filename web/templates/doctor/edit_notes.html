@@ -1,0 +1,22 @@
+{% extends "include/__layout.html" %}
+
+{% block mybody %}
+<div class="card">
+    <div class="card-body">
+    <h4 class="card-title">Add Notes</h4>
+    <form class="forms-sample">
+      
+      <div class="form-group">
+        <label for="exampleInputCity1">Name</label>
+        <input type="text" class="form-control" id="exampleInputCity1" placeholder="Location" value="James">
+      </div>
+      <div class="form-group">
+        <label for="exampleTextarea1">Notes</label>
+        <textarea class="form-control" id="exampleTextarea1" rows="5"></textarea>
+      </div>
+      <button type="submit" class="btn btn-success mr-2">Submit</button>
+      <button class="btn btn-light">Cancel</button>
+    </form>
+  </div>
+</div>
+{% endblock %}

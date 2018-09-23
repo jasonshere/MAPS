@@ -1,0 +1,103 @@
+{% extends "include/__layout.html" %}
+
+{% block mybody %}
+<div class="col-lg-12 grid-margin stretch-card">
+    <div class="card">
+      <div class="card-body">
+        <h4 class="card-title">Jacob's history</h4>
+        <div class="table-responsive">
+          <table class="table table-hover">
+            <thead>
+              <tr>
+                <th>Doctor</th>
+                <th>Appointment Date</th>
+                <th>Diagnose Date</th>
+                <th>Notes And Diagnoses</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><img src="{{url_for('static', filename='images/faces-clipart/pic-1.png')}}" alt="image" />&nbsp;&nbsp;&nbsp;Jason</td>
+                <td>21:00:00 08 Dec 2018</td>
+                <td>21:00:00 08 Dec 2018</td>
+                <td class="text-info"> 
+                    <button type="button" class="btn btn-primary btn-xs" data-toggle="modal" data-target="#note-1">
+                        <i class="mdi mdi-upload"></i>View Note
+                    </button>
+                    <button type="button" class="btn btn-warning btn-xs" data-toggle="modal" data-target="#diagnose-1">
+                        <i class="mdi mdi-upload"></i>View Diagnose
+                    </button>
+                </td>
+                <!-- Note Modal -->
+                <div class="modal fade" id="note-1" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                    <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Jacob's Note</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                        </div>
+                        <div class="modal-body">
+                            test
+                        </div>
+                        <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        </div>
+                    </div>
+                    </div>
+                </div>
+
+                <!-- Diagnose Modal -->
+                <div class="modal fade" id="diagnose-1" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                    <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Jacob's Diagnose</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                        </div>
+                        <div class="modal-body">
+                            test
+                        </div>
+                        <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        </div>
+                    </div>
+                    </div>
+                </div>
+              </tr>
+              <tr>
+                <td><img src="{{url_for('static', filename='images/faces-clipart/pic-2.png')}}" alt="image" />&nbsp;&nbsp;&nbsp;Jacob</td>
+                <td>21:00:00 08 Dec 2018</td>
+                <td>21:00:00 08 Dec 2018</td>
+                <td class="text-info"> 
+                    <button type="button" class="btn btn-primary btn-xs">
+                        <i class="mdi mdi-upload"></i>View Note
+                    </button>
+                    <button type="button" class="btn btn-warning btn-xs">
+                        <i class="mdi mdi-upload"></i>View Diagnose
+                    </button>
+                </td>
+              </tr>
+              <tr>
+                <td><img src="{{url_for('static', filename='images/faces-clipart/pic-3.png')}}" alt="image" />&nbsp;&nbsp;&nbsp;Jacob</td>
+                <td>21:00:00 08 Dec 2018</td>
+                <td>21:00:00 08 Dec 2018</td>
+                <td class="text-info"> 
+                    <button type="button" class="btn btn-primary btn-xs">
+                        <i class="mdi mdi-upload"></i>View Note
+                    </button>
+                    <button type="button" class="btn btn-warning btn-xs">
+                        <i class="mdi mdi-upload"></i>View Diagnose
+                    </button>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+{% endblock %}
