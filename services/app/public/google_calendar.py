@@ -5,6 +5,7 @@ from googleapiclient.discovery import build
 from httplib2 import Http
 from oauth2client import file, client, tools
 import os
+import datetime
 
 # If modifying these scopes, delete the file token.json.
 SCOPES = 'https://www.googleapis.com/auth/calendar'
@@ -69,6 +70,28 @@ def getGoogleEvents(calendar_id):
                 break
         return True, results
     except Exception as e:
+        return False, e
+
+# get all appointments of this week
+def getAppointmentsOfThisWeek(calendar_id):
+    try:
+        page_token = None
+        date1 = datetime.datetime.now()
+        time_min = str(date1 - datetime.timedelta(days = date1.weekday())).split()[0] + "T00:00:00Z"
+        time_max = str(date1 + datetime.timedelta(days = 6 - date1.weekday())).split()[0] + "T23:59:59Z"
+        print(time_min, time_max)
+        results = []
+        while True:
+            events = service.events().list(calendarId = calendar_id, pageToken = page_token, timeMin = time_min, timeMax = time_max).execute()
+            print(events['items'])
+            for event in events['items']:
+                results.append(event)
+            page_token = events.get('nextPageToken')
+            if not page_token:
+                break
+        return True, results
+    except Exception as e:
+        print(str(e))
         return False, e
 
 # delete event

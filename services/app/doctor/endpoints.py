@@ -56,7 +56,7 @@ def current():
         else:
             return make_response(jsonify({'code': -1, 'msg': 'Not Login'}), 400)
     except Exception as e:
-        return make_response(jsonify({'code': -1, 'msg': str(e)}), 400)
+        return make_response(jsonify({'code': -1, 'msg': 'Doctor not logged in'}), 400)
 
 # Doctor logout
 @doctor_blueprint.route('/logout', methods=["POST"])
@@ -66,7 +66,7 @@ def logout():
         session.clear()
         return make_response(jsonify({'code': 1, 'msg': 'Successfully Signed out!'}), 201)
     except Exception as e:
-        return make_response(jsonify({'code': -1, 'msg': str(e)}), 400)
+        return make_response(jsonify({'code': -1, 'msg': 'Doctor not logged in'}), 400)
 
 # list doctors
 @doctor_blueprint.route('/all', methods=["GET"])
