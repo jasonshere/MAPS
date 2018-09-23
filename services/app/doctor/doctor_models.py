@@ -91,13 +91,13 @@ class DoctorBusyTime(db.Model):
         db.create_all()
 
     # set busytime fro doctor
-    def setBusy(self):
+    def setBusytime(self):
         db.session.add(self)
         return db.session.commit()
 
     # get all busytime of doctor
-    def getAllBusyTime(self):
-        all = self.query.all()
+    def getAllBusyTime(self, doctor_id):
+        all = self.query.filter(DoctorBusyTime.doctor_id == doctor_id).all()
         result = doctor_busytimes_schema.dump(all)
         return result.data
 

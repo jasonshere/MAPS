@@ -9,7 +9,7 @@ sys.path.append(os.path.abspath(os.path.dirname(os.path.dirname(os.path.dirname(
 from flask import Blueprint, Flask, render_template, session, redirect, url_for, request, jsonify, make_response, session
 from init import auth, session
 from google_calendar import *
-from models import Patient, PatientHistory, Notes, Diagnoses
+from patient_models import Patient, PatientHistory, Notes, Diagnoses
 from pub_models import Appointment
 
 # create blueprint object
