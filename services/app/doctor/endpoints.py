@@ -58,6 +58,16 @@ def current():
     except Exception as e:
         return make_response(jsonify({'code': -1, 'msg': str(e)}), 400)
 
+# Doctor logout
+@doctor_blueprint.route('/logout', methods=["POST"])
+@auth.login_required
+def logout():
+    try:
+        session.clear()
+        return make_response(jsonify({'code': 1, 'msg': 'Successfully Signed out!'}), 201)
+    except Exception as e:
+        return make_response(jsonify({'code': -1, 'msg': str(e)}), 400)
+
 # list doctors
 @doctor_blueprint.route('/all', methods=["GET"])
 @auth.login_required
