@@ -1,0 +1,52 @@
+<!-- _sidebar.html -->
+<nav class="sidebar sidebar-offcanvas" id="sidebar">
+    <ul class="nav">
+        <li class="nav-item nav-profile">
+        <div class="nav-link">
+            <div class="user-wrapper">
+            <div class="profile-image">
+                <img src="{{url_for('static', filename='images/faces/face1.jpg')}}" alt="profile image">
+            </div>
+            <div class="text-wrapper">
+                <p class="profile-name">Jason Lee</p>
+                <div>
+                <small class="designation text-muted">{{ title }}</small>
+                <span class="status-indicator online"></span>
+                </div>
+            </div>
+            </div>
+            <button class="btn btn-success btn-block">New Appointment
+            <i class="mdi mdi-plus"></i>
+            </button>
+        </div>
+        </li>
+
+        {% for (name, val) in menu.items() %}
+            {% if val.children %}
+                <li class="nav-item">
+                    <a class="nav-link" data-toggle="collapse" href="#ui-basic" aria-expanded="false" aria-controls="ui-basic">
+                        <i class="menu-icon {{ val.icon }}"></i>
+                        <span class="menu-title">{{ name }}</span>
+                        <i class="menu-arrow"></i>
+                    </a>
+                    <div class="collapse" id="ui-basic">
+                        <ul class="nav flex-column sub-menu">
+                        {% for (n, u) in val.children.items() %}
+                            <li class="nav-item">
+                                <a class="nav-link" href="{{ u }}">{{ n }}</a>
+                            </li>
+                        {% endfor %}
+                        </ul>
+                    </div>
+                </li>
+            {% else %}
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ val.url }}">
+                        <i class="menu-icon {{ val.icon }}"></i>
+                        <span class="menu-title">{{ name }}</span>
+                    </a>
+                </li>
+            {% endif %}
+        {% endfor %}
+    </ul>
+</nav>
