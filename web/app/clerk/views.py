@@ -35,7 +35,3 @@ def patientsCalendar():
 @clerk_blueprint.route('/doctors_calendar')
 def doctorsCalendar():
     return render_template('clerk/doctors_calendar.html', **clerkSetting())
-
-@clerk_blueprint.route('/login')
-def clerkLogin():
-    return render_template('public/login.html')

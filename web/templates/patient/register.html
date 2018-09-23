@@ -5,7 +5,7 @@
   <!-- Required meta tags -->
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-  <title>Register</title>
+  <title>Patient Register</title>
   <!-- plugins:css -->
   <link rel="stylesheet" href="{{url_for('static', filename='iconfonts/mdi/css/materialdesignicons.min.css')}}">
   <link rel="stylesheet" href="{{url_for('static', filename='css/vendor.bundle.base.css')}}">
@@ -19,7 +19,7 @@
       <div class="content-wrapper d-flex align-items-center auth register-bg-1 theme-one">
         <div class="row w-100">
           <div class="col-lg-4 mx-auto">
-            <h2 class="text-center mb-4">Register</h2>
+            <h2 class="text-center mb-4">Patient Register</h2>
             <div class="auto-form-wrapper">
               <form action="#">
                 <div class="form-group">
@@ -32,6 +32,7 @@
                     </div>
                   </div>
                 </div>
+
                 <div class="form-group">
                   <div class="input-group">
                     <input type="password" class="form-control" placeholder="Password">
@@ -52,6 +53,7 @@
                     </div>
                   </div>
                 </div>
+
                 <div class="form-group d-flex justify-content-center">
                   <div class="form-check form-check-flat mt-0">
                     <label class="form-check-label">
@@ -64,7 +66,7 @@
                 </div>
                 <div class="text-block text-center my-3">
                   <span class="text-small font-weight-semibold">Already have and account ?</span>
-                  <a href="login.html" class="text-black text-small">Login</a>
+                  <a href="{{ url_for('login') }}" class="text-black text-small">Login</a>
                 </div>
               </form>
             </div>

@@ -18,9 +18,13 @@ app.register_blueprint(patient_blueprint, template_folder='templates')
 app.register_blueprint(doctor_blueprint, template_folder='templates')
 app.register_blueprint(clerk_blueprint, template_folder='templates')
 
-@app.route('/logout')
+@app.route('/')
 def logout():
-    return ''
+    return redirect(url_for('clerkLogin'))
+
+@app.route('/login')
+def login():
+    return render_template('public/login.html')
 
 if __name__ == '__main__':
     app.run(debug=True, host='0.0.0.0', port=8080)
