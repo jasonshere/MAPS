@@ -1,0 +1,28 @@
+{% macro render_field(field) %}
+  {{ field(**kwargs)|safe }}
+  {% if field.errors %}
+    {% for error in field.errors %}
+      <code>{{ error }}</code>
+    {% endfor %}
+  {% endif %}
+{% endmacro %}
+
+{% macro render_register_field(field) %}
+<div class="form-group">
+    <div class="input-group">
+    {{ field(**kwargs)|safe }}
+    <div class="input-group-append">
+        <span class="input-group-text">
+            {% if field.errors %}
+                {% for error in field.errors %}
+                <code style="margin-right: 5px">{{ error }}</code>
+                <i class="mdi mdi-close-circle text-danger"></i>
+                {% endfor %}
+            {% else %}
+                <i class="mdi mdi-check-circle text-success"></i>
+            {% endif %}
+        </span>
+        </div>
+    </div>
+</div>
+{% endmacro %}
