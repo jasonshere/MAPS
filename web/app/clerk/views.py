@@ -28,6 +28,14 @@ def clerkSetting():
     }
     return settings
 
+@clerk_blueprint.route('/index')
+def index():
+    return redirect(url_for('clerk.addDoctor'))
+
+@clerk_blueprint.route('/add_doctor')
+def addDoctor():
+    return render_template('clerk/add_doctor.html', **clerkSetting())
+
 @clerk_blueprint.route('/patients_calendar')
 def patientsCalendar():
     return render_template('clerk/patients_calendar.html', **clerkSetting())
