@@ -15,7 +15,6 @@ class PatientService():
             url = self.baseUrl + '/register'
             headers = {'Content-type': 'application/json'}
             response = requests.post(url, data=json.dumps(payload), headers=headers)
-
             if response.json()['code'] == 1:
                 return True, response.json()
             else:
@@ -29,6 +28,19 @@ class PatientService():
             url = self.baseUrl + '/login'
             headers = {'Content-type': 'application/json'}
             response = requests.post(url, data=json.dumps(payload), headers=headers)
+            if response.json()['code'] == 1:
+                return True, response.json()
+            else:
+                return False, response.json()
+        except Exception as e:
+            return False, str(e)
+
+    # get current user
+    def current(self):
+        try:
+            url = self.baseUrl + '/current'
+            headers = {'Content-type': 'application/json'}
+            response = requests.get(url, headers=headers)
 
             if response.json()['code'] == 1:
                 return True, response.json()
@@ -36,4 +48,5 @@ class PatientService():
                 return False, response.json()
         except Exception as e:
             return False, str(e)
+
     

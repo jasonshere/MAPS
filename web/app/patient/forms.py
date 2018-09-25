@@ -1,8 +1,10 @@
 # import necessary packages
 from wtforms import Form, StringField, PasswordField, validators, SelectField
+from flask import session
 from wtforms.validators import ValidationError
 from wtforms.validators import ValidationError
 from services import PatientService
+from init import session
 
 # define the reg form model
 class RegForm(Form):
@@ -53,3 +55,5 @@ class LoginForm(Form):
             res, data = ps.login(payload)
             if res is False:
                 raise ValidationError('Username Or Password Is Invalid')
+            else:
+                session['User'] = data['data']

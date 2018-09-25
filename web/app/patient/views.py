@@ -8,6 +8,7 @@ from flask import Blueprint, Flask, render_template, session, redirect, url_for,
 from forms import RegForm
 from services import PatientService
 import time
+from init import app
 
 # create blueprint object
 patient_blueprint = Blueprint(
@@ -33,6 +34,19 @@ def patientSetting():
         }
     }
     return settings
+
+# before requesting, check if user signs in
+@app.before_request
+def check_login():
+    ps = PatientService()
+    res, data = ps.current()
+    
+    if (res is False) and (request.endpoint != 'login' and request.endpoint != 'static' and request.endpoint != 'patient.register'):
+        return redirect(url_for('login'))
+
+@patient_blueprint.route('/index')
+def index():
+    return redirect(url_for('patient.makeAppointment'))
 
 @patient_blueprint.route('/make_appointment')
 def makeAppointment():

@@ -20,7 +20,13 @@ def login():
     form = LoginForm(request.form)
     if request.method == 'POST' and form.validate():
         # pass the validation
-        return redirect(url_for('patient.makeAppointment'))        
+        if form.role.data == '1':
+            module = 'patient'
+        elif: form.role.data == '2':
+            module = 'doctor'
+        elif: form.role.data == '3':
+            module = 'clerk'
+        return redirect(url_for('{}.index'. format(module)))
     return render_template('public/login.html', form=form)
 
 if __name__ == '__main__':
