@@ -38,7 +38,7 @@ def login():
         patient = Patient(request.json['patient'])
         res, data = patient.login()
         if res:
-            return make_response(jsonify({'code': 1, 'msg': 'Successfully Signed In!', 'datat': data}), 201)
+            return make_response(jsonify({'code': 1, 'msg': 'Successfully Signed In!', 'data': data}), 201)
         else:
             return make_response(jsonify({'code': -1, 'msg': 'Username or Password is invalid'}), 400)
     except Exception as e:
