@@ -66,7 +66,8 @@ def getBusyTime():
         events.append({
             'start': field['busytime_from'],
             'end': field['busytime_to'],
-            'rendering': 'background'
+            'rendering': 'background',
+            'id': field['id']
         })
     if res:
         return make_response(jsonify({'code': 1, 'msg': 'Successfully Fetched!', 'data': events}), 201)
@@ -91,5 +92,15 @@ def setBusyTime():
     res, data = ds.setBusyTime(payload)
     if res:
         return make_response(jsonify({'code': 1, 'msg': 'Successfully Set!', 'data': data}), 201)
+    else:
+        return make_response(jsonify({'code': -1, 'msg': 'Failed'}), 400)
+
+# delete busy time
+@doctor_blueprint.route('/delete_busy_time/<busyid>', methods=['POST'])
+def deleteBusyTime(busyid):
+    ds = DoctorService()
+    res, data = ds.deleteBusyTime(busyid)
+    if res:
+        return make_response(jsonify({'code': 1, 'msg': 'Successfully Deleted!'}), 201)
     else:
         return make_response(jsonify({'code': -1, 'msg': 'Failed'}), 400)

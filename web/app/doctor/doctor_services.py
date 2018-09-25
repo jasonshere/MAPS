@@ -83,3 +83,16 @@ class DoctorService():
                 return False, response.json()
         except Exception as e:
             return False, str(e)
+
+    # delete busytime
+    def deleteBusyTimes(self, busyid):
+        try:
+            url = self.baseUrl + '/busytimes/{}'. format(busyid)
+            headers = {'Content-type': 'application/json'}
+            response = requests.delete(url, headers=headers)
+            if response.json()['code'] == 1:
+                return True, response.json()
+            else:
+                return False, response.json()
+        except Exception as e:
+            return False, str(e)

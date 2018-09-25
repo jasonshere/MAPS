@@ -39,6 +39,7 @@
                         title: 'Not Available',
                         start: res.data[i]['start'],
                         end: res.data[i]['end'],
+                        id: res.data[i]['id'],
                         allDay: false
                     });
                 }
@@ -66,8 +67,16 @@
                             title: 'Not Available',
                             start: startDate.format(),
                             end: endDate.format(),
+                            id: data.id,
                             allDay: false
                         });
+                    })
+                },
+                eventClick: function(calEvent, jsEvent, view) {
+                    id = calEvent.id
+                    let url = "{{url_for('doctor.deleteBusyTime')}}" + "/" + id
+                    $.post(url, function(data){
+                        window.lcoation.refresh()
                     })
                 },
                 defaultDate: new Date(),
