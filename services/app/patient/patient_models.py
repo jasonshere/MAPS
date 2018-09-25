@@ -19,7 +19,7 @@ class Patient(db.Model):
     sex = db.Column(db.Integer, nullable=True)
     calendar_id = db.Column(db.String(100), nullable=True)
     created_at = db.Column(db.DateTime, nullable=False)
-    updated_at = db.Column(db.DateTime, nullable=False)
+    updated_at = db.Column(db.DateTime, nullable=True)
 
     # initialise model
     def __init__(self, data):

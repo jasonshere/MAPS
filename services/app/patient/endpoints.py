@@ -38,8 +38,7 @@ def login():
         patient = Patient(request.json['patient'])
         res, data = patient.login()
         if res:
-            session['Patient'] = data
-            return make_response(jsonify({'code': 1, 'msg': 'Successfully Signed In!'}), 201)
+            return make_response(jsonify({'code': 1, 'msg': 'Successfully Signed In!', 'datat': data}), 201)
         else:
             return make_response(jsonify({'code': -1, 'msg': 'Username or Password is invalid'}), 400)
     except Exception as e:
@@ -54,19 +53,6 @@ def logout():
         return make_response(jsonify({'code': 1, 'msg': 'Successfully Signed out!'}), 201)
     except Exception as e:
         return make_response(jsonify({'code': -1, 'msg': 'Patient not logged in'}), 400)
-
-# get currently logined patient
-@patient_blueprint.route('/current', methods=["GET"])
-@auth.login_required
-def current():
-    try:
-        data = session['Patient']
-        if data:
-            return make_response(jsonify({'code': 1, 'msg': 'Successfully Fetch!', 'data': data}), 201)
-        else:
-            return make_response(jsonify({'code': -1, 'msg': 'Not Login'}), 400)
-    except Exception as e:
-        return make_response(jsonify({'code': -1, 'msg': str(e)}), 400)
 
 # list patients
 @patient_blueprint.route('/all', methods=["GET"])
