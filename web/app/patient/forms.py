@@ -60,3 +60,33 @@ class LoginForm(Form):
                 d = data['data']
                 d['type'] = 'Patient'
                 session['User'] = d
+
+# define form for account
+class UpdateForm(Form):
+    username = StringField('Username', validators=[
+        validators.DataRequired()
+    ])
+
+    sex = SelectField('Sex', choices=[('1', 'Male'), ('2', 'Female')], validators=[
+        validators.DataRequired()
+    ])
+
+    name = StringField('Name', validators=[
+        validators.DataRequired()
+    ])
+
+    birthday = StringField('Birthday', validators=[
+        validators.DataRequired()
+    ])
+
+    phone = StringField('Phone No', validators=[
+        validators.DataRequired()
+    ])
+
+    email = StringField('Email', validators=[
+        validators.DataRequired()
+    ])
+
+    age = StringField('Age', validators=[
+        validators.DataRequired()
+    ])

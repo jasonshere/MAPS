@@ -35,4 +35,17 @@ class PatientService():
         except Exception as e:
             return False, str(e)
 
+    # request API of login
+    def update(self, payload):
+        try:
+            url = self.baseUrl + '/' + payload['patient']['username']
+            headers = {'Content-type': 'application/json'}
+            response = requests.put(url, data=json.dumps(payload), headers=headers)
+            if response.json()['code'] == 1:
+                return True, response.json()
+            else:
+                return False, response.json()
+        except Exception as e:
+            return False, str(e)
+
     

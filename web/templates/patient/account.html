@@ -1,0 +1,58 @@
+{% extends "include/__layout.html" %}
+
+{% block styles %}
+    {{super()}}
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.9.0/fullcalendar.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.9.0/fullcalendar.print.css" rel='stylesheet' media='print'>
+    <link rel="stylesheet" href="{{url_for('static', filename='css/calendar.css')}}">
+{% endblock %}
+
+{% block mybody %}
+<div class="content-wrapper">
+    <div class="row">
+        <div class="col-md-12 grid-margin stretch-card">
+        <div class="card">
+            <div class="card-body">
+            <h4 class="card-title">Account</h4>
+            
+            <form class="forms-sample" method="post" action="{{ url_for('patient.account') }}">
+                {% from "include/__formhelper.html" import render_field %}
+                {{ form.csrf_token }}
+                <div class="form-group">
+                <label for="username">Username</label>
+                {{ render_field(form.username, class="form-control", autofocus="true") }}
+                </div>
+                <div class="form-group">
+                <label for="email">Email address</label>
+                {{ render_field(form.email, class="form-control", autofocus="true") }}
+                </div>
+                <div class="form-group">
+                <label for="name">Name</label>
+                {{ render_field(form.name, class="form-control", autofocus="true") }}
+                </div>
+                <div class="form-group">
+                <label for="exampleInputCity1">Sex</label>
+                {{ render_field(form.sex, class="form-control", autofocus="true") }}
+                </div>
+                <div class="form-group">
+                <label for="exampleInputCity1">Age</label>
+                {{ render_field(form.age, class="form-control", autofocus="true") }}
+                </div>
+                <div class="form-group">
+                <label for="exampleInputCity1">Birthday</label>
+                {{ render_field(form.birthday, class="form-control", autofocus="true") }}
+                </div>
+                <div class="form-group">
+                <label for="exampleTextarea1">Phone No.</label>
+                {{ render_field(form.phone, class="form-control", autofocus="true") }}
+                </div>
+                <button type="submit" class="btn btn-success mr-2">Submit</button>
+                <button class="btn btn-light">Cancel</button>
+            </form>
+            </div>
+        </div>
+        </div>
+        
+    </div>
+</div>
+{% endblock %}
