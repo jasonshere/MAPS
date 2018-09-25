@@ -2,6 +2,7 @@
 from init import PROTOCOL, APIKEY, APIPASS, SERVICE_ADDRESS
 import requests
 import json
+import time
 
 class DoctorService():
     # constructor
@@ -35,12 +36,47 @@ class DoctorService():
         except Exception as e:
             return False, str(e)
 
-    # request API of login
-    def update(self, payload):
+    # request API of get all doctors
+    def getAll(self):
         try:
-            url = self.baseUrl + '/' + payload['patient']['username']
+            url = self.baseUrl + '/all'
             headers = {'Content-type': 'application/json'}
-            response = requests.put(url, data=json.dumps(payload), headers=headers)
+            response = requests.get(url, headers=headers)
+            if response.json()['code'] == 1:
+                return True, response.json()
+            else:
+                return False, response.json()
+        except Exception as e:
+            return False, str(e)
+
+    # request API to set datetime that is not available
+    def setBusyTime(self, payload):
+        try:
+            url = self.baseUrl + '/busytimes'
+            headers = {'Content-type': 'application/json'}
+            payload = {
+                'busytime': {
+                    "doctor_id": payload['doctor_id'],
+		            "busytime_from": payload['start'],
+		            "busytime_to": payload['end'],
+		            "created_at": time.strftime("%Y-%m-%d %H:%M:%S", time.localtime())
+                }
+            }
+            print(payload)
+            response = requests.post(url, data=json.dumps(payload), headers=headers)
+            if response.json()['code'] == 1:
+                return True, response.json()
+            else:
+                return False, response.json()
+        except Exception as e:
+            return False, str(e)
+    
+    # get all busytime
+    def getBusyTimes(self, doctor_id):
+        try:
+            url = self.baseUrl + '/{}/busytimes'. format(doctor_id)
+            headers = {'Content-type': 'application/json'}
+            response = requests.get(url, headers=headers)
             if response.json()['code'] == 1:
                 return True, response.json()
             else:

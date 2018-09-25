@@ -5,6 +5,7 @@ from wtforms.validators import ValidationError
 from wtforms.validators import ValidationError
 from app.patient.patient_services import PatientService
 from app.clerk.clerk_services import ClerkService
+from app.doctor.doctor_services import DoctorService
 from init import session
 
 # define the reg form model
@@ -60,6 +61,21 @@ class LoginForm(Form):
             else:
                 d = data['data']
                 d['type'] = 'Patient'
+                session['User'] = d
+        elif role == '2':
+            ds = DoctorService()
+            payload = {
+                'doctor': {
+                    'username': username,
+                    'password': password
+                }
+            }
+            res, data = ds.login(payload)
+            if res is False:
+                raise ValidationError('Username Or Password Is Invalid')
+            else:
+                d = data['data']
+                d['type'] = 'Doctor'
                 session['User'] = d
         elif role == '3':
             cs = ClerkService()
