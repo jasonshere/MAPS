@@ -11,9 +11,17 @@ app.register_blueprint(patient_blueprint, template_folder='templates')
 app.register_blueprint(doctor_blueprint, template_folder='templates')
 app.register_blueprint(clerk_blueprint, template_folder='templates')
 
+
+# before requesting, check if user signs in
+@app.before_request
+def check_login():
+    if (not session) and (request.endpoint != 'login' and request.endpoint != 'static' and request.endpoint != 'patient.register'):
+        return redirect(url_for('login'))
+
 @app.route('/')
 def logout():
-    return redirect(url_for('clerkLogin'))
+    session.clear()
+    return redirect(url_for('login'))
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
@@ -22,9 +30,9 @@ def login():
         # pass the validation
         if form.role.data == '1':
             module = 'patient'
-        elif: form.role.data == '2':
+        elif form.role.data == '2':
             module = 'doctor'
-        elif: form.role.data == '3':
+        elif form.role.data == '3':
             module = 'clerk'
         return redirect(url_for('{}.index'. format(module)))
     return render_template('public/login.html', form=form)

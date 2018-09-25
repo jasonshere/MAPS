@@ -35,15 +35,6 @@ def patientSetting():
     }
     return settings
 
-# before requesting, check if user signs in
-@app.before_request
-def check_login():
-    ps = PatientService()
-    res, data = ps.current()
-    
-    if (res is False) and (request.endpoint != 'login' and request.endpoint != 'static' and request.endpoint != 'patient.register'):
-        return redirect(url_for('login'))
-
 @patient_blueprint.route('/index')
 def index():
     return redirect(url_for('patient.makeAppointment'))

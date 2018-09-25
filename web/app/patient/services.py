@@ -35,18 +35,4 @@ class PatientService():
         except Exception as e:
             return False, str(e)
 
-    # get current user
-    def current(self):
-        try:
-            url = self.baseUrl + '/current'
-            headers = {'Content-type': 'application/json'}
-            response = requests.get(url, headers=headers)
-
-            if response.json()['code'] == 1:
-                return True, response.json()
-            else:
-                return False, response.json()
-        except Exception as e:
-            return False, str(e)
-
     

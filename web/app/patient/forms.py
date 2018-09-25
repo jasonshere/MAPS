@@ -53,7 +53,10 @@ class LoginForm(Form):
                 }
             }
             res, data = ps.login(payload)
+            
             if res is False:
                 raise ValidationError('Username Or Password Is Invalid')
             else:
-                session['User'] = data['data']
+                d = data['data']
+                d['type'] = 'Patient'
+                session['User'] = d
