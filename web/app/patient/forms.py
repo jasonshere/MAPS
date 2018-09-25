@@ -3,8 +3,8 @@ from wtforms import Form, StringField, PasswordField, validators, SelectField
 from flask import session
 from wtforms.validators import ValidationError
 from wtforms.validators import ValidationError
-from patient_services import PatientService
-from clerk_services import ClerkService
+from app.patient.patient_services import PatientService
+from app.clerk.clerk_services import ClerkService
 from init import session
 
 # define the reg form model
@@ -70,12 +70,11 @@ class LoginForm(Form):
                 }
             }
             res, data = cs.login(payload)
-            
             if res is False:
                 raise ValidationError('Username Or Password Is Invalid')
             else:
                 d = data['data']
-                d['type'] = 'Patient'
+                d['type'] = 'Clerk'
                 session['User'] = d
 
 # define form for account

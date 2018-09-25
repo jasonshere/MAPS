@@ -1,5 +1,7 @@
 # import necessary packages
 from flask import Blueprint, Flask, render_template, session, redirect, url_for, request, jsonify
+from app.clerk.forms import AddDoctorForm
+from app.doctor.doctor_services import DoctorService
 
 # create blueprint object
 clerk_blueprint = Blueprint(
@@ -32,9 +34,24 @@ def clerkSetting():
 def index():
     return redirect(url_for('clerk.addDoctor'))
 
-@clerk_blueprint.route('/add_doctor')
+@clerk_blueprint.route('/add_doctor', methods=['GET', 'POST'])
 def addDoctor():
-    return render_template('clerk/add_doctor.html', **clerkSetting())
+    form = AddDoctorForm(request.form)
+    if request.method == 'POST' and form.validate():
+        # pass the validation, request API
+        ds = DoctorService()
+        payload = {
+            'doctor' : form.data
+        }
+        res, data = ds.register(payload)
+        
+        if res:
+            return redirect(url_for('clerk.doctorsList'), **clerkSetting())
+    return render_template('clerk/add_doctor.html', **clerkSetting(), form=form)
+
+@clerk_blueprint.route('/doctors')
+def doctorsList():
+    return render_template('clerk/doctors.html', **clerkSetting())
 
 @clerk_blueprint.route('/patients_calendar')
 def patientsCalendar():

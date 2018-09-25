@@ -6,7 +6,7 @@ sys.path.append(os.path.abspath(os.path.dirname(__file__)))
 # import necessary packages
 from flask import Blueprint, Flask, render_template, session, redirect, url_for, request, jsonify
 from forms import RegForm, UpdateForm
-from services import PatientService
+from app.patient.patient_services import PatientService
 import time
 from init import app
 
