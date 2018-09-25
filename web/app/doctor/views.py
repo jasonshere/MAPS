@@ -96,8 +96,9 @@ def setBusyTime():
         return make_response(jsonify({'code': -1, 'msg': 'Failed'}), 400)
 
 # delete busy time
-@doctor_blueprint.route('/delete_busy_time/<busyid>', methods=['POST'])
-def deleteBusyTime(busyid):
+@doctor_blueprint.route('/delete_busy_time', methods=['POST'])
+def deleteBusyTime():
+    busyid = request.form.getlist('busyid')[0]
     ds = DoctorService()
     res, data = ds.deleteBusyTime(busyid)
     if res:

@@ -85,7 +85,7 @@ class DoctorService():
             return False, str(e)
 
     # delete busytime
-    def deleteBusyTimes(self, busyid):
+    def deleteBusyTime(self, busyid):
         try:
             url = self.baseUrl + '/busytimes/{}'. format(busyid)
             headers = {'Content-type': 'application/json'}

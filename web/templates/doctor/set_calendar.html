@@ -73,10 +73,10 @@
                     })
                 },
                 eventClick: function(calEvent, jsEvent, view) {
-                    id = calEvent.id
-                    let url = "{{url_for('doctor.deleteBusyTime')}}" + "/" + id
-                    $.post(url, function(data){
-                        window.lcoation.refresh()
+                    // id = calEvent.id
+                    let url = "{{url_for('doctor.deleteBusyTime')}}" 
+                    $.post(url, {"busyid": calEvent.id}, function(data){
+                        $('#calendar').fullCalendar( 'removeEvents', [calEvent.id] )
                     })
                 },
                 defaultDate: new Date(),
