@@ -61,6 +61,13 @@ class Patient(db.Model):
             setattr(patient, field, data[field])
         return db.session.commit()
 
+    # update patient by username
+    def updateByUsername(self, username, data):
+        patient = self.query.filter(Patient.username == username).first()
+        for field in data:
+            setattr(patient, field, data[field])
+        return db.session.commit()
+
     # get all patients
     def getAllPatients(self):
         all = self.query.all()

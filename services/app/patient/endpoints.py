@@ -44,15 +44,17 @@ def login():
     except Exception as e:
         return make_response(jsonify({'code': -1, 'msg': 'Patient not logged in'}), 400)
 
-# Patient logout
-@patient_blueprint.route('/logout', methods=["POST"])
+# Patient update
+@patient_blueprint.route('/<username>', methods=["PUT"])
 @auth.login_required
-def logout():
+def update(username):
     try:
-        session.clear()
-        return make_response(jsonify({'code': 1, 'msg': 'Successfully Signed out!'}), 201)
+        data = request.json['patient']
+        patient = Patient({})
+        patient.updateByUsername(username, data)
+        return make_response(jsonify({'code': 1, 'msg': 'Successfully Updated!'}), 201)
     except Exception as e:
-        return make_response(jsonify({'code': -1, 'msg': 'Patient not logged in'}), 400)
+        return make_response(jsonify({'code': -1, 'msg': str(e)}), 400)
 
 # list patients
 @patient_blueprint.route('/all', methods=["GET"])
