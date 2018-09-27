@@ -38,35 +38,11 @@ def login():
         doctor = Doctor(request.json['doctor'])
         res, data = doctor.login()
         if res:
-            session['Doctor'] = data
-            return make_response(jsonify({'code': 1, 'msg': 'Successfully Signed In!'}), 201)
+            return make_response(jsonify({'code': 1, 'msg': 'Successfully Signed In!', 'data': data}), 201)
         else:
             return make_response(jsonify({'code': -1, 'msg': 'Username or Password is invalid'}), 400)
     except Exception as e:
         return make_response(jsonify({'code': -1, 'msg': str(e)}), 400)
-
-# get currently logined doctor
-@doctor_blueprint.route('/current', methods=["GET"])
-@auth.login_required
-def current():
-    try:
-        data = session['Doctor']
-        if data:
-            return make_response(jsonify({'code': 1, 'msg': 'Successfully Fetch!', 'data': data}), 201)
-        else:
-            return make_response(jsonify({'code': -1, 'msg': 'Not Login'}), 400)
-    except Exception as e:
-        return make_response(jsonify({'code': -1, 'msg': 'Doctor not logged in'}), 400)
-
-# Doctor logout
-@doctor_blueprint.route('/logout', methods=["POST"])
-@auth.login_required
-def logout():
-    try:
-        session.clear()
-        return make_response(jsonify({'code': 1, 'msg': 'Successfully Signed out!'}), 201)
-    except Exception as e:
-        return make_response(jsonify({'code': -1, 'msg': 'Doctor not logged in'}), 400)
 
 # list doctors
 @doctor_blueprint.route('/all', methods=["GET"])
@@ -192,7 +168,7 @@ def addEvents(calendar_id):
         res, event = addGoogleEvent(eventData)
 
         if res:
-            return make_response(jsonify({'code': 1, 'msg': 'Successfully added!'}), 201)
+            return make_response(jsonify({'code': 1, 'msg': 'Successfully added!', 'data': event}), 201)
         else:
             raise event
 
@@ -249,7 +225,7 @@ def addBusytime():
         
         busytime = DoctorBusyTime(busytimeData)
         busytime.setBusytime()
-        return make_response(jsonify({'code': 1, 'msg': 'Successfully Created!'}), 201)
+        return make_response(jsonify({'code': 1, 'msg': 'Successfully Created!', 'data': postData}), 201)
     except Exception as e:
         return make_response(jsonify({'code': -1, 'msg': str(e)}), 400)
 

@@ -41,7 +41,7 @@ def login():
         res, data = clerk.login()
         if res:
             session['Clerk'] = data
-            return make_response(jsonify({'code': 1, 'msg': 'Successfully Signed In!'}), 201)
+            return make_response(jsonify({'code': 1, 'msg': 'Successfully Signed In!', 'data': data}), 201)
         else:
             return make_response(jsonify({'code': -1, 'msg': 'Username or Password is invalid'}), 400)
     except Exception as e:

@@ -17,8 +17,8 @@ class Doctor(db.Model):
     age = db.Column(db.Integer, nullable=False)
     sex = db.Column(db.Integer, nullable=False)
     calendar_id = db.Column(db.String(100), nullable=True)
-    created_at = db.Column(db.DateTime, nullable=False)
-    updated_at = db.Column(db.DateTime, nullable=False)
+    created_at = db.Column(db.DateTime, nullable=True)
+    updated_at = db.Column(db.DateTime, nullable=True)
 
     # initialise model
     def __init__(self, data):

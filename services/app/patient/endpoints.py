@@ -146,7 +146,7 @@ def addCalendar():
 def addEvents(calendar_id):
     postData = request.json
     eventData = postData['event']     
-
+    
     try:
         if eventData['summary'] is None:
             raise Exception('Invalid Parameters')
@@ -178,9 +178,8 @@ def addEvents(calendar_id):
         }
         eventData['calendar_id'] = calendar_id
         res, event = addGoogleEvent(eventData)
-
         if res:
-            return make_response(jsonify({'code': 1, 'msg': 'Successfully added!'}), 201)
+            return make_response(jsonify({'code': 1, 'msg': 'Successfully added!', 'data': event}), 201)
         else:
             raise event
 
@@ -293,6 +292,23 @@ def getAppointments(patient_id):
 
         appointment = Appointment({})
         results, data = appointment.getAllAppointmentByPatientId(patient_id)
+        if results :
+            return make_response(jsonify({'code': 1, 'msg': 'Successfully Fetched!', 'data': data}), 201)
+        else:
+            raise data
+    except Exception as e:
+        return make_response(jsonify({'code': -1, 'msg': str(e)}), 400)
+
+# get appointments by doctor id
+@patient_blueprint.route('/appointments/<doctor_id>', methods=["GET"])
+@auth.login_required
+def getAppointmentsByDoctorId(doctor_id):
+    try:
+        if doctor_id is None:
+            raise Exception('Invalid Parameters')
+
+        appointment = Appointment({})
+        results, data = appointment.getAllAppointmentByDoctorId(doctor_id)
         if results :
             return make_response(jsonify({'code': 1, 'msg': 'Successfully Fetched!', 'data': data}), 201)
         else:

@@ -30,6 +30,32 @@ def addSecondaryCalendar(summary, description, location, timezone):
     except Exception as e:
         return False, e
 
+# set Freetime event
+def setFreeTimeGoogleEvent(data):
+    try:
+        event = {
+            'summary': data['summary'],
+            'location': data['location'],
+            'description': data['description'],
+            'start': data['start'],
+            'end': data['end'],
+            'attendees': [
+                {'email': data['doctor_email']},
+                {'email': data['patient_email']},
+            ],
+            'reminders': {
+                'useDefault': False,
+                'overrides': [
+                    {'method': 'email', 'minutes': 24 * 60},
+                    {'method': 'popup', 'minutes': 10},
+                ],
+            },
+        }
+        event = service.events().insert(calendarId=data['calendar_id'], body=event).execute()
+        return True, event
+    except Exception as e:
+        return False, e
+
 # add event
 def addGoogleEvent(data):
     try:

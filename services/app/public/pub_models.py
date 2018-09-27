@@ -12,6 +12,8 @@ class Appointment(db.Model):
     doctor_id = db.Column(db.Integer, nullable=False)
     appointed_from = db.Column(db.DateTime, nullable=False)
     appointed_to = db.Column(db.DateTime, nullable=False)
+    google_event_id = db.Column(db.String(100), nullable=False)
+    google_calendar_id = db.Column(db.String(100), nullable=False)
     created_at = db.Column(db.DateTime, nullable=False)
 
     # initialise model
@@ -36,8 +38,19 @@ class Appointment(db.Model):
         else:
             return False, []
 
+    # get all appointments by patient id
+    def getAllAppointmentByPatientId(self, patient_id):
+        results = self.query.filter(\
+            Appointment.patient_id == patient_id
+        ).all()
+        results = appointments_schema.dump(results)
+        if results.data :
+            return True, results.data
+        else:
+            return False, []
+
     # get all appointments by doctor id
-    def getAllAppointmentByPatientId(self, doctor_id):
+    def getAllAppointmentByDoctorId(self, doctor_id):
         results = self.query.filter(\
             Appointment.doctor_id == doctor_id
         ).all()
@@ -45,7 +58,7 @@ class Appointment(db.Model):
         if results.data :
             return True, results.data
         else:
-            return False, []
+            return False, Exception('error')
     
     # delete an appointment
     def deleteAppointmentById(self, id):
@@ -56,7 +69,7 @@ class Appointment(db.Model):
 class AppointmentSchema(ma.Schema):
     class Meta:
         # Fields to expose
-        fields = ('id', 'patient_id', 'doctor_id', 'appointed_from', 'appointed_to', 'created_at')
+        fields = ('id', 'patient_id', 'doctor_id', 'appointed_from', 'appointed_to', 'created_at', 'google_event_id', 'google_calendar_id')
 
 appointment_schema = AppointmentSchema()
 appointments_schema = AppointmentSchema(many=True)
