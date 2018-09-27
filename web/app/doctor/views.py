@@ -105,3 +105,46 @@ def deleteBusyTime():
         return make_response(jsonify({'code': 1, 'msg': 'Successfully Deleted!'}), 201)
     else:
         return make_response(jsonify({'code': -1, 'msg': 'Failed'}), 400)
+
+# set free time
+@doctor_blueprint.route('/set_free_time', methods=['POST'])
+def setFreeTime():
+    start = request.form.getlist('start')[0]
+    end = request.form.getlist('end')[0]
+    ds = DoctorService()
+    payload = {
+        'doctor_email': session['User']['email'],
+        'doctor_id': session['User']['id'],
+        'start': start,
+        'end': end
+    }
+    res, data = ds.setFreeTime(payload)
+    if res:
+        return make_response(jsonify({'code': 1, 'msg': 'Successfully Set!', 'data': data['data']}), 201)
+    else:
+        return make_response(jsonify({'code': -1, 'msg': 'Failed'}), 400)
+
+# get free time
+@doctor_blueprint.route('/get_free_time', methods=['GET'])
+def getFreeTime():
+    calendarId = session['User']['calendar_id']
+    if calendarId is None:
+        return make_response(jsonify({'code': 1, 'msg': 'Successfully Get!', 'data': []}), 201)
+    ds = DoctorService()
+    res, data = ds.getFreeTime(calendarId)
+    if res:
+        return make_response(jsonify({'code': 1, 'msg': 'Successfully Get!', 'data': data['data']}), 201)
+    else:
+        return make_response(jsonify({'code': -1, 'msg': 'Failed'}), 400)
+
+# delete busy time
+@doctor_blueprint.route('/delete_free_time', methods=['POST'])
+def deleteFreeTime():
+    calendarId = session['User']['calendar_id']
+    freeId = request.form.getlist('freeid')[0]
+    ds = DoctorService()
+    res, data = ds.deleteFreeTime(calendarId, freeId)
+    if res:
+        return make_response(jsonify({'code': 1, 'msg': 'Successfully Deleted!'}), 201)
+    else:
+        return make_response(jsonify({'code': -1, 'msg': 'Failed'}), 400)

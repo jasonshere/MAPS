@@ -49,21 +49,64 @@ class DoctorService():
         except Exception as e:
             return False, str(e)
 
-    # request API to set datetime that is not available
-    def setBusyTime(self, payload):
+    # request API to set datetime that is available
+    def setFreeTime(self, inputPayload):
         try:
-            url = self.baseUrl + '/busytimes'
+            url = self.baseUrl + '/calendars'
             headers = {'Content-type': 'application/json'}
             payload = {
-                'busytime': {
-                    "doctor_id": payload['doctor_id'],
-		            "busytime_from": payload['start'],
-		            "busytime_to": payload['end'],
-		            "created_at": time.strftime("%Y-%m-%d %H:%M:%S", time.localtime())
+                'calendar': {
+                    "summary": "Calendar for {}". format(inputPayload['doctor_email']),
+                    "description": "Doctor's calendar",
+                    "location": "MAPS",
+                    "timezone": "Australia/Melbourne",
+                    "customer_id": inputPayload['doctor_id']
                 }
             }
-            print(payload)
             response = requests.post(url, data=json.dumps(payload), headers=headers)
+            
+            if response.json()['code'] == 1:
+                # request create event
+                eventPayload = {
+                    "event": {
+                        "summary": "Free",
+                        "description": "Free Time",
+                        "location": "MAPS",
+                        "timezone": "Australia/Melbourne",
+                        "start": inputPayload['start'],
+                        "end": inputPayload['end'],
+                        "patient_email": "info@maps.com",
+                        "doctor_email": inputPayload['doctor_email']
+                    }
+                }
+                calendarId = response.json()['data']['calendar_id']
+                eventUrl = self.baseUrl + '/calendars/{}/events'. format(calendarId)
+                ret = requests.post(eventUrl, data=json.dumps(eventPayload), headers=headers)
+                return True, ret.json()
+            else:
+                return False, response.json()
+        except Exception as e:
+            return False, str(e)
+
+    # request API to get all events
+    def getFreeTime(self, calendarId):
+        try:
+            url = self.baseUrl + '/calendars/{}/events'. format(calendarId)
+            headers = {'Content-type': 'application/json'}
+            response = requests.get(url, headers=headers)
+            if response.json()['code'] == 1:
+                return True, response.json()
+            else:
+                return False, response.json()
+        except Exception as e:
+            return False, str(e)
+
+    # delete freetime
+    def deleteFreeTime(self, calendarId, freeId):
+        try:
+            url = self.baseUrl + '/calendars/{}/events/{}'. format(calendarId, freeId)
+            headers = {'Content-type': 'application/json'}
+            response = requests.delete(url, headers=headers)
             if response.json()['code'] == 1:
                 return True, response.json()
             else:

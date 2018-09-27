@@ -32,14 +32,20 @@
         (function($) {
             'use strict';
             $(function() {
-            let ev
-            $.getJSON('{{url_for("doctor.getBusyTime")}}', function(res){
+            let ev, bg
+            $.getJSON('{{url_for("doctor.getFreeTime")}}', function(res){
                 for(var i in res.data) {
+                    if (res.data[i]['summary'] == 'Free') {
+                        let bg = '#18d895'
+                    } else {
+                        let bg = '##EC4296'
+                    }
                     $('#calendar').fullCalendar('renderEvent', {
-                        title: 'Not Available',
-                        start: res.data[i]['start'],
-                        end: res.data[i]['end'],
+                        title: res.data[i]['summary'],
+                        start: res.data[i]['start']['dateTime'],
+                        end: res.data[i]['end']['dateTime'],
                         id: res.data[i]['id'],
+                        backgroundColor: bg,
                         allDay: false
                     });
                 }
@@ -62,20 +68,20 @@
                 selectable: true,
                 select: function(startDate, endDate) {
                     let url = "{{url_for('doctor.setFreeTime')}}"
-                    $.post(url, {"start": startDate.format(), "end": endDate.format()}, function(data){
+                    $.post(url, {"start": startDate.format(), "end": endDate.format()}, function(res){
                         $('#calendar').fullCalendar('renderEvent', {
-                            title: 'Not Available',
-                            start: startDate.format(),
-                            end: endDate.format(),
-                            id: data.id,
+                            title: 'Free',
+                            start: res.data['start']['dateTime'],
+                            end: res.data['end']['dateTime'],
+                            id: res.data['id'],
                             allDay: false
                         });
                     })
                 },
                 eventClick: function(calEvent, jsEvent, view) {
                     // id = calEvent.id
-                    let url = "{{url_for('doctor.deleteBusyTime')}}" 
-                    $.post(url, {"busyid": calEvent.id}, function(data){
+                    let url = "{{url_for('doctor.deleteFreeTime')}}" 
+                    $.post(url, {"freeid": calEvent.id}, function(data){
                         $('#calendar').fullCalendar( 'removeEvents', [calEvent.id] )
                     })
                 },
