@@ -61,7 +61,7 @@
                 },
                 selectable: true,
                 select: function(startDate, endDate) {
-                    let url = "{{url_for('doctor.setBusyTime')}}"
+                    let url = "{{url_for('doctor.setFreeTime')}}"
                     $.post(url, {"start": startDate.format(), "end": endDate.format()}, function(data){
                         $('#calendar').fullCalendar('renderEvent', {
                             title: 'Not Available',
@@ -83,7 +83,9 @@
                 navLinks: true, // can click day/week names to navigate views
                 editable: true,
                 eventLimit: true, // allow "more" link when too many events
-                eventBackgroundColor: 'red',
+                eventBackgroundColor: '#18d895',
+                eventTextColor: "white",
+                eventBorderColor: "transparent",
                 events: []
                 })
             }

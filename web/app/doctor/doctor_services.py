@@ -96,3 +96,16 @@ class DoctorService():
                 return False, response.json()
         except Exception as e:
             return False, str(e)
+
+    # get doctor by id
+    def getDoctorById(self, doctor_id):
+        try:
+            url = self.baseUrl + '/' + doctor_id
+            headers = {'Content-type': 'application/json'}
+            response = requests.get(url, headers=headers)
+            if response.json()['code'] == 1:
+                return True, response.json()
+            else:
+                return False, response.json()
+        except Exception as e:
+            return False, str(e)

@@ -15,9 +15,9 @@
             <div class="card-body">
             <div class="row">
                 <div class="col-md-4">
-                <button class="btn btn-primary btn-block">
-                    <i class="mdi mdi-plus"></i> Create A New event</button>
-                <div class="wrapper mt-4">
+                <!-- <button class="btn btn-primary btn-block"> -->
+                    <!-- <i class="mdi mdi-plus"></i> Create A New event</button> -->
+                <!-- <div class="wrapper mt-4">
                     <div class="item-wrapper d-flex pb-4 border-bottom">
                     <div class="status-wrapper d-flex align-items-start pr-3">
                         <span class="bg-warning rounded-circle p-1 mt-2 mx-auto"></span>
@@ -42,53 +42,28 @@
                         <small class="text-gray d-block">First Remainder : 1 Hours min before</small>
                     </div>
                     </div>
-                </div>
+                </div> -->
                 <div class="wrapper">
                     <div class="wrapper d-flex justify-content-between align-items-center mb-4">
                     <div class="d-flex align-items-center">
-                        <small class="font-weight-bold mr-2 mb-0">Calendars</small>
-                        <div class="badge badge-inverse-primary badge-pill">2</div>
+                        <small class="font-weight-bold mr-2 mb-0">Doctors</small>
+                        <!-- <div class="badge badge-inverse-primary badge-pill">2</div> -->
                     </div>
                     <span class="text-gray">
                         <i class="mdi mdi-dots-horizontal"></i>
                     </span>
                     </div>
                     <div class="calendar-aside">
-                    <div class="list">
+                    {% for doctor in doctors %}
+                    <div class="list" id="{{doctor.id}}">
                         <img class="img-xs rounded-circle" src="{{url_for('static', filename='images/faces/face2.jpg')}}" alt="profile image">
-                        <span class="user-text">Luke Pachytel</span>
+                        <span class="user-text">{{doctor.username}}</span>
                         <span class="count online ml-auto">
                         <i class="close ml-auto mdi mdi-close-circle-outline"></i>
                         </span>
                     </div>
-                    <div class="list">
-                        <img class="img-xs rounded-circle" src="{{url_for('static', filename='images/faces/face3.jpg')}}" alt="profile image">
-                        <span class="user-text">Allen Donald</span>
-                        <span class="count offline ml-auto">
-                        <i class="close ml-auto mdi mdi-close-circle-outline"></i>
-                        </span>
-                    </div>
-                    <div class="list">
-                        <img class="img-xs rounded-circle" src="{{url_for('static', filename='images/faces/face4.jpg')}}" alt="profile image">
-                        <span class="user-text">Gabriel Rouge</span>
-                        <span class="count offline ml-auto">
-                        <i class="close ml-auto mdi mdi-close-circle-outline"></i>
-                        </span>
-                    </div>
-                    <div class="list">
-                        <img class="img-xs rounded-circle" src="{{url_for('static', filename='images/faces/face5.jpg')}}" alt="profile image">
-                        <span class="user-text">Marina Michel</span>
-                        <span class="count online ml-auto">
-                        <i class="close ml-auto mdi mdi-close-circle-outline"></i>
-                        </span>
-                    </div>
-                    <div class="list">
-                        <img class="img-xs rounded-circle" src="{{url_for('static', filename='images/faces/face6.jpg')}}" alt="profile image">
-                        <span class="user-text">Amanda Stone</span>
-                        <span class="count online ml-auto">
-                        <i class="close ml-auto mdi mdi-close-circle-outline"></i>
-                        </span>
-                    </div>
+                    {% endfor %}
+                    
                     </div>
                 </div>
                 </div>
@@ -117,11 +92,7 @@
                     <tbody>
                     <tr>
                         <th>Doctor</th>
-                        <td><select class="form-control form-control-sm">
-                            <option value="">Jason</option>
-                            <option value="">Jason</option>
-                            <option value="">Jason</option>
-                        </select></td>
+                        <td id="doctor_name"></td>
                     </tr>
                     <tr>
                         <th>Patient</th>
@@ -136,8 +107,11 @@
             </div>
         </div>
         <div class="modal-footer">
+            <input type="hidden" name="doctor_id" value="">
+            <input type="hidden" name="doctor_email" value="">
+            <input type="hidden" name="patient_id" value="{{session.User.id}}">
             <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-            <button type="button" class="btn btn-primary">Save changes</button>
+            <button type="button" id="sub" class="btn btn-primary">Save changes</button>
         </div>
         </div>
     </div>
@@ -174,8 +148,40 @@
                         right: 'agendaFourDay,month,basicWeek,basicDay'
                     },
                     selectable: true,
+                    eventClick: function(calEvent, jsEvent, view) {
+                        // id = calEvent.id
+                        let url = "{{url_for('patient.deleteEvents')}}" 
+                        $.post(url, {"event_id": calEvent.id}, function(data){
+                            if(data.code == 1)
+                                $('#calendar').fullCalendar( 'removeEvents', [calEvent.id] )
+                        })
+                    },
                     select: function(startDate, endDate) {
-                        $('#appTime').html(startDate.format() + ' ~ ' + endDate.format());
+                        var doctor_id = $(":input[name=doctor_id]").val()
+                        var doctor_email = $(":input[name=doctor_email]").val()
+                        var patient_id = $(":input[name=patient_id]").val()
+                        var start = startDate.format()
+                        var end = endDate.format()
+                        $("#sub").click(function(){
+                            $.post('{{url_for("patient.setEvents")}}', {
+                                "start": start,
+                                "end": end,
+                                "patient_id": patient_id,
+                                "doctor_id": doctor_id,
+                                "doctor_email": doctor_email,
+                                "patient_email": "{{session.User.email}}"
+                            }, function(res){
+                                if(res.code == 1){
+                                    $('#calendar').fullCalendar('renderEvent', {
+                                        title: 'See the doctor',
+                                        start: start,
+                                        end: end,
+                                        id: res.data.id,
+                                        allDay: false
+                                    });
+                                }
+                            })
+                        })
                         $('#confirm').modal('show')
                     },
                     defaultDate: new Date(),
@@ -188,5 +194,58 @@
                 }
                 });
             })(jQuery);
+            $(function(){
+                $(".list").click(function(){
+                    $('#calendar').fullCalendar('removeEvents')
+                    var id = $(this).attr("id")
+                    $(":input[name=doctor_id]").val(id)
+                    var doctor = $.getJSON('/patient/get_doctor/'+id, function(res){
+                        $("#doctor_name").html(res.data.username);
+                        $(":input[name=doctor_email]").val(res.data.email)
+                    })
+                    var url = "/patient/get_busytime/"+id
+                    $.getJSON(url, function(res){
+                        for(var i in res.data) {
+                            $('#calendar').fullCalendar('renderEvent', {
+                                title: 'Not Available',
+                                start: res.data[i]['start'],
+                                end: res.data[i]['end'],
+                                id: res.data[i]['id'],
+                                allDay: false
+                            });
+                        }
+                    })
+
+                    var url = "/patient/get_events/"+id
+                    $.getJSON(url, function(res){
+                        if (res.code == 1) {
+                            for(var i in res.data) {
+                                start = res.data[i]['start']['dateTime']
+                                end = res.data[i]['end']['dateTime']
+                                $('#calendar').fullCalendar('renderEvent', {
+                                    title: 'Not Available',
+                                    start: start,
+                                    end: end,
+                                    id: id,
+                                    allDay: false
+                                });
+                            }
+                        }
+                    })
+                })
+                $.getJSON('{{url_for("patient.getEvents")}}', function(res){
+                    if (res.code == 1) {
+                        for(var i in res.data) {
+                            $('#calendar').fullCalendar('renderEvent', {
+                                title: 'See the doctor',
+                                start: res.data[i].start['dateTime'],
+                                end: res.data[i].end['dateTime'],
+                                id: res.data[i]['id'],
+                                allDay: false
+                            });
+                        }
+                    }
+                })
+            })
         </script>
 {% endblock %}
