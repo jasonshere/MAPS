@@ -98,6 +98,18 @@ def getGoogleEvents(calendar_id):
     except Exception as e:
         return False, e
 
+# update events
+def updateGoogleEvents(calendar_id, event_id, payload):
+    try:
+        # First retrieve the event from the API.
+        event = service.events().get(calendarId=calendar_id, eventId=event_id).execute()
+        event['summary'] = payload['summary']
+        event['attendees'].append({'email': payload['email']})
+        updated_event = service.events().update(calendarId=calendar_id, eventId=event['id'], body=event).execute()
+        return True, updated_event
+    except Exception as e:
+        return False, e
+
 # get all appointments of this week
 def getAppointmentsOfThisWeek(calendar_id):
     try:

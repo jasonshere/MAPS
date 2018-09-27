@@ -202,6 +202,26 @@ def getEvents(calendar_id):
     except Exception as e:
         return make_response(jsonify({'code': -1, 'msg': str(e)}), 400)
 
+# update patient's google events
+@patient_blueprint.route('/calendars/<calendar_id>/events/<event_id>', methods=["PUT"])
+@auth.login_required
+def updateEvents(calendar_id, event_id):
+    try:
+        postData = request.json
+        eventData = postData['event']
+        payload = {
+            'summary': eventData['summary'],
+            'email': eventData['email']
+        }
+        res, events = updateGoogleEvents(calendar_id, event_id, payload)
+        if res:
+            return make_response(jsonify({'code': 1, 'msg': 'Successfully fetched!', 'data': events}), 201)
+        else:
+            raise events
+
+    except Exception as e:
+        return make_response(jsonify({'code': -1, 'msg': str(e)}), 400)
+
 # delete patient's google event
 @patient_blueprint.route('/calendars/<calendar_id>/events/<event_id>', methods=["DELETE"])
 @auth.login_required
