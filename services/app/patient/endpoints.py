@@ -211,7 +211,8 @@ def updateEvents(calendar_id, event_id):
         eventData = postData['event']
         payload = {
             'summary': eventData['summary'],
-            'email': eventData['email']
+            'email': eventData['email'],
+            'delete': eventData['delete']
         }
         res, events = updateGoogleEvents(calendar_id, event_id, payload)
         if res:
