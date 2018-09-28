@@ -296,6 +296,10 @@ def addAppointments():
             raise Exception('Invalid Parameters')
         if postData['appointed_to'] is None:
             raise Exception('Invalid Parameters')
+        if postData['google_calendar_id'] is None:
+            raise Exception('Invalid Parameters')
+        if postData['google_event_id'] is None:
+            raise Exception('Invalid Parameters')
 
         appointment = Appointment(postData)
         appointment.addAppointment()
@@ -338,15 +342,12 @@ def getAppointmentsByDoctorId(doctor_id):
         return make_response(jsonify({'code': -1, 'msg': str(e)}), 400)
 
 # delete one appointment
-@patient_blueprint.route('/appointments/<appointment_id>', methods=["DELETE"])
+@patient_blueprint.route('/appointments/<event_id>', methods=["DELETE"])
 @auth.login_required
-def deleteAppointment(appointment_id):
+def deleteAppointment(event_id):
     try:
-        if appointment_id is None:
-            raise Exception('Invalid Parameters')
-        
         appointment = Appointment({})
-        appointment.deleteAppointmentById(appointment_id)
+        appointment.deleteAppointment(event_id)
         return make_response(jsonify({'code': 1, 'msg': 'Successfully deleted!'}), 201)
         
     except Exception as e:

@@ -104,7 +104,8 @@ def updateGoogleEvents(calendar_id, event_id, payload):
         # First retrieve the event from the API.
         event = service.events().get(calendarId=calendar_id, eventId=event_id).execute()
         event['summary'] = payload['summary']
-        if payload['delete'] is False:
+        print(payload)
+        if payload['delete'] == "false":
             event['attendees'].append({'email': payload['email']})
         else:
             d = {

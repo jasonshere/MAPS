@@ -53,6 +53,17 @@ class Doctor(db.Model):
         else:
             return False, {}
 
+    # get one doctor by email
+    def getOneDoctorByEmail(self, customer_email):
+        result = self.query.filter(\
+                    Doctor.email == customer_email
+                ).first()
+        result = doctor_schema.dump(result)
+        if result.data :
+            return True, result.data
+        else:
+            return False, {}
+
     # update doctor by id
     def updateSchema(self, doctorId, data):
         doctor = self.query.get(doctorId)

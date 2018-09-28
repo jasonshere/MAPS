@@ -209,50 +209,13 @@ def deleteEvent(calendar_id, event_id):
     except Exception as e:
         return make_response(jsonify({'code': -1, 'msg': str(e)}), 400)
 
-# add doctor's busytime
-@doctor_blueprint.route('/busytimes', methods=["POST"])
+# get specific doctor
+@doctor_blueprint.route('/email/<doctor_email>', methods=["GET"])
 @auth.login_required
-def addBusytime():
+def getOneDoctorByEmail(doctor_email):
     try:
-        postData = request.json
-        busytimeData = postData['busytime']
-        if busytimeData['doctor_id'] is None:
-            raise Exception('Invalid Parameters')
-        if busytimeData['busytime_from'] is None:
-            raise Exception('Invalid Parameters')
-        if busytimeData['busytime_to'] is None:
-            raise Exception('Invalid Parameters')
-        
-        busytime = DoctorBusyTime(busytimeData)
-        busytime.setBusytime()
-        return make_response(jsonify({'code': 1, 'msg': 'Successfully Created!', 'data': postData}), 201)
-    except Exception as e:
-        return make_response(jsonify({'code': -1, 'msg': str(e)}), 400)
-
-# get doctor's busytimes
-@doctor_blueprint.route('/<doctor_id>/busytimes', methods=["GET"])
-@auth.login_required
-def getBusytimes(doctor_id):
-    try:
-        if doctor_id is None:
-            raise Exception('Invalid Parameters')
-        
-        busytime = DoctorBusyTime({})
-        data = busytime.getAllBusyTime(doctor_id)
+        doctor = Doctor({})
+        results, data = doctor.getOneDoctorByEmail(doctor_email)
         return make_response(jsonify({'code': 1, 'msg': 'Successfully Fetched!', 'data': data}), 201)
-    except Exception as e:
-        return make_response(jsonify({'code': -1, 'msg': str(e)}), 400)
-
-# delete doctor's busytime
-@doctor_blueprint.route('/busytimes/<busytime_id>', methods=["DELETE"])
-@auth.login_required
-def deleteBusytime(busytime_id):
-    try:
-        if busytime_id is None:
-            raise Exception('Invalid Parameters')
-        
-        busytime = DoctorBusyTime({})
-        busytime.deleteBusyTime(busytime_id)
-        return make_response(jsonify({'code': 1, 'msg': 'Successfully Deleted!'}), 201)
     except Exception as e:
         return make_response(jsonify({'code': -1, 'msg': str(e)}), 400)
