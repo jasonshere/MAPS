@@ -127,10 +127,11 @@ def setFreeTime():
 # get free time
 @doctor_blueprint.route('/get_free_time', methods=['GET'])
 def getFreeTime():
+    ds = DoctorService()
     calendarId = session['User']['calendar_id']
     if calendarId is None:
         return make_response(jsonify({'code': 1, 'msg': 'Successfully Get!', 'data': []}), 201)
-    ds = DoctorService()
+    
     res, data = ds.getFreeTime(calendarId)
     if res:
         return make_response(jsonify({'code': 1, 'msg': 'Successfully Get!', 'data': data['data']}), 201)

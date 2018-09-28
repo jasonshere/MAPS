@@ -15,8 +15,8 @@
             <div class="card-body">
             <div class="row">
                 <div class="col-md-4">
-                <!-- <button class="btn btn-primary btn-block"> -->
-                    <!-- <i class="mdi mdi-plus"></i> Create A New event</button> -->
+                <button id="my_calendar" class="btn btn-primary btn-block">
+                    <i class="mdi mdi-eye"></i> My Calendar</button>
                 <!-- <div class="wrapper mt-4">
                     <div class="item-wrapper d-flex pb-4 border-bottom">
                     <div class="status-wrapper d-flex align-items-start pr-3">
@@ -126,13 +126,7 @@
                 'use strict';
                 $(function() {
                 var style = getComputedStyle(document.body);
-                var myEvents = [
-                    {
-                        start: '2018-09-18T10:00:00',
-                        end: '2018-09-18T16:00:00',
-                        rendering: 'background'
-                    }
-                ]
+                var myEvents = []
                 if ($('#calendar').length) {
                     $('#calendar').fullCalendar({
                     defaultView: 'agendaFourDay',
@@ -149,46 +143,47 @@
                     },
                     selectable: true,
                     eventClick: function(calEvent, jsEvent, view) {
-                        // id = calEvent.id
-                        let url = "{{url_for('patient.deleteEvents')}}" 
-                        $.post(url, {"event_id": calEvent.id}, function(data){
-                            if(data.code == 1)
-                                $('#calendar').fullCalendar( 'removeEvents', [calEvent.id] )
-                        })
-                    },
-                    select: function(startDate, endDate) {
-                        var doctor_id = $(":input[name=doctor_id]").val()
-                        var doctor_email = $(":input[name=doctor_email]").val()
-                        var patient_id = $(":input[name=patient_id]").val()
-                        var start = startDate.format()
-                        var end = endDate.format()
-                        $("#sub").click(function(){
-                            $.post('{{url_for("patient.setEvents")}}', {
-                                "start": start,
-                                "end": end,
-                                "patient_id": patient_id,
-                                "doctor_id": doctor_id,
-                                "doctor_email": doctor_email,
-                                "patient_email": "{{session.User.email}}"
-                            }, function(res){
-                                if(res.code == 1){
-                                    $('#calendar').fullCalendar('renderEvent', {
-                                        title: 'See the doctor',
-                                        start: start,
-                                        end: end,
-                                        id: res.data.id,
-                                        allDay: false
-                                    });
-                                }
-                            })
-                        })
-                        $('#confirm').modal('show')
+                        if ($(":input[name=doctor_id]").val()) {
+                            if (calEvent.title == 'Free') {
+                                // update patient's email into calendar event
+                                var url = "{{url_for('patient.updateEventsByDoctorId')}}"
+                                $.post(url, {
+                                    "event_id": calEvent.id, 
+                                    "doctor_id": $(":input[name=doctor_id]").val(), 
+                                    "delete": "false",
+                                    "start": calEvent.start.format(),
+                                    "end": calEvent.end.format()
+                                }, function(data){
+                                    if(data.code == 1){
+                                        calEvent.backgroundColor = '#EC4296'
+                                        calEvent.title = 'Booked'
+                                        $('#calendar').fullCalendar( 'updateEvent', calEvent )
+                                    } 
+                                })
+                            } else {
+                                // update patient's email into calendar event
+                                var url = "{{url_for('patient.updateEventsByDoctorId')}}"
+                                $.post(url, {
+                                        "event_id": calEvent.id, 
+                                        "doctor_id": $(":input[name=doctor_id]").val(), 
+                                        "delete": "true"
+                                    }, function(data){
+                                    if(data.code == 1){
+                                        calEvent.backgroundColor = '#18d895'
+                                        calEvent.title = 'Free'
+                                        $('#calendar').fullCalendar( 'updateEvent', calEvent )
+                                    } 
+                                })
+                            }
+                        }
                     },
                     defaultDate: new Date(),
                     navLinks: true, // can click day/week names to navigate views
                     editable: true,
                     eventLimit: true, // allow "more" link when too many events
-                    eventBackgroundColor: 'red',
+                    eventBackgroundColor: '#18d895',
+                    eventTextColor: "white",
+                    eventBorderColor: "transparent",
                     events: myEvents
                     })
                 }
@@ -199,52 +194,59 @@
                     $('#calendar').fullCalendar('removeEvents')
                     var id = $(this).attr("id")
                     $(":input[name=doctor_id]").val(id)
-                    var doctor = $.getJSON('/patient/get_doctor/'+id, function(res){
-                        $("#doctor_name").html(res.data.username);
-                        $(":input[name=doctor_email]").val(res.data.email)
-                    })
-                    var url = "/patient/get_busytime/"+id
-                    $.getJSON(url, function(res){
-                        for(var i in res.data) {
-                            $('#calendar').fullCalendar('renderEvent', {
-                                title: 'Not Available',
-                                start: res.data[i]['start'],
-                                end: res.data[i]['end'],
-                                id: res.data[i]['id'],
-                                allDay: false
-                            });
-                        }
-                    })
-
                     var url = "/patient/get_events/"+id
                     $.getJSON(url, function(res){
                         if (res.code == 1) {
                             for(var i in res.data) {
-                                start = res.data[i]['start']['dateTime']
-                                end = res.data[i]['end']['dateTime']
+                                var start = res.data[i]['start']['dateTime']
+                                var end = res.data[i]['end']['dateTime']
+                                var summary = res.data[i]['summary']
+                                var eid = res.data[i]['id']
+                                var bg = ''
+                                if (summary == 'Free') {
+                                    bg = '#18d895'
+                                }
+                                if (summary == 'Booked') {
+                                    bg = '#EC4296'
+                                }
                                 $('#calendar').fullCalendar('renderEvent', {
-                                    title: 'Not Available',
+                                    title: summary,
                                     start: start,
                                     end: end,
-                                    id: id,
+                                    id: eid,
+                                    backgroundColor: bg,
                                     allDay: false
                                 });
                             }
                         }
                     })
                 })
-                $.getJSON('{{url_for("patient.getEvents")}}', function(res){
-                    if (res.code == 1) {
-                        for(var i in res.data) {
-                            $('#calendar').fullCalendar('renderEvent', {
-                                title: 'See the doctor',
-                                start: res.data[i].start['dateTime'],
-                                end: res.data[i].end['dateTime'],
-                                id: res.data[i]['id'],
-                                allDay: false
-                            });
+                let myCalendar = function(){
+                    $.getJSON('{{url_for("patient.getAppointments")}}', function(res){
+                        if (res.code == 1) {
+                            for(var i in res.data) {
+                                var start = res.data[i]['appointed_from']
+                                var end = res.data[i]['appointed_to']
+                                var summary = 'Booked'
+                                var eid = res.data[i]['google_event_id']
+                                var bg = '#EC4296'
+                                $('#calendar').fullCalendar('renderEvent', {
+                                    title: summary,
+                                    start: start,
+                                    end: end,
+                                    id: eid,
+                                    backgroundColor: bg,
+                                    allDay: false
+                                });
+                            }
                         }
-                    }
+                    })
+                }
+                myCalendar()
+                $("#my_calendar").click(function(){
+                    $('#calendar').fullCalendar( 'removeEvents' )
+                    $(":input[name=doctor_id]").val("")
+                    myCalendar()
                 })
             })
         </script>

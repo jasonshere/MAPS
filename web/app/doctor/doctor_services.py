@@ -17,6 +17,20 @@ class DoctorService():
             headers = {'Content-type': 'application/json'}
             response = requests.post(url, data=json.dumps(payload), headers=headers)
             if response.json()['code'] == 1:
+                url = self.baseUrl + '/calendars'
+                headers = {'Content-type': 'application/json'}
+                res, resData = self.getDoctorByEmail(payload['doctor']['email'])
+                print(resData)
+                pl = {
+                    'calendar': {
+                        "summary": "Calendar for {}". format(payload['doctor']['email']),
+                        "description": "Doctor's calendar",
+                        "location": "MAPS",
+                        "timezone": "Australia/Melbourne",
+                        "customer_id": resData['data']['id']
+                    }
+                }
+                response = requests.post(url, data=json.dumps(pl), headers=headers)
                 return True, response.json()
             else:
                 return False, response.json()
@@ -144,6 +158,19 @@ class DoctorService():
     def getDoctorById(self, doctor_id):
         try:
             url = self.baseUrl + '/' + doctor_id
+            headers = {'Content-type': 'application/json'}
+            response = requests.get(url, headers=headers)
+            if response.json()['code'] == 1:
+                return True, response.json()
+            else:
+                return False, response.json()
+        except Exception as e:
+            return False, str(e)
+
+    # get doctor by email
+    def getDoctorByEmail(self, doctor_email):
+        try:
+            url = self.baseUrl + '/email/' + doctor_email
             headers = {'Content-type': 'application/json'}
             response = requests.get(url, headers=headers)
             if response.json()['code'] == 1:

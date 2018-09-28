@@ -48,7 +48,7 @@ def addDoctor():
         res, data = ds.register(payload)
         
         if res:
-            return redirect(url_for('clerk.doctorsList'), **clerkSetting())
+            return redirect(url_for('clerk.doctorsList'))
     return render_template('clerk/add_doctor.html', **clerkSetting(), form=form)
 
 @clerk_blueprint.route('/doctors')
