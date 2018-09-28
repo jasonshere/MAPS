@@ -127,32 +127,6 @@ class DoctorService():
                 return False, response.json()
         except Exception as e:
             return False, str(e)
-    
-    # get all busytime
-    def getBusyTimes(self, doctor_id):
-        try:
-            url = self.baseUrl + '/{}/busytimes'. format(doctor_id)
-            headers = {'Content-type': 'application/json'}
-            response = requests.get(url, headers=headers)
-            if response.json()['code'] == 1:
-                return True, response.json()
-            else:
-                return False, response.json()
-        except Exception as e:
-            return False, str(e)
-
-    # delete busytime
-    def deleteBusyTime(self, busyid):
-        try:
-            url = self.baseUrl + '/busytimes/{}'. format(busyid)
-            headers = {'Content-type': 'application/json'}
-            response = requests.delete(url, headers=headers)
-            if response.json()['code'] == 1:
-                return True, response.json()
-            else:
-                return False, response.json()
-        except Exception as e:
-            return False, str(e)
 
     # get doctor by id
     def getDoctorById(self, doctor_id):
@@ -173,6 +147,21 @@ class DoctorService():
             url = self.baseUrl + '/email/' + doctor_email
             headers = {'Content-type': 'application/json'}
             response = requests.get(url, headers=headers)
+            if response.json()['code'] == 1:
+                return True, response.json()
+            else:
+                return False, response.json()
+        except Exception as e:
+            return False, str(e)
+
+    # get patients
+    def getAllPatients(self, doctor_id):
+        try:
+            baseUrl = '{}://{}:{}@{}/{}'. format(PROTOCOL, APIKEY, APIPASS, SERVICE_ADDRESS, 'patient')
+            url = baseUrl + '/appointments/' + doctor_id
+            headers = {'Content-type': 'application/json'}
+            response = requests.get(url, headers=headers)
+            print(response.json()
             if response.json()['code'] == 1:
                 return True, response.json()
             else:
