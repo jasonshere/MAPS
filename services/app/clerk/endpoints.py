@@ -92,8 +92,33 @@ def appointmentsOfDoctors():
     except Exception as e:
         return make_response(jsonify({'code': -1, 'msg': str(e)}), 400)
 
-@clerk_blueprint.route('/test', methods=["GET"])
+# get statistics
+@clerk_blueprint.route('/statistics', methods=["GET"])
 def getAppointmentsGroupByDoctorAndStartDate():
     appointment = Appointment()
+    doctor = Doctor({})
     data = appointment.getAppointmentsGroupByDoctorAndStartDate()
+    for i in range(len(data)):
+        for j in range(len(data[i]['appointments'])):
+            did = data[i]['appointments'][j]['doctor_id']
+            res, da = doctor.getOneDoctorById(did)
+            data[i]['appointments'][j]['doctor_name'] = da['name']
+    data = assemblyData(data)
     return make_response(jsonify({'code': 1, 'msg': 'Successfully Fetched!', 'data': data}), 201)
+
+# Assembly data
+def assemblyData(data):
+    # return data
+    appoints = {}
+    labels = []
+    for i in range(len(data)):
+        for j in range(len(data[i]['appointments'])):
+            label = data[i]['appointments'][j]['doctor_name']
+            if label in appoints:
+                print(data[i]['appointments'][j]['count'])
+                appoints[label].append(data[i]['appointments'][j]['count'])
+            else:
+                appoints[label] = [data[i]['appointments'][j]['count']]
+        labels.append(data[i]['date'])
+
+    return {'appointments': appoints, 'labels': labels}
