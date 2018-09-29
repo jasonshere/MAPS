@@ -28,6 +28,10 @@ def patientSetting():
                 'icon' : 'mdi mdi-calendar-clock',
                 'new' : True,
                 'url' : url_for('patient.makeAppointment'),
+            },
+            'Account' : {
+                'icon' : 'mdi mdi-account',
+                'url' : url_for('patient.account'),
             }
         }
     }

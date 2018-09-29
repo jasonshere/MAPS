@@ -1,0 +1,65 @@
+{% extends "include/__layout.html" %}
+
+{% block mybody %}
+<div class="col-lg-12 grid-margin stretch-card">
+  <canvas id="myChart" width="100%" height="40"></canvas>
+</div>
+{% endblock %}
+
+{% block scripts %}
+    {{ super() }}
+    <script src="https://cdnjs.com/libraries/Chart.js"></script>
+    <script>
+        let d
+        var bgs = [
+          'rgba(255, 99, 132, 0.2)',
+          'rgba(54, 162, 235, 0.2)',
+          'rgba(255, 206, 86, 0.2)',
+          'rgba(75, 192, 192, 0.2)',
+          'rgba(153, 102, 255, 0.2)',
+          'rgba(255, 159, 64, 0.2)'
+        ];
+        var bcs = [
+          'rgba(255,99,132,1)',
+          'rgba(54, 162, 235, 1)',
+          'rgba(255, 206, 86, 1)',
+          'rgba(75, 192, 192, 1)',
+          'rgba(153, 102, 255, 1)',
+          'rgba(255, 159, 64, 1)'
+        ];
+        $.getJSON('{{url_for("clerk.staJson")}}', function(data){
+          d = data['data']
+          var labels = d['labels']
+          dataSets = []
+          for(var i in d['appointments']) {
+            colorIndex = parseInt(Math.random()*10%(bgs.length - 1))
+            dataSets.push({
+              "label": i,
+              "data": d['appointments'][i],
+              "backgroundColor" : bgs[colorIndex],
+              "borderColor": bcs[colorIndex],
+              "borderWidth": 1
+            })
+          }
+
+          var ctx = document.getElementById("myChart");
+          var myChart = new Chart(ctx, {
+              type: 'line',
+              data: {
+                  labels: labels,
+                  datasets: dataSets,
+              },
+              options: {
+                  scales: {
+                      yAxes: [{
+                          ticks: {
+                              beginAtZero:true
+                          }
+                      }]
+                  }
+              }
+          });
+        })
+        
+    </script>
+{% endblock %}

@@ -25,10 +25,6 @@ def doctorSetting():
             'Set Weekly Availability' : {
                 'icon' : 'mdi mdi-calendar',
                 'url' : url_for('doctor.setCalendar'),
-            },
-            'My Calendar' : {
-                'icon' : 'mdi mdi-calendar',
-                'url' : url_for('doctor.myCalendar'),
             }
         }
     }
@@ -76,10 +72,6 @@ def history(patient_id):
 @doctor_blueprint.route('/set_calendar')
 def setCalendar():
     return render_template('doctor/set_calendar.html', **doctorSetting())
-
-@doctor_blueprint.route('/my_calendar')
-def myCalendar():
-    return render_template('doctor/my_calendar.html', **doctorSetting())
 
 # set free time
 @doctor_blueprint.route('/set_free_time', methods=['POST'])

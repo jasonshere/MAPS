@@ -2,6 +2,8 @@
 from flask import Blueprint, Flask, render_template, session, redirect, url_for, request, jsonify, make_response
 from app.clerk.forms import AddDoctorForm
 from app.doctor.doctor_services import DoctorService
+from app.clerk.clerk_services import ClerkService
+import time, json
 
 # create blueprint object
 clerk_blueprint = Blueprint(
@@ -23,6 +25,10 @@ def clerkSetting():
             'All Doctors': {
                 'icon' : 'mdi mdi-account',
                 'url': url_for('clerk.doctorsList'),
+            },
+            'Statistics': {
+                'icon' : 'mdi mdi-chart-bar',
+                'url': url_for('clerk.statistics'),
             }
         }
     }
@@ -106,5 +112,20 @@ def deleteFreeTime(doctor_id):
     res, data = ds.deleteFreeTime(calendarId, freeId)
     if res:
         return make_response(jsonify({'code': 1, 'msg': 'Successfully Deleted!'}), 201)
+    else:
+        return make_response(jsonify({'code': -1, 'msg': 'Failed'}), 400)
+
+# statistics
+@clerk_blueprint.route('/statistics', methods=['GET'])
+def statistics():
+    return render_template('clerk/statistics.html', **clerkSetting())
+
+# get Json
+@clerk_blueprint.route('/statistics/json', methods=['GET'])
+def staJson():
+    cs = ClerkService()
+    res, data = cs.getStatistics()
+    if res:
+        return make_response(jsonify({'code': 1, 'msg': 'Successfully Fetched!', "data": data['data']}), 201)
     else:
         return make_response(jsonify({'code': -1, 'msg': 'Failed'}), 400)

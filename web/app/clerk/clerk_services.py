@@ -22,4 +22,17 @@ class ClerkService():
         except Exception as e:
             return False, str(e)
 
+    # request API of statistics
+    def getStatistics(self):
+        try:
+            url = self.baseUrl + '/statistics'
+            headers = {'Content-type': 'application/json'}
+            response = requests.get(url, headers=headers)
+            if response.json()['code'] == 1:
+                return True, response.json()
+            else:
+                return False, response.json()
+        except Exception as e:
+            return False, str(e)
+
     
