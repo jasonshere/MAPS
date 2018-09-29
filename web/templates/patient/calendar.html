@@ -190,36 +190,6 @@
                 });
             })(jQuery);
             $(function(){
-                let id = $(".list").first().css("backgroundColor", "#eee").attr("id")
-                if (id) {
-                    $(":input[name=doctor_id]").val(id)
-                    var url = "/patient/get_events/"+id
-                    $.getJSON(url, function(res){
-                        if (res.code == 1) {
-                            for(var i in res.data) {
-                                var start = res.data[i]['start']['dateTime']
-                                var end = res.data[i]['end']['dateTime']
-                                var summary = res.data[i]['summary']
-                                var eid = res.data[i]['id']
-                                var bg = ''
-                                if (summary == 'Free') {
-                                    bg = '#18d895'
-                                }
-                                if (summary == 'Booked') {
-                                    bg = '#EC4296'
-                                }
-                                $('#calendar').fullCalendar('renderEvent', {
-                                    title: summary,
-                                    start: start,
-                                    end: end,
-                                    id: eid,
-                                    backgroundColor: bg,
-                                    allDay: false
-                                });
-                            }
-                        }
-                    })
-                }
                 $(".list").click(function(){
                     $(".list").css("backgroundColor", "#fff")
                     $('#calendar').fullCalendar('removeEvents')

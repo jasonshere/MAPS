@@ -22,6 +22,10 @@ def clerkSetting():
                 'icon' : 'mdi mdi-calendar-clock',
                 'url': url_for('clerk.doctorsCalendar'),
             },
+            'Add Doctor': {
+                'icon' : 'mdi mdi-account',
+                'url': url_for('clerk.addDoctor'),
+            },
             'All Doctors': {
                 'icon' : 'mdi mdi-account',
                 'url': url_for('clerk.doctorsList'),
@@ -44,8 +48,10 @@ def addDoctor():
     if request.method == 'POST' and form.validate():
         # pass the validation, request API
         ds = DoctorService()
+        dd = form.data
+        dd['created_at'] = time.strftime("%Y-%m-%d %H:%M:%S", time.localtime())
         payload = {
-            'doctor' : form.data
+            'doctor' : dd
         }
         res, data = ds.register(payload)
         
