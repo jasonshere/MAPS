@@ -15,51 +15,55 @@
             <div class="card-body">
             <div class="row">
                 <div class="col-md-4">
-                <div class="wrapper mt-4">
+                <!-- <button id="my_calendar" class="btn btn-primary btn-block">
+                    <i class="mdi mdi-eye"></i> My Calendar</button> -->
+                <!-- <div class="wrapper mt-4">
+                    <div class="item-wrapper d-flex pb-4 border-bottom">
+                    <div class="status-wrapper d-flex align-items-start pr-3">
+                        <span class="bg-warning rounded-circle p-1 mt-2 mx-auto"></span>
+                    </div>
+                    <div class="text-wrapper">
+                        <h6 class="d-block mb-1">Dentist appoinment:metro</h6>
+                        <small class="d-block mb-2">
+                        <strong>7 Feb 2017, 16:00</strong>
+                        </small>
+                        <small class="text-gray d-block">First Remainder : 1 Hours min before</small>
+                    </div>
+                    </div>
+                    <div class="item-wrapper d-flex py-4">
+                    <div class="status-wrapper d-flex align-items-start pr-3">
+                        <span class="bg-success rounded-circle p-1 mt-2 mx-auto"></span>
+                    </div>
+                    <div class="text-wrapper">
+                        <h6 class="d-block mb-1">Job appoinment:metro</h6>
+                        <small class="d-block mb-2">
+                        <strong>9 Feb 2017, 20:00</strong>
+                        </small>
+                        <small class="text-gray d-block">First Remainder : 1 Hours min before</small>
+                    </div>
+                    </div>
+                </div> -->
+                <div class="wrapper">
                     <div class="wrapper d-flex justify-content-between align-items-center mb-4">
-                        <div class="d-flex align-items-center">
-                            <small class="font-weight-bold mr-2 mb-0">Doctors</small>
-                        </div>
-                        <span class="text-gray">
-                            <i class="mdi mdi-dots-horizontal"></i>
-                        </span>
+                    <div class="d-flex align-items-center">
+                        <small class="font-weight-bold mr-2 mb-0">Doctors</small>
+                        <!-- <div class="badge badge-inverse-primary badge-pill">2</div> -->
+                    </div>
+                    <span class="text-gray">
+                        <i class="mdi mdi-dots-horizontal"></i>
+                    </span>
                     </div>
                     <div class="calendar-aside">
-                        <div class="list">
-                            <img class="img-xs rounded-circle" src="{{url_for('static', filename='images/faces/face2.jpg')}}" alt="profile image">
-                            <span class="user-text">Luke Pachytel</span>
-                            <span class="count online ml-auto">
-                            <i class="close ml-auto mdi mdi-close-circle-outline"></i>
-                            </span>
-                        </div>
-                        <div class="list">
-                            <img class="img-xs rounded-circle" src="{{url_for('static', filename='images/faces/face3.jpg')}}" alt="profile image">
-                            <span class="user-text">Allen Donald</span>
-                            <span class="count offline ml-auto">
-                            <i class="close ml-auto mdi mdi-close-circle-outline"></i>
-                            </span>
-                        </div>
-                        <div class="list">
-                            <img class="img-xs rounded-circle" src="{{url_for('static', filename='images/faces/face4.jpg')}}" alt="profile image">
-                            <span class="user-text">Gabriel Rouge</span>
-                            <span class="count offline ml-auto">
-                            <i class="close ml-auto mdi mdi-close-circle-outline"></i>
-                            </span>
-                        </div>
-                        <div class="list">
-                            <img class="img-xs rounded-circle" src="{{url_for('static', filename='images/faces/face5.jpg')}}" alt="profile image">
-                            <span class="user-text">Marina Michel</span>
-                            <span class="count online ml-auto">
-                            <i class="close ml-auto mdi mdi-close-circle-outline"></i>
-                            </span>
-                        </div>
-                        <div class="list">
-                            <img class="img-xs rounded-circle" src="{{url_for('static', filename='images/faces/face6.jpg')}}" alt="profile image">
-                            <span class="user-text">Amanda Stone</span>
-                            <span class="count online ml-auto">
-                            <i class="close ml-auto mdi mdi-close-circle-outline"></i>
-                            </span>
-                        </div>
+                    {% for doctor in doctors %}
+                    <div class="list" id="{{doctor.id}}">
+                        <img class="img-xs rounded-circle" src="{{url_for('static', filename='images/faces/face2.jpg')}}" alt="profile image">
+                        <span class="user-text">{{doctor.username}}</span>
+                        <span class="count online ml-auto">
+                        <i class="close ml-auto mdi mdi-close-circle-outline"></i>
+                        </span>
+                    </div>
+                    {% endfor %}
+                    
                     </div>
                 </div>
                 </div>
@@ -72,89 +76,137 @@
         </div>
     </div>
 </div>
-
 <!-- Modal -->
 <div class="modal fade" id="confirm" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-<div class="modal-dialog" role="document">
-    <div class="modal-content">
-    <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLongTitle">Confirm Appointment</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-        <span aria-hidden="true">&times;</span>
-        </button>
-    </div>
-    <div class="modal-body">
-        <div class="table-responsive">
-            <table class="table table-hover table-striped table-bordered">
-                <tbody>
-                <tr>
-                    <th>Doctor</th>
-                    <td>Jason</td>
-                </tr>
-                <tr>
-                    <th>Patient</th>
-                    <td>Jacob</td>
-                </tr>
-                <tr>
-                    <th>Time</th>
-                    <td><label class="badge badge-danger" id="appTime">12 May 2017</label></td>
-                </tr>
-                </tbody>
-            </table>
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+        <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLongTitle">Confirm Appointment</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+        <div class="modal-body">
+            <div class="table-responsive">
+                <table class="table table-hover table-striped table-bordered">
+                    <tbody>
+                    <tr>
+                        <th>Doctor</th>
+                        <td id="doctor_name"></td>
+                    </tr>
+                    <tr>
+                        <th>Patient</th>
+                        <td>Jacob</td>
+                    </tr>
+                    <tr>
+                        <th>Time</th>
+                        <td><label class="badge badge-danger" id="appTime">12 May 2017</label></td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <input type="hidden" name="doctor_id" value="">
+            <input type="hidden" name="doctor_email" value="">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            <button type="button" id="sub" class="btn btn-primary">Save changes</button>
+        </div>
         </div>
     </div>
-    <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-        <button type="button" class="btn btn-primary">Save changes</button>
     </div>
-    </div>
-</div>
-</div>
 {% endblock %}
 
 {% block scripts %}
     {{ super() }}
     <script src="{{url_for('static', filename='js/hoverable-collapse.js')}}"></script>
     <script>
-            (function($) {
-                'use strict';
-                $(function() {
-                var style = getComputedStyle(document.body);
-                var myEvents = [
-                    {
-                        start: '2018-09-18T10:00:00',
-                        end: '2018-09-18T16:00:00',
-                        rendering: 'background'
+        (function($) {
+            'use strict';
+            $(function() {
+            let ev, bg
+            var style = getComputedStyle(document.body);
+            if ($('#calendar').length) {
+                $('#calendar').fullCalendar({
+                defaultView: 'agendaFourDay',
+                views: {
+                    agendaFourDay: {
+                        type: 'agenda',
+                        duration: { days: 7 }
                     }
-                ]
-                if ($('#calendar').length) {
-                    $('#calendar').fullCalendar({
-                    defaultView: 'agendaFourDay',
-                    views: {
-                        agendaFourDay: {
-                            type: 'agenda',
-                            duration: { days: 7 }
-                        }
-                    },
-                    header: {
-                        left: 'prev,next today',
-                        center: 'title',
-                        right: 'agendaFourDay,month,basicWeek,basicDay'
-                    },
-                    selectable: true,
-                    select: function(startDate, endDate) {
-                        $('#appTime').html(startDate.format() + ' ~ ' + endDate.format());
-                        $('#confirm').modal('show')
-                    },
-                    defaultDate: new Date(),
-                    navLinks: true, // can click day/week names to navigate views
-                    editable: true,
-                    eventLimit: true, // allow "more" link when too many events
-                    eventBackgroundColor: 'red',
-                    events: myEvents
+                },
+                header: {
+                    left: 'prev,next today',
+                    center: 'title',
+                    right: 'agendaFourDay,month,basicWeek,basicDay'
+                },
+                selectable: true,
+                select: function(startDate, endDate) {
+                    let id = $(":input[name=doctor_id]").val()
+                    let url = "/clerk/set_free_time/" + id
+                    $.post(url, {"start": startDate.format(), "end": endDate.format()}, function(res){
+                        $('#calendar').fullCalendar('renderEvent', {
+                            title: 'Free',
+                            start: res.data['start']['dateTime'],
+                            end: res.data['end']['dateTime'],
+                            id: res.data['id'],
+                            allDay: false
+                        });
                     })
-                }
-                });
-            })(jQuery);
-        </script>
+                },
+                eventClick: function(calEvent, jsEvent, view) {
+                    // id = calEvent.id
+                    let id = $(":input[name=doctor_id]").val()
+                    let url = "/clerk/delete_free_time/" + id 
+                    $.post(url, {"freeid": calEvent.id}, function(data){
+                        $('#calendar').fullCalendar( 'removeEvents', [calEvent.id] )
+                    })
+                },
+                defaultDate: new Date(),
+                navLinks: true, // can click day/week names to navigate views
+                editable: true,
+                eventLimit: true, // allow "more" link when too many events
+                eventBackgroundColor: '#18d895',
+                eventTextColor: "white",
+                eventBorderColor: "transparent",
+                events: []
+                })
+            }
+            });
+        })(jQuery);
+        $(function(){
+            $(".list").click(function(){
+                $('#calendar').fullCalendar('removeEvents')
+                var id = $(this).attr("id")
+                $(":input[name=doctor_id]").val(id)
+                var url = "/clerk/get_free_time/"+id
+                $.getJSON(url, function(res){
+                    if (res.code == 1) {
+                        for(var i in res.data) {
+                            var start = res.data[i]['start']['dateTime']
+                            var end = res.data[i]['end']['dateTime']
+                            var summary = res.data[i]['summary']
+                            var eid = res.data[i]['id']
+                            var bg = ''
+                            if (summary == 'Free') {
+                                bg = '#18d895'
+                            }
+                            if (summary == 'Booked') {
+                                bg = '#EC4296'
+                            }
+                            $('#calendar').fullCalendar('renderEvent', {
+                                title: summary,
+                                start: start,
+                                end: end,
+                                id: eid,
+                                backgroundColor: bg,
+                                allDay: false
+                            });
+                        }
+                    }
+                })
+            })
+                
+        })
+    </script>
 {% endblock %}
