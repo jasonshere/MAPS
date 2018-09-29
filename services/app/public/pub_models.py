@@ -44,6 +44,7 @@ class Appointment(db.Model):
         else:
             return False, []
 
+    # get all appointments by doctor id
     def getAllAppointmentByDoctorId(self, doctor_id, ps):
         results = self.query.filter(\
             Appointment.doctor_id == doctor_id
@@ -101,7 +102,7 @@ class Appointment(db.Model):
             dateEnd = time.time() + (j + 1) * 24 * 3600
             apps = []
             for i in range(len(results[0])):
-                t = time.mktime(time.strptime(results[0][i]['appointed_from'],'%Y-%m-%dT%H:%M:%S+10:00'))
+                t = time.mktime(time.strptime(results[0][i]['appointed_from'],'%Y-%m-%dT%H:%M:%S'))
                 if t >= dateStart and t <= dateEnd:
                     b = self.hasDoctorId(apps, results[0][i]['doctor_id'])
                     if b is False:
