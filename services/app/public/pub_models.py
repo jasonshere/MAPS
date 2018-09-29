@@ -14,6 +14,8 @@ class Appointment(db.Model):
     appointed_to = db.Column(db.String(100), nullable=False)
     google_event_id = db.Column(db.String(100), nullable=False)
     google_calendar_id = db.Column(db.String(100), nullable=False)
+    notes = db.Column(db.String(500), nullable=True)
+    diagnoses = db.Column(db.String(500), nullable=True)
     created_at = db.Column(db.DateTime, nullable=False)
 
     # initialise model
@@ -28,34 +30,28 @@ class Appointment(db.Model):
         db.session.commit()
 
     # get all appointments by patient id
-    def getAllAppointmentByPatientId(self, patient_id):
+    def getAllAppointmentByPatientId(self, patient_id, ds):
         results = self.query.filter(\
             Appointment.patient_id == patient_id
         ).all()
         results = appointments_schema.dump(results)
         if results.data :
+            for i in range(len(results.data)):
+                res, d = ds.getOneDoctorById(results.data[i]['doctor_id'])
+                results.data[i]['doctor'] = d
             return True, results.data
         else:
             return False, []
 
-    # get all appointments by patient id
-    def getAllAppointmentByPatientId(self, patient_id):
-        results = self.query.filter(\
-            Appointment.patient_id == patient_id
-        ).all()
-        results = appointments_schema.dump(results)
-        if results.data :
-            return True, results.data
-        else:
-            return False, []
-
-    # get all appointments by doctor id
-    def getAllAppointmentByDoctorId(self, doctor_id):
+    def getAllAppointmentByDoctorId(self, doctor_id, ps):
         results = self.query.filter(\
             Appointment.doctor_id == doctor_id
         ).all()
         results = appointments_schema.dump(results)
         if results.data :
+            for i in range(len(results.data)):
+                res, d = ps.getOnePatientById(results.data[i]['patient_id'])
+                results.data[i]['patient'] = d
             return True, results.data
         else:
             return False, Exception('error')
@@ -68,10 +64,26 @@ class Appointment(db.Model):
         db.session.delete(appoint)
         db.session.commit()
 
+    # get one appointment
+    def getAppointmentById(self, app_id):
+        result = self.query.filter(Appointment.id == app_id).first()
+        result = appointment_schema.dump(result)
+        if result.data :
+            return True, result.data
+        else:
+            return False, []
+
+    # update appointment
+    def update(self, appointment_id, data):
+        app = self.query.get(appointment_id)
+        for field in data:
+            setattr(app, field, data[field])
+        db.session.commit()
+
 class AppointmentSchema(ma.Schema):
     class Meta:
         # Fields to expose
-        fields = ('id', 'patient_id', 'doctor_id', 'appointed_from', 'appointed_to', 'created_at', 'google_event_id', 'google_calendar_id')
+        fields = ('id', 'patient_id', 'doctor_id', 'appointed_from', 'appointed_to', 'created_at', 'google_event_id', 'google_calendar_id', 'notes', 'diagnoses')
 
 appointment_schema = AppointmentSchema()
 appointments_schema = AppointmentSchema(many=True)

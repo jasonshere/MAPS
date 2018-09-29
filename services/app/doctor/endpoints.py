@@ -2,6 +2,7 @@
 import sys
 import os
 sys.path.append(os.path.abspath(os.path.dirname(__file__)))
+sys.path.append(os.path.abspath(os.path.dirname(os.path.dirname(__file__))+"/patient"))
 sys.path.append(os.path.abspath(os.path.dirname(os.path.dirname(__file__))+"/public"))
 sys.path.append(os.path.abspath(os.path.dirname(os.path.dirname(os.path.dirname(__file__)))))
 
@@ -9,7 +10,8 @@ sys.path.append(os.path.abspath(os.path.dirname(os.path.dirname(os.path.dirname(
 from flask import Blueprint, Flask, render_template, session, redirect, url_for, request, jsonify, make_response, session
 from init import auth, session
 from google_calendar import *
-from doctor_models import Doctor, DoctorBusyTime
+from doctor_models import Doctor
+from patient_models import Patient
 from pub_models import Appointment
 
 # create blueprint object
@@ -217,5 +219,71 @@ def getOneDoctorByEmail(doctor_email):
         doctor = Doctor({})
         results, data = doctor.getOneDoctorByEmail(doctor_email)
         return make_response(jsonify({'code': 1, 'msg': 'Successfully Fetched!', 'data': data}), 201)
+    except Exception as e:
+        return make_response(jsonify({'code': -1, 'msg': str(e)}), 400)
+
+# get appointments by doctor id
+@doctor_blueprint.route('/<doctor_id>/appointments', methods=["GET"])
+@auth.login_required
+def getAppointmentsByDoctorId(doctor_id):
+    try:
+        if doctor_id is None:
+            raise Exception('Invalid Parameters')
+        ps = Patient({})
+        appointment = Appointment({})
+        results, data = appointment.getAllAppointmentByDoctorId(doctor_id, ps)
+        if results :
+            return make_response(jsonify({'code': 1, 'msg': 'Successfully Fetched!', 'data': data}), 201)
+        else:
+            raise data
+    except Exception as e:
+        return make_response(jsonify({'code': -1, 'msg': str(e)}), 400)
+
+# update appointments by id
+@doctor_blueprint.route('/appointments/<appointment_id>', methods=["PUT"])
+@auth.login_required
+def updateAppointmentById(appointment_id):
+    try:
+        postData = request.json
+        appoData = postData['appointment']  
+        if appointment_id is None:
+            raise Exception('Invalid Parameters')
+        
+        appointment = Appointment({})
+        appointment.update(appointment_id, appoData)
+        return make_response(jsonify({'code': 1, 'msg': 'Successfully Updated!'}), 201)
+    except Exception as e:
+        return make_response(jsonify({'code': -1, 'msg': str(e)}), 400)
+
+# get appointments by id
+@doctor_blueprint.route('/appointments/<appointment_id>', methods=["GET"])
+@auth.login_required
+def getAppointmentById(appointment_id):
+    try:
+        if appointment_id is None:
+            raise Exception('Invalid Parameters')
+        appointment = Appointment({})
+        results, data = appointment.getAppointmentById(appointment_id)
+        if results :
+            return make_response(jsonify({'code': 1, 'msg': 'Successfully Fetched!', 'data': data}), 201)
+        else:
+            raise data
+    except Exception as e:
+        return make_response(jsonify({'code': -1, 'msg': str(e)}), 400)
+
+# get appointments by patient id
+@doctor_blueprint.route('/appointments/patient/<patient_id>', methods=["GET"])
+@auth.login_required
+def getAppointmentsByPatientId(patient_id):
+    try:
+        if patient_id is None:
+            raise Exception('Invalid Parameters')
+        appointment = Appointment({})
+        ds = Doctor({})
+        results, data = appointment.getAllAppointmentByPatientId(patient_id, ds)
+        if results :
+            return make_response(jsonify({'code': 1, 'msg': 'Successfully Fetched!', 'data': data}), 201)
+        else:
+            raise data
     except Exception as e:
         return make_response(jsonify({'code': -1, 'msg': str(e)}), 400)
