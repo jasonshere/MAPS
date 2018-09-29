@@ -68,7 +68,7 @@
                 selectable: true,
                 select: function(startDate, endDate) {
                     let url = "{{url_for('doctor.setFreeTime')}}"
-                    $.post(url, {"start": startDate.format(), "end": endDate.format()}, function(res){
+                    $.post(url, {"start": startDate.stripZone().format(), "end": endDate.stripZone().format()}, function(res){
                         $('#calendar').fullCalendar('renderEvent', {
                             title: 'Free',
                             start: res.data['start']['dateTime'],

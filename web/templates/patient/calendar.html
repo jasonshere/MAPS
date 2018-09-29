@@ -151,8 +151,8 @@
                                     "event_id": calEvent.id, 
                                     "doctor_id": $(":input[name=doctor_id]").val(), 
                                     "delete": "false",
-                                    "start": calEvent.start.format(),
-                                    "end": calEvent.end.format()
+                                    "start": calEvent.start.stripZone().format(),
+                                    "end": calEvent.end.stripZone().format()
                                 }, function(data){
                                     if(data.code == 1){
                                         calEvent.backgroundColor = '#EC4296'
