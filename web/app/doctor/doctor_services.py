@@ -157,11 +157,69 @@ class DoctorService():
     # get patients
     def getAllPatients(self, doctor_id):
         try:
-            baseUrl = '{}://{}:{}@{}/{}'. format(PROTOCOL, APIKEY, APIPASS, SERVICE_ADDRESS, 'patient')
-            url = baseUrl + '/appointments/' + doctor_id
+            url = self.baseUrl + '/{}/appointments'. format(doctor_id)
             headers = {'Content-type': 'application/json'}
             response = requests.get(url, headers=headers)
-            print(response.json()
+            if response.json()['code'] == 1:
+                return True, response.json()
+            else:
+                return False, response.json()
+        except Exception as e:
+            return False, str(e)
+
+    # edit notes
+    def editNotes(self, appointmentId, notes):
+        try:
+            url = self.baseUrl + '/appointments/{}'. format(appointmentId)        
+            headers = {'Content-type': 'application/json'}
+            payload = {
+                "appointment": {
+                    "notes": notes
+                }
+            }
+            response = requests.put(url, data=json.dumps(payload), headers=headers)
+            if response.json()['code'] == 1:
+                return True
+            return False
+        except Exception as e:
+            return False, str(e)
+
+    # edit diagnoses
+    def editDiags(self, appointmentId, diags):
+        try:
+            url = self.baseUrl + '/appointments/{}'. format(appointmentId)        
+            headers = {'Content-type': 'application/json'}
+            payload = {
+                "appointment": {
+                    "diagnoses": diags
+                }
+            }
+            response = requests.put(url, data=json.dumps(payload), headers=headers)
+            if response.json()['code'] == 1:
+                return True
+            return False
+        except Exception as e:
+            return False, str(e)
+
+    # get appointment by id
+    def getAppointmentById(self, appointment_id):
+        try:
+            url = self.baseUrl + '/appointments/{}'. format(appointment_id)
+            headers = {'Content-type': 'application/json'}
+            response = requests.get(url, headers=headers)
+            if response.json()['code'] == 1:
+                return True, response.json()
+            else:
+                return False, response.json()
+        except Exception as e:
+            return False, str(e) 
+
+    # get all appointments by patient id
+    def getAppointmentsByPatientId(self, patient_id):
+        try:
+            url = self.baseUrl + '/appointments/patient/{}'. format(patient_id)
+            headers = {'Content-type': 'application/json'}
+            response = requests.get(url, headers=headers)
             if response.json()['code'] == 1:
                 return True, response.json()
             else:

@@ -146,7 +146,6 @@ class PatientService():
                                 'delete': "true"
                             }
                         }
-                    print(payload)
                     ret = requests.put(url, data=json.dumps(payload), headers=headers)
                     return True, ret.json()
             else:
@@ -177,10 +176,13 @@ class PatientService():
                             "appointed_to": end,
                             "google_calendar_id": calendarId,
                             "google_event_id": eventId,
+                            "notes": "",
+                            "diagnoses": "",
                             "created_at": time.strftime("%Y-%m-%d %H:%M:%S", time.localtime())
                         }
                     }
                     response = requests.post(url, data=json.dumps(payload), headers=headers)
+                    
                     if response.json()['code'] == 1:
                         return True, response.json()
                     else:

@@ -36,9 +36,9 @@
             $.getJSON('{{url_for("doctor.getFreeTime")}}', function(res){
                 for(var i in res.data) {
                     if (res.data[i]['summary'] == 'Free') {
-                        let bg = '#18d895'
+                        bg = '#18d895'
                     } else {
-                        let bg = '#EC4296'
+                        bg = '#EC4296'
                     }
                     $('#calendar').fullCalendar('renderEvent', {
                         title: res.data[i]['summary'],

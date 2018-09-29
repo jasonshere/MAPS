@@ -1,6 +1,7 @@
 # import necessary packages
 from flask import Blueprint, Flask, render_template, session, redirect, url_for, request, jsonify, make_response
 from app.doctor.doctor_services import DoctorService
+from app.doctor.forms import NoteForm, DiagnoseForm
 import json
 
 # create blueprint object
@@ -41,23 +42,36 @@ def index():
 def patients():
     ds = DoctorService()
     doctorId = session['User']['id']
-    
-    res, data = ds.getAllPatients(doctorId)
-    print(data)
-    
-    return render_template('doctor/patients.html', **doctorSetting(), patients=data)
+    res, data = ds.getAllPatients(doctorId)    
+    return render_template('doctor/patients.html', **doctorSetting(), patients=data['data'])
 
-@doctor_blueprint.route('/edit_notes')
-def editNotes():
-    return render_template('doctor/edit_notes.html', **doctorSetting())
+@doctor_blueprint.route('/edit_notes/<appointment_id>', methods=['GET', 'POST'])
+def editNotes(appointment_id):
+    ds = DoctorService()
+    form = NoteForm(request.form)
+    res, data = ds.getAppointmentById(appointment_id)
+    if request.method == 'POST' and form.validate():
+        res = ds.editNotes(appointment_id, form.description.data)
+    else:
+        form.description.data = data['data']['notes']
+    return render_template('doctor/edit_notes.html', **doctorSetting(), form=form, address='/doctor/edit_notes/{}'.format(appointment_id))
 
-@doctor_blueprint.route('/edit_diagnoses')
-def editDiagnoses():
-    return render_template('doctor/edit_diagnoses.html', **doctorSetting())
+@doctor_blueprint.route('/edit_diagnoses/<appointment_id>', methods=['GET', 'POST'])
+def editDiagnoses(appointment_id):
+    ds = DoctorService()
+    form = DiagnoseForm(request.form)
+    res, data = ds.getAppointmentById(appointment_id)
+    if request.method == 'POST' and form.validate():
+        res = ds.editDiags(appointment_id, form.description.data)
+    else:
+        form.description.data = data['data']['diagnoses']
+    return render_template('doctor/edit_diagnoses.html', **doctorSetting(), form=form, address='/doctor/edit_diagnoses/{}'.format(appointment_id))
 
-@doctor_blueprint.route('/history')
-def history():
-    return render_template('doctor/history.html', **doctorSetting())
+@doctor_blueprint.route('/history/<patient_id>')
+def history(patient_id):
+    ds = DoctorService()
+    his, data = ds.getAppointmentsByPatientId(patient_id)
+    return render_template('doctor/history.html', **doctorSetting(), history=data['data'])
 
 @doctor_blueprint.route('/set_calendar')
 def setCalendar():
