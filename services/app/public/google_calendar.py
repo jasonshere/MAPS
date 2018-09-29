@@ -104,15 +104,12 @@ def updateGoogleEvents(calendar_id, event_id, payload):
         # First retrieve the event from the API.
         event = service.events().get(calendarId=calendar_id, eventId=event_id).execute()
         event['summary'] = payload['summary']
-        print(payload)
         if payload['delete'] == "false":
             event['attendees'].append({'email': payload['email']})
         else:
-            d = {
-                "email": payload['email'],
-                "responseStatus": "needsAction"
-            }
-            event['attendees'].remove(d)
+            for item in event['attendees']:
+                if item['email'] == payload['email']:
+                    event['attendees'].remove(item)
         updated_event = service.events().update(calendarId=calendar_id, eventId=event['id'], body=event).execute()
         return True, updated_event
     except Exception as e:
@@ -125,11 +122,9 @@ def getAppointmentsOfThisWeek(calendar_id):
         date1 = datetime.datetime.now()
         time_min = str(date1 - datetime.timedelta(days = date1.weekday())).split()[0] + "T00:00:00Z"
         time_max = str(date1 + datetime.timedelta(days = 6 - date1.weekday())).split()[0] + "T23:59:59Z"
-        print(time_min, time_max)
         results = []
         while True:
             events = service.events().list(calendarId = calendar_id, pageToken = page_token, timeMin = time_min, timeMax = time_max).execute()
-            print(events['items'])
             for event in events['items']:
                 results.append(event)
             page_token = events.get('nextPageToken')
@@ -137,7 +132,6 @@ def getAppointmentsOfThisWeek(calendar_id):
                 break
         return True, results
     except Exception as e:
-        print(str(e))
         return False, e
 
 # delete event

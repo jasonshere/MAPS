@@ -91,3 +91,9 @@ def appointmentsOfDoctors():
         return make_response(jsonify({'code': 1, 'msg': 'Successfully Fetched!', 'data': doctors}), 201)
     except Exception as e:
         return make_response(jsonify({'code': -1, 'msg': str(e)}), 400)
+
+@clerk_blueprint.route('/test', methods=["GET"])
+def getAppointmentsGroupByDoctorAndStartDate():
+    appointment = Appointment()
+    data = appointment.getAppointmentsGroupByDoctorAndStartDate()
+    return make_response(jsonify({'code': 1, 'msg': 'Successfully Fetched!', 'data': data}), 201)
