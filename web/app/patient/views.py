@@ -122,7 +122,7 @@ def updateEventsByDoctorId():
     doctorId = request.form.getlist('doctor_id')[0]
     eventId = request.form.getlist('event_id')[0]
     delete = request.form.getlist('delete')[0]
-    
+
     ps = PatientService()
     res, data = ps.updateEventsByDoctorId(doctorId, eventId, session['User']['email'], delete)
     

@@ -117,13 +117,19 @@ class PatientService():
     # get events by doctor id
     def updateEventsByDoctorId(self, doctorId, eventId, email, delete):
         try:
-            baseUrl = '{}://{}:{}@{}/{}'. format(PROTOCOL, APIKEY, APIPASS, SERVICE_ADDRESS, 'doctor')
-            url = baseUrl + '/' + doctorId
             headers = {'Content-type': 'application/json'}
-            response = requests.get(url, headers=headers)
+            baseUrl = '{}://{}:{}@{}/{}'. format(PROTOCOL, APIKEY, APIPASS, SERVICE_ADDRESS, 'doctor')
+            if delete == 'true':
+                url = baseUrl + '/appointments/event_id/{}'. format(eventId)
+                response = requests.get(url, headers=headers)
+                calendarId = response.json()['data']['google_calendar_id']
+                doctorId = response.json()['data']['doctor_id']
+            else:    
+                url = baseUrl + '/' + doctorId
+                response = requests.get(url, headers=headers)
+                calendarId = response.json()['data']['calendar_id']
             if response.json()['code'] == 1:
                 # get calendar_id
-                calendarId = response.json()['data']['calendar_id']
                 if len(calendarId) is 0:
                     raise Exception('no calendar')
                 else:

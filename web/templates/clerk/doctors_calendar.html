@@ -101,7 +101,8 @@
             var style = getComputedStyle(document.body);
             if ($('#calendar').length) {
                 $('#calendar').fullCalendar({
-                defaultView: 'agendaFourDay',
+                defaultView: 'listWeek',
+                // defaultView: 'agendaFourDay',
                 views: {
                     agendaFourDay: {
                         type: 'agenda',

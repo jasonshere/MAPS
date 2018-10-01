@@ -129,7 +129,8 @@
                 var myEvents = []
                 if ($('#calendar').length) {
                     $('#calendar').fullCalendar({
-                    defaultView: 'agendaFourDay',
+                    defaultView: 'listWeek',
+                    // defaultView: 'agendaFourDay',
                     views: {
                         agendaFourDay: {
                             type: 'agenda',
@@ -143,7 +144,7 @@
                     },
                     selectable: true,
                     eventClick: function(calEvent, jsEvent, view) {
-                        if ($(":input[name=doctor_id]").val()) {
+                        // if ($(":input[name=doctor_id]").val()) {
                             if (calEvent.title == 'Free') {
                                 // update patient's email into calendar event
                                 var url = "{{url_for('patient.updateEventsByDoctorId')}}"
@@ -165,17 +166,17 @@
                                 var url = "{{url_for('patient.updateEventsByDoctorId')}}"
                                 $.post(url, {
                                         "event_id": calEvent.id, 
-                                        "doctor_id": $(":input[name=doctor_id]").val(), 
+                                        "doctor_id": '0', 
                                         "delete": "true"
                                     }, function(data){
                                     if(data.code == 1){
-                                        calEvent.backgroundColor = '#18d895'
-                                        calEvent.title = 'Free'
-                                        $('#calendar').fullCalendar( 'updateEvent', calEvent )
+                                        // calEvent.backgroundColor = '#18d895'
+                                        // calEvent.title = 'Free'
+                                        $('#calendar').fullCalendar( 'removeEvents', calEvent.id )
                                     } 
                                 })
                             }
-                        }
+                        // }
                     },
                     defaultDate: new Date(),
                     navLinks: true, // can click day/week names to navigate views
@@ -184,7 +185,8 @@
                     eventBackgroundColor: '#18d895',
                     eventTextColor: "white",
                     eventBorderColor: "transparent",
-                    events: myEvents
+                    events: myEvents,
+                    displayEventEnd: true
                     })
                 }
                 });
@@ -206,18 +208,19 @@
                                 var bg = ''
                                 if (summary == 'Free') {
                                     bg = '#18d895'
+                                    $('#calendar').fullCalendar('renderEvent', {
+                                        title: summary,
+                                        start: start,
+                                        end: end,
+                                        id: eid,
+                                        backgroundColor: bg,
+                                        allDay: false
+                                    });
                                 }
                                 if (summary == 'Booked') {
                                     bg = '#EC4296'
                                 }
-                                $('#calendar').fullCalendar('renderEvent', {
-                                    title: summary,
-                                    start: start,
-                                    end: end,
-                                    id: eid,
-                                    backgroundColor: bg,
-                                    allDay: false
-                                });
+                                
                             }
                         }
                     })
