@@ -77,6 +77,15 @@ class Appointment(db.Model):
         else:
             return False, []
 
+    # get doctor id by event id
+    def getDoctorIdByEventId(self, eid):
+        result = self.query.filter(Appointment.google_event_id == eid).first()
+        result = appointment_schema.dump(result)
+        if result.data :
+            return True, result.data
+        else:
+            return False, []
+
     # update appointment
     def update(self, appointment_id, data):
         app = self.query.get(appointment_id)

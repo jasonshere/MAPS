@@ -6,6 +6,8 @@ from httplib2 import Http
 from oauth2client import file, client, tools
 import os
 import datetime
+import time
+import math
 
 # If modifying these scopes, delete the file token.json.
 SCOPES = 'https://www.googleapis.com/auth/calendar'
@@ -59,27 +61,44 @@ def setFreeTimeGoogleEvent(data):
 # add event
 def addGoogleEvent(data):
     try:
-        event = {
-            'summary': data['summary'],
-            'location': data['location'],
-            'description': data['description'],
-            'start': data['start'],
-            'end': data['end'],
-            'attendees': [
-                {'email': data['doctor_email']},
-                {'email': data['patient_email']},
-            ],
-            'reminders': {
-                'useDefault': False,
-                'overrides': [
-                    {'method': 'email', 'minutes': 24 * 60},
-                    {'method': 'popup', 'minutes': 10},
+        start = time.mktime(time.strptime(data['start']['dateTime'], '%Y-%m-%dT%H:%M:%S'))
+        end = time.mktime(time.strptime(data['end']['dateTime'], '%Y-%m-%dT%H:%M:%S'))
+        n = math.ceil((end - start) / (15 * 60))
+        for i in range(n):
+            print(time.strftime('%Y-%m-%dT%H:%M:%S', time.localtime(int(start))), time.strftime('%Y-%m-%dT%H:%M:%S', time.localtime(int(start + (i + 1) * 15 * 60))))
+            start1 = {
+                'dateTime': time.strftime('%Y-%m-%dT%H:%M:%S', time.localtime(int(start + i * 15 * 60))),
+                'timeZone': 'Australia/Melbourne'
+            }
+            end1 = {
+                'dateTime': time.strftime('%Y-%m-%dT%H:%M:%S', time.localtime(int(start + (i + 1) * 15 * 60))),
+                'timeZone': 'Australia/Melbourne'
+            }
+            print(start1, end1)
+            event = {
+                'summary': data['summary'],
+                'location': data['location'],
+                'description': data['description'],
+                'start': start1,
+                'end': end1,
+                'attendees': [
+                    {'email': data['doctor_email']},
+                    {'email': data['patient_email']},
                 ],
-            },
-        }
-        event = service.events().insert(calendarId=data['calendar_id'], body=event).execute()
+                'reminders': {
+                    'useDefault': False,
+                    'overrides': [
+                        {'method': 'email', 'minutes': 24 * 60},
+                        {'method': 'popup', 'minutes': 10},
+                    ],
+                },
+            }
+            print(event)
+            event = service.events().insert(calendarId=data['calendar_id'], body=event).execute()
+        
         return True, event
     except Exception as e:
+        print(str(e))
         return False, e
 
 # get events

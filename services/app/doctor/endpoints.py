@@ -239,6 +239,22 @@ def getAppointmentsByDoctorId(doctor_id):
     except Exception as e:
         return make_response(jsonify({'code': -1, 'msg': str(e)}), 400)
 
+# get doctor id by event id
+@doctor_blueprint.route('/appointments/event_id/<event_id>', methods=["GET"])
+@auth.login_required
+def getDoctorIdByEventId(event_id):
+    try:
+        if event_id is None:
+            raise Exception('Invalid Parameters')
+        appointment = Appointment({})
+        results, data = appointment.getDoctorIdByEventId(event_id)
+        if results :
+            return make_response(jsonify({'code': 1, 'msg': 'Successfully Fetched!', 'data': data}), 201)
+        else:
+            raise data
+    except Exception as e:
+        return make_response(jsonify({'code': -1, 'msg': str(e)}), 400)
+
 # update appointments by id
 @doctor_blueprint.route('/appointments/<appointment_id>', methods=["PUT"])
 @auth.login_required
