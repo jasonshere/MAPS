@@ -9,7 +9,7 @@ import os
 app = Flask(__name__)
 app.secret_key = os.urandom(32)
 conf = configparser.ConfigParser()
-conf.read('config.ini')
+conf.read('/Users/JasonLee/Repository/IoT_Assignment_2/clerk_service/services/config.ini')
 
 # MAIN
 environment = conf.get('MAIN', 'ENVIRONMENT')

@@ -6,6 +6,7 @@ import hashlib
 
 # model for clerk
 class Clerk(db.Model):
+    
     __tablename__ = '{}clerk'. format(PREFIX)
 
     id = db.Column(db.Integer, primary_key=True)
