@@ -11,7 +11,8 @@ Module
    :caption: Contents:
 
    Patient Module
-
+   Doctor Module
+   Public Module
 
 
 
