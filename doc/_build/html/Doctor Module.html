@@ -1,0 +1,290 @@
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>Doctor Module &#8212; MAPS 1.0.0 documentation</title>
+    <link rel="stylesheet" href="_static/dotted.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Clerk Module" href="Clerk Module.html" />
+    <link rel="prev" title="Patient Module" href="Patient Module.html" /> 
+  </head><body>
+        <div class="header">
+          <div class="header-top">
+            <h1 class="heading"><a href="index.html">
+              <span>MAPS 1.0.0 documentation</span></a></h1>
+            <h2 class="heading"><span>Doctor Module</span></a></h2>
+          </div>
+          <div class="topnav">
+            
+        <p>
+        &#171;&#160;&#160;<a href="Patient Module.html">Patient Module</a>
+        &#160;&#160;::&#160;&#160;
+        <a class="uplink" href="index.html">Contents</a>
+        &#160;&#160;::&#160;&#160;
+        <a href="Clerk Module.html">Clerk Module</a>&#160;&#160;&#187;
+        </p>
+
+            <div class="globaltoc">
+              <p class="caption"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="Web Interface.html">Web Interface</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="Patient Module.html">Patient Module</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Doctor Module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Clerk Module.html">Clerk Module</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="Web Interface.html#indices-and-tables">Indices and tables</a></li>
+</ul>
+
+            </div>
+          </div>
+        </div>
+        <div class="wrapper">
+
+          <div class="document">
+            <div class="documentwrapper">
+              <div class="bodywrapper">
+                <div class="body">
+                  
+  <div class="section" id="doctor-module">
+<h1>Doctor Module<a class="headerlink" href="#doctor-module" title="Permalink to this headline">¶</a></h1>
+<div class="code highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">This</span> <span class="n">module</span> <span class="ow">is</span> <span class="k">for</span> <span class="n">process</span> <span class="n">the</span> <span class="n">doctor</span><span class="s1">&#39;s API and render front end pages,</span>
+<span class="n">it</span> <span class="n">contains</span> <span class="n">login</span><span class="p">,</span> <span class="ow">and</span> <span class="n">process</span> <span class="n">appintment</span> <span class="ow">and</span> <span class="n">google</span> <span class="n">calendar</span><span class="o">.</span>
+</pre></div>
+</div>
+<p><strong>The supports of Doctor model</strong></p>
+<ul class="simple">
+<li>Support to get scheduled patients</li>
+<li>Support to add notes for patient during appointment</li>
+<li>Support to add diagnoses for patient during appointment</li>
+<li>Support to pull up patient’s history</li>
+<li>Support to set google calendar</li>
+<li>Support to set free time</li>
+<li>Support to get free time</li>
+<li>Support to delete free time</li>
+</ul>
+<p><strong>Render Page : views.py</strong></p>
+<p><strong>Methods</strong></p>
+<table border="1" class="colwidths-given docutils">
+<colgroup>
+<col width="19%" />
+<col width="38%" />
+<col width="25%" />
+<col width="19%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Name</th>
+<th class="head">Description</th>
+<th class="head">Route</th>
+<th class="head">Render Page</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>doctorSetting</td>
+<td>The method for setting menu</td>
+<td>None</td>
+<td>None</td>
+</tr>
+<tr class="row-odd"><td>index</td>
+<td>The method for redirecting to specific route, default redirecting to doctor.setCalendar</td>
+<td>/index</td>
+<td>None</td>
+</tr>
+<tr class="row-even"><td>patients</td>
+<td>The method for rendering all patients</td>
+<td>/all_patients</td>
+<td>doctor/patients.html</td>
+</tr>
+<tr class="row-odd"><td>editNotes</td>
+<td>The method for editing notes for patient</td>
+<td>/edit_notes/&lt;appointment_id&gt;</td>
+<td>doctor/edit_notes.html</td>
+</tr>
+<tr class="row-even"><td>editDiagnoses</td>
+<td>The method for editing diagnoses for patient</td>
+<td>/edit_diagnoses/&lt;appointment_id&gt;</td>
+<td>doctor/edit_diagnoses.html</td>
+</tr>
+<tr class="row-odd"><td>history</td>
+<td>The method for geting patient history</td>
+<td>/history/&lt;patient_id&gt;</td>
+<td>doctor/history.html</td>
+</tr>
+<tr class="row-even"><td>setCalendar</td>
+<td>The method for set google calendar</td>
+<td>/set_calendar</td>
+<td>doctor/set_calendar.html</td>
+</tr>
+<tr class="row-odd"><td>setFreeTime</td>
+<td>The method for setting free time for AJAX</td>
+<td>/set_free_time</td>
+<td>JSON</td>
+</tr>
+<tr class="row-even"><td>getFreeTime</td>
+<td>The method for getting free time for AJAX</td>
+<td>/get_free_time</td>
+<td>JSON</td>
+</tr>
+<tr class="row-odd"><td>deleteFreeTime</td>
+<td>The method for deleting free time for AJAX</td>
+<td>/delete_free_time</td>
+<td>JSON</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Connect API : doctor_services.py</strong></p>
+<p><strong>Methods</strong></p>
+<table border="1" class="colwidths-given docutils">
+<colgroup>
+<col width="19%" />
+<col width="38%" />
+<col width="25%" />
+<col width="19%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Name</th>
+<th class="head">Description</th>
+<th class="head">Parameter</th>
+<th class="head">Return Value</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>__init__</td>
+<td>The constructor for initializing service base url</td>
+<td>None</td>
+<td>None</td>
+</tr>
+<tr class="row-odd"><td>register</td>
+<td>The method for adding a doctor</td>
+<td>payload(request payload for doctor endpoints)</td>
+<td>Boolean, Object</td>
+</tr>
+<tr class="row-even"><td>login</td>
+<td>The method for login</td>
+<td>payload(request payload for login endpoints)</td>
+<td>Boolean, Object</td>
+</tr>
+<tr class="row-odd"><td>getAll</td>
+<td>The method for request API of get all doctors</td>
+<td>None</td>
+<td>Boolean, Object</td>
+</tr>
+<tr class="row-even"><td>setFreeTime</td>
+<td>The method for request API to set datetime that is available</td>
+<td>payload(request payload for doctor set free time endpoints)</td>
+<td>Boolean, Object</td>
+</tr>
+<tr class="row-odd"><td>getFreeTime</td>
+<td>The method for request API to get all events</td>
+<td>google calendar id(string)</td>
+<td>Boolean, Object</td>
+</tr>
+<tr class="row-even"><td>deleteFreeTime</td>
+<td>The method for request API to delete freetime</td>
+<td>google calendar id(string), google event id(string)</td>
+<td>Boolean, Object</td>
+</tr>
+<tr class="row-odd"><td>getDoctorById</td>
+<td>The method for request API to get doctor by id</td>
+<td>doctor id(integer)</td>
+<td>Boolean, Object</td>
+</tr>
+<tr class="row-even"><td>getDoctorByEmail</td>
+<td>The method for request API to get doctor by email</td>
+<td>doctor email(string)</td>
+<td>Boolean, Object</td>
+</tr>
+<tr class="row-odd"><td>getAllPatients</td>
+<td>The method for request API to get patients</td>
+<td>doctor id(integer)</td>
+<td>Boolean, Object</td>
+</tr>
+<tr class="row-even"><td>editNotes</td>
+<td>The method for request API for edit notes</td>
+<td>appointment id(integer), notes data(string)</td>
+<td>Boolean, Object</td>
+</tr>
+<tr class="row-odd"><td>editDiags</td>
+<td>The method for request API for edit notes</td>
+<td>appointment id(integer), diagnoses data(string)</td>
+<td>Boolean, Object</td>
+</tr>
+<tr class="row-even"><td>getAppointmentById</td>
+<td>The method for request API to get appointments by id</td>
+<td>appointment id(integer)</td>
+<td>Boolean, Object</td>
+</tr>
+<tr class="row-odd"><td>getAppointmentsByPatientId</td>
+<td>The method for request API to get appointments by patient id</td>
+<td>patient_id(integer)</td>
+<td>Boolean, Object</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Form : forms.py</strong></p>
+<p><strong>Forms</strong></p>
+<table border="1" class="colwidths-given docutils">
+<colgroup>
+<col width="20%" />
+<col width="40%" />
+<col width="40%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Name</th>
+<th class="head">Description</th>
+<th class="head">Fields</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>NoteForm</td>
+<td>Patient Note Form</td>
+<td>Description(required)</td>
+</tr>
+<tr class="row-odd"><td>DiagnoseForm</td>
+<td>Patient Diagnose Form</td>
+<td>Description(required)</td>
+</tr>
+</tbody>
+</table>
+</div>
+
+
+                </div>
+              </div>
+
+            </div>
+
+            <div class="clearer"></div>
+          </div>
+        </div>
+
+        <div class="bottomnav">
+          
+        <p>
+        &#171;&#160;&#160;<a href="Patient Module.html">Patient Module</a>
+        &#160;&#160;::&#160;&#160;
+        <a class="uplink" href="index.html">Contents</a>
+        &#160;&#160;::&#160;&#160;
+        <a href="Clerk Module.html">Clerk Module</a>&#160;&#160;&#187;
+        </p>
+
+        </div>
+
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2018, Jie Li.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.8.1.
+    </div>
+  </body>
+</html>

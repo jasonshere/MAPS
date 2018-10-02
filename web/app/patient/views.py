@@ -81,9 +81,9 @@ def getDoctor(doctor_id):
     else:
         return make_response(jsonify({'code': -1, 'msg': 'Failed'}), 400)
 
-@patient_blueprint.route('/delete_appointment')
-def deleteAppointment():
-    return render_template('patient/calendar.html', **patientSetting())
+# @patient_blueprint.route('/delete_appointment')
+# def deleteAppointment():
+#     return render_template('patient/calendar.html', **patientSetting())
 
 # register a patient
 @patient_blueprint.route('/register', methods=['GET', 'POST'])
