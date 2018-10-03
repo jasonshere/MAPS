@@ -1,7 +1,7 @@
 from flask import Flask, request, jsonify, session
 from flask_sqlalchemy import SQLAlchemy
 from flask_marshmallow import Marshmallow
-from flask_session import Session
+#from flask_session import Session
 import configparser
 from flask_httpauth import HTTPBasicAuth
 import os
@@ -44,4 +44,4 @@ ma = Marshmallow(app)
 # Session config
 app.config['SESSION_TYPE'] = conf.get(env, 'SESSION_TYPE')
 app.config['SECRET_KEY'] = os.urandom(32)
-Session(app)
+#Session(app)
