@@ -10,7 +10,7 @@ Welcome to MAPS's documentation!
    :maxdepth: 2
    :caption: Contents:
 
-   Clerk Module
+   Endpoints
 
 
 Indices and tables

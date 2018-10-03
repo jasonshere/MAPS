@@ -10,5 +10,4 @@ Clerk Module
    :maxdepth: 3
    :caption: Contents:
 
-   Clerk Endpoints
-   Clerk Model
+   Clerk Module
