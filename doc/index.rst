@@ -7,7 +7,6 @@ Welcome to MAPS's documentation!
 ================================
 
 .. toctree::
-
    :maxdepth: 3
    :caption: Contents:
 
