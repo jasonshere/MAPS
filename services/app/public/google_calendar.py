@@ -6,6 +6,8 @@ from httplib2 import Http
 from oauth2client import file, client, tools
 import os
 import datetime
+import time
+import math
 
 # If modifying these scopes, delete the file token.json.
 SCOPES = 'https://www.googleapis.com/auth/calendar'
@@ -30,8 +32,8 @@ def addSecondaryCalendar(summary, description, location, timezone):
     except Exception as e:
         return False, e
 
-# add event
-def addGoogleEvent(data):
+# set Freetime event
+def setFreeTimeGoogleEvent(data):
     try:
         event = {
             'summary': data['summary'],
@@ -56,6 +58,49 @@ def addGoogleEvent(data):
     except Exception as e:
         return False, e
 
+# add event
+def addGoogleEvent(data):
+    try:
+        start = time.mktime(time.strptime(data['start']['dateTime'], '%Y-%m-%dT%H:%M:%S'))
+        end = time.mktime(time.strptime(data['end']['dateTime'], '%Y-%m-%dT%H:%M:%S'))
+        n = math.ceil((end - start) / (15 * 60))
+        for i in range(n):
+            print(time.strftime('%Y-%m-%dT%H:%M:%S', time.localtime(int(start))), time.strftime('%Y-%m-%dT%H:%M:%S', time.localtime(int(start + (i + 1) * 15 * 60))))
+            start1 = {
+                'dateTime': time.strftime('%Y-%m-%dT%H:%M:%S', time.localtime(int(start + i * 15 * 60))),
+                'timeZone': 'Australia/Melbourne'
+            }
+            end1 = {
+                'dateTime': time.strftime('%Y-%m-%dT%H:%M:%S', time.localtime(int(start + (i + 1) * 15 * 60))),
+                'timeZone': 'Australia/Melbourne'
+            }
+            print(start1, end1)
+            event = {
+                'summary': data['summary'],
+                'location': data['location'],
+                'description': data['description'],
+                'start': start1,
+                'end': end1,
+                'attendees': [
+                    {'email': data['doctor_email']},
+                    {'email': data['patient_email']},
+                ],
+                'reminders': {
+                    'useDefault': False,
+                    'overrides': [
+                        {'method': 'email', 'minutes': 24 * 60},
+                        {'method': 'popup', 'minutes': 10},
+                    ],
+                },
+            }
+            print(event)
+            event = service.events().insert(calendarId=data['calendar_id'], body=event).execute()
+        
+        return True, event
+    except Exception as e:
+        print(str(e))
+        return False, e
+
 # get events
 def getGoogleEvents(calendar_id):
     try:
@@ -72,26 +117,21 @@ def getGoogleEvents(calendar_id):
     except Exception as e:
         return False, e
 
-# get all appointments of this week
-def getAppointmentsOfThisWeek(calendar_id):
+# update events
+def updateGoogleEvents(calendar_id, event_id, payload):
     try:
-        page_token = None
-        date1 = datetime.datetime.now()
-        time_min = str(date1 - datetime.timedelta(days = date1.weekday())).split()[0] + "T00:00:00Z"
-        time_max = str(date1 + datetime.timedelta(days = 6 - date1.weekday())).split()[0] + "T23:59:59Z"
-        print(time_min, time_max)
-        results = []
-        while True:
-            events = service.events().list(calendarId = calendar_id, pageToken = page_token, timeMin = time_min, timeMax = time_max).execute()
-            print(events['items'])
-            for event in events['items']:
-                results.append(event)
-            page_token = events.get('nextPageToken')
-            if not page_token:
-                break
-        return True, results
+        # First retrieve the event from the API.
+        event = service.events().get(calendarId=calendar_id, eventId=event_id).execute()
+        event['summary'] = payload['summary']
+        if payload['delete'] == "false":
+            event['attendees'].append({'email': payload['email']})
+        else:
+            for item in event['attendees']:
+                if item['email'] == payload['email']:
+                    event['attendees'].remove(item)
+        updated_event = service.events().update(calendarId=calendar_id, eventId=event['id'], body=event).execute()
+        return True, updated_event
     except Exception as e:
-        print(str(e))
         return False, e
 
 # delete event

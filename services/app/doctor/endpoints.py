@@ -2,6 +2,7 @@
 import sys
 import os
 sys.path.append(os.path.abspath(os.path.dirname(__file__)))
+sys.path.append(os.path.abspath(os.path.dirname(os.path.dirname(__file__))+"/patient"))
 sys.path.append(os.path.abspath(os.path.dirname(os.path.dirname(__file__))+"/public"))
 sys.path.append(os.path.abspath(os.path.dirname(os.path.dirname(os.path.dirname(__file__)))))
 
@@ -9,7 +10,8 @@ sys.path.append(os.path.abspath(os.path.dirname(os.path.dirname(os.path.dirname(
 from flask import Blueprint, Flask, render_template, session, redirect, url_for, request, jsonify, make_response, session
 from init import auth, session
 from google_calendar import *
-from doctor_models import Doctor, DoctorBusyTime
+from doctor_models import Doctor
+from patient_models import Patient
 from pub_models import Appointment
 
 # create blueprint object
@@ -38,35 +40,11 @@ def login():
         doctor = Doctor(request.json['doctor'])
         res, data = doctor.login()
         if res:
-            session['Doctor'] = data
-            return make_response(jsonify({'code': 1, 'msg': 'Successfully Signed In!'}), 201)
+            return make_response(jsonify({'code': 1, 'msg': 'Successfully Signed In!', 'data': data}), 201)
         else:
             return make_response(jsonify({'code': -1, 'msg': 'Username or Password is invalid'}), 400)
     except Exception as e:
         return make_response(jsonify({'code': -1, 'msg': str(e)}), 400)
-
-# get currently logined doctor
-@doctor_blueprint.route('/current', methods=["GET"])
-@auth.login_required
-def current():
-    try:
-        data = session['Doctor']
-        if data:
-            return make_response(jsonify({'code': 1, 'msg': 'Successfully Fetch!', 'data': data}), 201)
-        else:
-            return make_response(jsonify({'code': -1, 'msg': 'Not Login'}), 400)
-    except Exception as e:
-        return make_response(jsonify({'code': -1, 'msg': 'Doctor not logged in'}), 400)
-
-# Doctor logout
-@doctor_blueprint.route('/logout', methods=["POST"])
-@auth.login_required
-def logout():
-    try:
-        session.clear()
-        return make_response(jsonify({'code': 1, 'msg': 'Successfully Signed out!'}), 201)
-    except Exception as e:
-        return make_response(jsonify({'code': -1, 'msg': 'Doctor not logged in'}), 400)
 
 # list doctors
 @doctor_blueprint.route('/all', methods=["GET"])
@@ -192,7 +170,7 @@ def addEvents(calendar_id):
         res, event = addGoogleEvent(eventData)
 
         if res:
-            return make_response(jsonify({'code': 1, 'msg': 'Successfully added!'}), 201)
+            return make_response(jsonify({'code': 1, 'msg': 'Successfully added!', 'data': event}), 201)
         else:
             raise event
 
@@ -233,50 +211,95 @@ def deleteEvent(calendar_id, event_id):
     except Exception as e:
         return make_response(jsonify({'code': -1, 'msg': str(e)}), 400)
 
-# add doctor's busytime
-@doctor_blueprint.route('/busytimes', methods=["POST"])
+# get specific doctor
+@doctor_blueprint.route('/email/<doctor_email>', methods=["GET"])
 @auth.login_required
-def addBusytime():
+def getOneDoctorByEmail(doctor_email):
     try:
-        postData = request.json
-        busytimeData = postData['busytime']
-        if busytimeData['doctor_id'] is None:
-            raise Exception('Invalid Parameters')
-        if busytimeData['busytime_from'] is None:
-            raise Exception('Invalid Parameters')
-        if busytimeData['busytime_to'] is None:
-            raise Exception('Invalid Parameters')
-        
-        busytime = DoctorBusyTime(busytimeData)
-        busytime.setBusytime()
-        return make_response(jsonify({'code': 1, 'msg': 'Successfully Created!'}), 201)
-    except Exception as e:
-        return make_response(jsonify({'code': -1, 'msg': str(e)}), 400)
-
-# get doctor's busytimes
-@doctor_blueprint.route('/<doctor_id>/busytimes', methods=["GET"])
-@auth.login_required
-def getBusytimes(doctor_id):
-    try:
-        if doctor_id is None:
-            raise Exception('Invalid Parameters')
-        
-        busytime = DoctorBusyTime({})
-        data = busytime.getAllBusyTime(doctor_id)
+        doctor = Doctor({})
+        results, data = doctor.getOneDoctorByEmail(doctor_email)
         return make_response(jsonify({'code': 1, 'msg': 'Successfully Fetched!', 'data': data}), 201)
     except Exception as e:
         return make_response(jsonify({'code': -1, 'msg': str(e)}), 400)
 
-# delete doctor's busytime
-@doctor_blueprint.route('/busytimes/<busytime_id>', methods=["DELETE"])
+# get appointments by doctor id
+@doctor_blueprint.route('/<doctor_id>/appointments', methods=["GET"])
 @auth.login_required
-def deleteBusytime(busytime_id):
+def getAppointmentsByDoctorId(doctor_id):
     try:
-        if busytime_id is None:
+        if doctor_id is None:
+            raise Exception('Invalid Parameters')
+        ps = Patient({})
+        appointment = Appointment({})
+        results, data = appointment.getAllAppointmentByDoctorId(doctor_id, ps)
+        if results :
+            return make_response(jsonify({'code': 1, 'msg': 'Successfully Fetched!', 'data': data}), 201)
+        else:
+            raise data
+    except Exception as e:
+        return make_response(jsonify({'code': -1, 'msg': str(e)}), 400)
+
+# get doctor id by event id
+@doctor_blueprint.route('/appointments/event_id/<event_id>', methods=["GET"])
+@auth.login_required
+def getDoctorIdByEventId(event_id):
+    try:
+        if event_id is None:
+            raise Exception('Invalid Parameters')
+        appointment = Appointment({})
+        results, data = appointment.getDoctorIdByEventId(event_id)
+        if results :
+            return make_response(jsonify({'code': 1, 'msg': 'Successfully Fetched!', 'data': data}), 201)
+        else:
+            raise data
+    except Exception as e:
+        return make_response(jsonify({'code': -1, 'msg': str(e)}), 400)
+
+# update appointments by id
+@doctor_blueprint.route('/appointments/<appointment_id>', methods=["PUT"])
+@auth.login_required
+def updateAppointmentById(appointment_id):
+    try:
+        postData = request.json
+        appoData = postData['appointment']  
+        if appointment_id is None:
             raise Exception('Invalid Parameters')
         
-        busytime = DoctorBusyTime({})
-        busytime.deleteBusyTime(busytime_id)
-        return make_response(jsonify({'code': 1, 'msg': 'Successfully Deleted!'}), 201)
+        appointment = Appointment({})
+        appointment.update(appointment_id, appoData)
+        return make_response(jsonify({'code': 1, 'msg': 'Successfully Updated!'}), 201)
+    except Exception as e:
+        return make_response(jsonify({'code': -1, 'msg': str(e)}), 400)
+
+# get appointments by id
+@doctor_blueprint.route('/appointments/<appointment_id>', methods=["GET"])
+@auth.login_required
+def getAppointmentById(appointment_id):
+    try:
+        if appointment_id is None:
+            raise Exception('Invalid Parameters')
+        appointment = Appointment({})
+        results, data = appointment.getAppointmentById(appointment_id)
+        if results :
+            return make_response(jsonify({'code': 1, 'msg': 'Successfully Fetched!', 'data': data}), 201)
+        else:
+            raise data
+    except Exception as e:
+        return make_response(jsonify({'code': -1, 'msg': str(e)}), 400)
+
+# get appointments by patient id
+@doctor_blueprint.route('/appointments/patient/<patient_id>', methods=["GET"])
+@auth.login_required
+def getAppointmentsByPatientId(patient_id):
+    try:
+        if patient_id is None:
+            raise Exception('Invalid Parameters')
+        appointment = Appointment({})
+        ds = Doctor({})
+        results, data = appointment.getAllAppointmentByPatientId(patient_id, ds)
+        if results :
+            return make_response(jsonify({'code': 1, 'msg': 'Successfully Fetched!', 'data': data}), 201)
+        else:
+            raise data
     except Exception as e:
         return make_response(jsonify({'code': -1, 'msg': str(e)}), 400)
