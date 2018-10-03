@@ -21,6 +21,17 @@ clerk_blueprint = Blueprint(
     url_prefix='/api/v1.0/clerk'
 )
 
+# register clerk
+@clerk_blueprint.route('/register', methods=["POST"])
+def register():
+    try:
+        clerk = Clerk(request.json['clerk'])
+        clerk.addClerk()
+        return make_response(jsonify({'code': 1, 'msg': 'Successfully Created!'}), 201)
+    except Exception as e:
+        return make_response(jsonify({'code': -1, 'msg': str(e)}), 400)
+
+
 # Clerk login
 @clerk_blueprint.route('/login', methods=["POST"])
 @auth.login_required

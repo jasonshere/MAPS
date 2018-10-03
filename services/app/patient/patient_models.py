@@ -40,6 +40,7 @@ class Patient(db.Model):
                                 Patient.password == hashlib.sha224(self.password.encode('utf-8')).hexdigest()\
                             ).first()
         result = patient_schema.dump(result)
+        print(result)
         if result.data :
             return True, result.data
         else:
