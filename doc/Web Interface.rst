@@ -10,9 +10,9 @@ Web Interface
    :maxdepth: 2
    :caption: Contents:
 
-   Patient Module
-   Doctor Module
-   Clerk Module
+   Patient Web Module
+   Doctor Web Module
+   Clerk Web Module
 
 
 Indices and tables
