@@ -44,6 +44,7 @@ def login():
         else:
             return make_response(jsonify({'code': -1, 'msg': 'Username or Password is invalid'}), 400)
     except Exception as e:
+        print(str(e))
         return make_response(jsonify({'code': -1, 'msg': 'Patient not logged in'}), 400)
 
 # Patient update
