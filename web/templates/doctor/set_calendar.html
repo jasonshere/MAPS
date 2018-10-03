@@ -49,6 +49,7 @@
                         allDay: false
                     });
                 }
+                ev = $('#calendar').fullCalendar('clientEvents')
             })
             var style = getComputedStyle(document.body);
             if ($('#calendar').length) {
@@ -63,7 +64,7 @@
                 header: {
                     left: 'prev,next today',
                     center: 'title',
-                    right: 'agendaFourDay,month,basicWeek,basicDay'
+                    right: 'listWeek,agendaFourDay,month,basicWeek,basicDay'
                 },
                 selectable: true,
                 select: function(startDate, endDate) {
@@ -71,11 +72,12 @@
                     $.post(url, {"start": startDate.stripZone().format(), "end": endDate.stripZone().format()}, function(res){
                         $('#calendar').fullCalendar('renderEvent', {
                             title: 'Free',
-                            start: res.data['start']['dateTime'],
-                            end: res.data['end']['dateTime'],
+                            start: startDate.stripZone().format(),
+                            end: endDate.stripZone().format(),
                             id: res.data['id'],
                             allDay: false
                         });
+                        ev = $('#calendar').fullCalendar('clientEvents')
                     })
                 },
                 eventClick: function(calEvent, jsEvent, view) {
@@ -92,7 +94,7 @@
                 eventBackgroundColor: '#18d895',
                 eventTextColor: "white",
                 eventBorderColor: "transparent",
-                events: []
+                events: ev
                 })
             }
             });
