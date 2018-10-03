@@ -8,16 +8,14 @@
                 <img src="{{url_for('static', filename='images/faces/face1.jpg')}}" alt="profile image">
             </div>
             <div class="text-wrapper">
-                <p class="profile-name">Jason Lee</p>
+                <p class="profile-name">{{ session.User.username }}</p>
                 <div>
                 <small class="designation text-muted">{{ title }}</small>
                 <span class="status-indicator online"></span>
                 </div>
             </div>
             </div>
-            <button class="btn btn-success btn-block">New Appointment
-            <i class="mdi mdi-plus"></i>
-            </button>
+            
         </div>
         </li>
 

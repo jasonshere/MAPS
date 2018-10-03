@@ -32,6 +32,24 @@
         (function($) {
             'use strict';
             $(function() {
+            let ev, bg
+            $.getJSON('{{url_for("doctor.getFreeTime")}}', function(res){
+                for(var i in res.data) {
+                    if (res.data[i]['summary'] == 'Free') {
+                        bg = '#18d895'
+                    } else {
+                        bg = '#EC4296'
+                    }
+                    $('#calendar').fullCalendar('renderEvent', {
+                        title: res.data[i]['summary'],
+                        start: res.data[i]['start']['dateTime'],
+                        end: res.data[i]['end']['dateTime'],
+                        id: res.data[i]['id'],
+                        backgroundColor: bg,
+                        allDay: false
+                    });
+                }
+            })
             var style = getComputedStyle(document.body);
             if ($('#calendar').length) {
                 $('#calendar').fullCalendar({
@@ -49,20 +67,32 @@
                 },
                 selectable: true,
                 select: function(startDate, endDate) {
-                    // alert('selected ' + startDate.format() + ' to ' + endDate.format());
+                    let url = "{{url_for('doctor.setFreeTime')}}"
+                    $.post(url, {"start": startDate.stripZone().format(), "end": endDate.stripZone().format()}, function(res){
+                        $('#calendar').fullCalendar('renderEvent', {
+                            title: 'Free',
+                            start: res.data['start']['dateTime'],
+                            end: res.data['end']['dateTime'],
+                            id: res.data['id'],
+                            allDay: false
+                        });
+                    })
+                },
+                eventClick: function(calEvent, jsEvent, view) {
+                    // id = calEvent.id
+                    let url = "{{url_for('doctor.deleteFreeTime')}}" 
+                    $.post(url, {"freeid": calEvent.id}, function(data){
+                        $('#calendar').fullCalendar( 'removeEvents', [calEvent.id] )
+                    })
                 },
                 defaultDate: new Date(),
                 navLinks: true, // can click day/week names to navigate views
                 editable: true,
                 eventLimit: true, // allow "more" link when too many events
-                eventBackgroundColor: 'red',
-                events: [
-                    {
-                        start: '2018-09-18T10:00:00',
-                        end: '2018-09-18T16:00:00',
-                        rendering: 'background'
-                    }
-                ]
+                eventBackgroundColor: '#18d895',
+                eventTextColor: "white",
+                eventBorderColor: "transparent",
+                events: []
                 })
             }
             });

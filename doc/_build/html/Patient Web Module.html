@@ -1,0 +1,272 @@
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>Patient Module &#8212; MAPS 1.0.0 documentation</title>
+    <link rel="stylesheet" href="_static/dotted.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" /> 
+  </head><body>
+        <div class="header">
+          <div class="header-top">
+            <h1 class="heading"><a href="index.html">
+              <span>MAPS 1.0.0 documentation</span></a></h1>
+            <h2 class="heading"><span>Patient Module</span></a></h2>
+          </div>
+          <div class="topnav">
+            
+        <p>
+        <a class="uplink" href="index.html">Contents</a>
+        </p>
+
+            <div class="globaltoc">
+              <p class="caption"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="Clerk Module.html">Clerk Module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Patient Module.html">Patient Module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Doctor Module.html">Doctor Module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Public Module.html">Public Module</a></li>
+</ul>
+
+            </div>
+          </div>
+        </div>
+        <div class="wrapper">
+
+          <div class="document">
+            <div class="documentwrapper">
+              <div class="bodywrapper">
+                <div class="body">
+                  
+  <div class="section" id="patient-module">
+<h1>Patient Module<a class="headerlink" href="#patient-module" title="Permalink to this headline">¶</a></h1>
+<div class="code highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">This</span> <span class="n">module</span> <span class="ow">is</span> <span class="k">for</span> <span class="n">process</span> <span class="n">the</span> <span class="n">patient</span><span class="s1">&#39;s API and render front end pages,</span>
+<span class="n">it</span> <span class="n">contains</span> <span class="n">register</span><span class="p">,</span> <span class="n">login</span><span class="p">,</span> <span class="n">update</span><span class="p">,</span> <span class="n">process</span> <span class="n">appintment</span><span class="o">.</span>
+</pre></div>
+</div>
+<p><strong>The supports of Patient model</strong></p>
+<ul class="simple">
+<li>Support to register patient</li>
+<li>Support to update patient data</li>
+<li>Support to make an appointment for patient</li>
+<li>Support to get doctors</li>
+<li>Support to delete appointment</li>
+<li>Support to get events by doctor id</li>
+<li>Support to update events by doctor id</li>
+<li>Support to delete events</li>
+<li>Support to get all appointments</li>
+</ul>
+<p><strong>Render Page : views.py</strong></p>
+<p><strong>Methods</strong></p>
+<table border="1" class="colwidths-given docutils">
+<colgroup>
+<col width="19%" />
+<col width="38%" />
+<col width="25%" />
+<col width="19%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Name</th>
+<th class="head">Description</th>
+<th class="head">Route</th>
+<th class="head">Render Page</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>patientSetting</td>
+<td>The method for setting menu</td>
+<td>None</td>
+<td>None</td>
+</tr>
+<tr class="row-odd"><td>index</td>
+<td>The method for redirecting to specific route, default redirecting to patient.account</td>
+<td>/index</td>
+<td>None</td>
+</tr>
+<tr class="row-even"><td>account</td>
+<td>The method for rendering and updating patient’s information</td>
+<td>/accounts</td>
+<td>patient/account.html</td>
+</tr>
+<tr class="row-odd"><td>makeAppointment</td>
+<td>The method for rendering tha page to show appointment</td>
+<td>/make_appointment</td>
+<td>patient/calendar.html</td>
+</tr>
+<tr class="row-even"><td>getDoctor</td>
+<td>The method for geting doctor by id for AJAX</td>
+<td>/get_doctor/&lt;doctor_id&gt;</td>
+<td>JSON</td>
+</tr>
+<tr class="row-odd"><td>register</td>
+<td>The method for rendering patient register page and registing patient</td>
+<td>/register</td>
+<td>patient/register.html</td>
+</tr>
+<tr class="row-even"><td>getEventsByDoctorId</td>
+<td>The method for get events by doctor id for AJAX</td>
+<td>/get_events/&lt;doctor_id&gt;</td>
+<td>JSON</td>
+</tr>
+<tr class="row-odd"><td>updateEventsByDoctorId</td>
+<td>The method for updating events by doctor id for AJAX</td>
+<td>/update_events</td>
+<td>JSON</td>
+</tr>
+<tr class="row-even"><td>deleteEvents</td>
+<td>The method for deleting events for AJAX</td>
+<td>/delete_events</td>
+<td>JSON</td>
+</tr>
+<tr class="row-odd"><td>getAppointments</td>
+<td>The method for getting appointments for AJAX</td>
+<td>/get_appointments</td>
+<td>JSON</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Connect API : patient_services.py</strong></p>
+<p><strong>Methods</strong></p>
+<table border="1" class="colwidths-given docutils">
+<colgroup>
+<col width="19%" />
+<col width="38%" />
+<col width="25%" />
+<col width="19%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Name</th>
+<th class="head">Description</th>
+<th class="head">Parameter</th>
+<th class="head">Return Value</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>__init__</td>
+<td>The constructor for initializing service base url</td>
+<td>None</td>
+<td>None</td>
+</tr>
+<tr class="row-odd"><td>register</td>
+<td>The method for adding a patient</td>
+<td>payload(request payload for patient endpoints)</td>
+<td>Boolean, Object</td>
+</tr>
+<tr class="row-even"><td>login</td>
+<td>The method for login</td>
+<td>payload(request payload for patient endpoints)</td>
+<td>Boolean, Object</td>
+</tr>
+<tr class="row-odd"><td>update</td>
+<td>The method for updating patient</td>
+<td>payload(request payload for patient endpoints)</td>
+<td>Boolean, Object</td>
+</tr>
+<tr class="row-even"><td>getPatientById</td>
+<td>The method for getting patient by id</td>
+<td>patient_id(request id for patient endpoints)</td>
+<td>Boolean, Object</td>
+</tr>
+<tr class="row-odd"><td>getAllEvents</td>
+<td>The method for getting events by calendar id</td>
+<td>calendar_id(request calendar id for patient endpoints)</td>
+<td>Boolean, Object</td>
+</tr>
+<tr class="row-even"><td>getEventConnector</td>
+<td>The method for getting appointments by doctor id</td>
+<td>doctor_id(request doctor_id for patient endpoints)</td>
+<td>Boolean, Object</td>
+</tr>
+<tr class="row-odd"><td>getEventsByDoctorId</td>
+<td>The method for getting events by doctor id</td>
+<td>doctor_id(request doctor id for patient endpoints)</td>
+<td>Boolean, Object</td>
+</tr>
+<tr class="row-even"><td>updateEventsByDoctorId</td>
+<td>The method for updating events status</td>
+<td>doctor_id(doctor’s id), event_id(google event’s id), email(patient’s email), delete(is delete from appointment)</td>
+<td>Boolean, Object</td>
+</tr>
+<tr class="row-odd"><td>setAppointment</td>
+<td>The method for setting appointment</td>
+<td>doctor_id(doctor’s id), event_id(google event’s id), patient_id(patient’s id), start(appointment start time), end(appointment end time)</td>
+<td>Boolean, Object</td>
+</tr>
+<tr class="row-even"><td>deleteAppointment</td>
+<td>The method for delete appointment by event id</td>
+<td>event_id(google event id)</td>
+<td>Boolean, Object</td>
+</tr>
+<tr class="row-odd"><td>getAppointmentsById</td>
+<td>The method for getting appointment by patient id</td>
+<td>patient_id(patient’s id)</td>
+<td>Boolean, Object</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Form : forms.py</strong></p>
+<p><strong>Forms</strong></p>
+<table border="1" class="colwidths-given docutils">
+<colgroup>
+<col width="20%" />
+<col width="40%" />
+<col width="40%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Name</th>
+<th class="head">Description</th>
+<th class="head">Fields</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>RegForm</td>
+<td>Patient Register Form</td>
+<td>username(required, lenght(4~25)), email(required, email), password(required, equalto confirm), confirm</td>
+</tr>
+<tr class="row-odd"><td>LoginForm</td>
+<td>Patient Login Form</td>
+<td>username(required), password(required), role(required)</td>
+</tr>
+<tr class="row-even"><td>UpdateForm</td>
+<td>Patient update information form</td>
+<td>username(required), sex(required), name(required), birthday(required), phone(required), email(required), age(required)</td>
+</tr>
+</tbody>
+</table>
+</div>
+
+
+                </div>
+              </div>
+
+            </div>
+
+            <div class="clearer"></div>
+          </div>
+        </div>
+
+        <div class="bottomnav">
+          
+        <p>
+        <a class="uplink" href="index.html">Contents</a>
+        </p>
+
+        </div>
+
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2018, Jie Li.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.8.1.
+    </div>
+  </body>
+</html>

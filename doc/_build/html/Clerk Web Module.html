@@ -1,0 +1,216 @@
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>Clerk Module &#8212; MAPS 1.0.0 documentation</title>
+    <link rel="stylesheet" href="_static/dotted.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" /> 
+  </head><body>
+        <div class="header">
+          <div class="header-top">
+            <h1 class="heading"><a href="index.html">
+              <span>MAPS 1.0.0 documentation</span></a></h1>
+            <h2 class="heading"><span>Clerk Module</span></a></h2>
+          </div>
+          <div class="topnav">
+            
+        <p>
+        <a class="uplink" href="index.html">Contents</a>
+        </p>
+
+            <div class="globaltoc">
+              <p class="caption"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="Clerk Module.html">Clerk Module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Patient Module.html">Patient Module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Doctor Module.html">Doctor Module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Public Module.html">Public Module</a></li>
+</ul>
+
+            </div>
+          </div>
+        </div>
+        <div class="wrapper">
+
+          <div class="document">
+            <div class="documentwrapper">
+              <div class="bodywrapper">
+                <div class="body">
+                  
+  <div class="section" id="clerk-module">
+<h1>Clerk Module<a class="headerlink" href="#clerk-module" title="Permalink to this headline">¶</a></h1>
+<div class="code highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">This</span> <span class="n">module</span> <span class="ow">is</span> <span class="k">for</span> <span class="n">process</span> <span class="n">the</span> <span class="n">clerk</span><span class="s1">&#39;s API and render front end pages,</span>
+<span class="n">it</span> <span class="n">contains</span> <span class="n">login</span><span class="p">,</span> <span class="n">add</span> <span class="n">doctor</span><span class="p">,</span> <span class="n">process</span> <span class="n">appintment</span><span class="o">.</span>
+</pre></div>
+</div>
+<p><strong>The supports of Clerk module</strong></p>
+<ul class="simple">
+<li>Support to add a doctor</li>
+<li>Support to get doctor list</li>
+<li>Support to get doctor appointment</li>
+<li>Support to set doctor appointment</li>
+<li>Support to delete doctor appointment</li>
+<li>Support to get statistics of all doctors</li>
+</ul>
+<p><strong>Render Page : views.py</strong></p>
+<p><strong>Methods</strong></p>
+<table border="1" class="colwidths-given docutils">
+<colgroup>
+<col width="19%" />
+<col width="38%" />
+<col width="25%" />
+<col width="19%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Name</th>
+<th class="head">Description</th>
+<th class="head">Route</th>
+<th class="head">Render Page</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>clerkSetting</td>
+<td>The method for setting menu</td>
+<td>None</td>
+<td>None</td>
+</tr>
+<tr class="row-odd"><td>index</td>
+<td>The method for redirecting to specific route, default redirecting to clerk.addDoctor</td>
+<td>/index</td>
+<td>None</td>
+</tr>
+<tr class="row-even"><td>addDoctor</td>
+<td>The method for rendering and adding doctor’s information</td>
+<td>/add_doctor</td>
+<td>clerk/add_doctor.html</td>
+</tr>
+<tr class="row-odd"><td>doctorsList</td>
+<td>The method for getting all doctors’ list</td>
+<td>/doctors</td>
+<td>clerk/doctors.html</td>
+</tr>
+<tr class="row-even"><td>doctorsCalendar</td>
+<td>The method for geting doctor’s calendar</td>
+<td>/doctors_calendar</td>
+<td>clerk/doctors_calendar.html</td>
+</tr>
+<tr class="row-odd"><td>setFreeTime</td>
+<td>The method for setting free time for doctor for AJAX</td>
+<td>/set_free_time/&lt;doctor_id&gt;</td>
+<td>&#160;</td>
+</tr>
+<tr class="row-even"><td>getFreeTime</td>
+<td>The method for get free time of doctor for AJAX</td>
+<td>/get_free_time/&lt;doctor_id&gt;</td>
+<td>JSON</td>
+</tr>
+<tr class="row-odd"><td>deleteFreeTime</td>
+<td>The method for deleting free time of doctor for AJAX</td>
+<td>/delete_free_time/&lt;doctor_id&gt;</td>
+<td>JSON</td>
+</tr>
+<tr class="row-even"><td>statistics</td>
+<td>The method for getting chart for statistics of all doctors</td>
+<td>/statistics</td>
+<td>clerk/statistics.html</td>
+</tr>
+<tr class="row-odd"><td>staJson</td>
+<td>The method for getting statistics data for AJAX</td>
+<td>/statistics/json</td>
+<td>JSON</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Connect API : clerk_services.py</strong></p>
+<p><strong>Methods</strong></p>
+<table border="1" class="colwidths-given docutils">
+<colgroup>
+<col width="19%" />
+<col width="38%" />
+<col width="25%" />
+<col width="19%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Name</th>
+<th class="head">Description</th>
+<th class="head">Parameter</th>
+<th class="head">Return Value</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>__init__</td>
+<td>The constructor for initializing service base url</td>
+<td>None</td>
+<td>None</td>
+</tr>
+<tr class="row-odd"><td>getStatistics</td>
+<td>The method for request API of statistics</td>
+<td>None</td>
+<td>Boolean, Object</td>
+</tr>
+<tr class="row-even"><td>login</td>
+<td>The method for login</td>
+<td>payload(request payload for clerk endpoints)</td>
+<td>Boolean, Object</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Form : forms.py</strong></p>
+<p><strong>Forms</strong></p>
+<table border="1" class="colwidths-given docutils">
+<colgroup>
+<col width="20%" />
+<col width="40%" />
+<col width="40%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Name</th>
+<th class="head">Description</th>
+<th class="head">Fields</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>AddDoctorForm</td>
+<td>Doctor’s creation form</td>
+<td>username(required), sex(required), name(required), phone(required), email(required), age(required)</td>
+</tr>
+</tbody>
+</table>
+</div>
+
+
+                </div>
+              </div>
+
+            </div>
+
+            <div class="clearer"></div>
+          </div>
+        </div>
+
+        <div class="bottomnav">
+          
+        <p>
+        <a class="uplink" href="index.html">Contents</a>
+        </p>
+
+        </div>
+
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2018, Jie Li.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.8.1.
+    </div>
+  </body>
+</html>

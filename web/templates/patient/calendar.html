@@ -15,9 +15,9 @@
             <div class="card-body">
             <div class="row">
                 <div class="col-md-4">
-                <button class="btn btn-primary btn-block">
-                    <i class="mdi mdi-plus"></i> Create A New event</button>
-                <div class="wrapper mt-4">
+                <button id="my_calendar" class="btn btn-primary btn-block">
+                    <i class="mdi mdi-eye"></i> My Calendar</button>
+                <!-- <div class="wrapper mt-4">
                     <div class="item-wrapper d-flex pb-4 border-bottom">
                     <div class="status-wrapper d-flex align-items-start pr-3">
                         <span class="bg-warning rounded-circle p-1 mt-2 mx-auto"></span>
@@ -42,53 +42,28 @@
                         <small class="text-gray d-block">First Remainder : 1 Hours min before</small>
                     </div>
                     </div>
-                </div>
+                </div> -->
                 <div class="wrapper">
                     <div class="wrapper d-flex justify-content-between align-items-center mb-4">
                     <div class="d-flex align-items-center">
-                        <small class="font-weight-bold mr-2 mb-0">Calendars</small>
-                        <div class="badge badge-inverse-primary badge-pill">2</div>
+                        <small class="font-weight-bold mr-2 mb-0">Doctors</small>
+                        <!-- <div class="badge badge-inverse-primary badge-pill">2</div> -->
                     </div>
                     <span class="text-gray">
                         <i class="mdi mdi-dots-horizontal"></i>
                     </span>
                     </div>
                     <div class="calendar-aside">
-                    <div class="list">
+                    {% for doctor in doctors %}
+                    <div class="list" id="{{doctor.id}}">
                         <img class="img-xs rounded-circle" src="{{url_for('static', filename='images/faces/face2.jpg')}}" alt="profile image">
-                        <span class="user-text">Luke Pachytel</span>
+                        <span class="user-text">{{doctor.username}}</span>
                         <span class="count online ml-auto">
                         <i class="close ml-auto mdi mdi-close-circle-outline"></i>
                         </span>
                     </div>
-                    <div class="list">
-                        <img class="img-xs rounded-circle" src="{{url_for('static', filename='images/faces/face3.jpg')}}" alt="profile image">
-                        <span class="user-text">Allen Donald</span>
-                        <span class="count offline ml-auto">
-                        <i class="close ml-auto mdi mdi-close-circle-outline"></i>
-                        </span>
-                    </div>
-                    <div class="list">
-                        <img class="img-xs rounded-circle" src="{{url_for('static', filename='images/faces/face4.jpg')}}" alt="profile image">
-                        <span class="user-text">Gabriel Rouge</span>
-                        <span class="count offline ml-auto">
-                        <i class="close ml-auto mdi mdi-close-circle-outline"></i>
-                        </span>
-                    </div>
-                    <div class="list">
-                        <img class="img-xs rounded-circle" src="{{url_for('static', filename='images/faces/face5.jpg')}}" alt="profile image">
-                        <span class="user-text">Marina Michel</span>
-                        <span class="count online ml-auto">
-                        <i class="close ml-auto mdi mdi-close-circle-outline"></i>
-                        </span>
-                    </div>
-                    <div class="list">
-                        <img class="img-xs rounded-circle" src="{{url_for('static', filename='images/faces/face6.jpg')}}" alt="profile image">
-                        <span class="user-text">Amanda Stone</span>
-                        <span class="count online ml-auto">
-                        <i class="close ml-auto mdi mdi-close-circle-outline"></i>
-                        </span>
-                    </div>
+                    {% endfor %}
+                    
                     </div>
                 </div>
                 </div>
@@ -117,11 +92,7 @@
                     <tbody>
                     <tr>
                         <th>Doctor</th>
-                        <td><select class="form-control form-control-sm">
-                            <option value="">Jason</option>
-                            <option value="">Jason</option>
-                            <option value="">Jason</option>
-                        </select></td>
+                        <td id="doctor_name"></td>
                     </tr>
                     <tr>
                         <th>Patient</th>
@@ -136,8 +107,11 @@
             </div>
         </div>
         <div class="modal-footer">
+            <input type="hidden" name="doctor_id" value="">
+            <input type="hidden" name="doctor_email" value="">
+            <input type="hidden" name="patient_id" value="{{session.User.id}}">
             <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-            <button type="button" class="btn btn-primary">Save changes</button>
+            <button type="button" id="sub" class="btn btn-primary">Save changes</button>
         </div>
         </div>
     </div>
@@ -152,16 +126,11 @@
                 'use strict';
                 $(function() {
                 var style = getComputedStyle(document.body);
-                var myEvents = [
-                    {
-                        start: '2018-09-18T10:00:00',
-                        end: '2018-09-18T16:00:00',
-                        rendering: 'background'
-                    }
-                ]
+                var myEvents = []
                 if ($('#calendar').length) {
                     $('#calendar').fullCalendar({
-                    defaultView: 'agendaFourDay',
+                    defaultView: 'listWeek',
+                    // defaultView: 'agendaFourDay',
                     views: {
                         agendaFourDay: {
                             type: 'agenda',
@@ -174,19 +143,115 @@
                         right: 'agendaFourDay,month,basicWeek,basicDay'
                     },
                     selectable: true,
-                    select: function(startDate, endDate) {
-                        $('#appTime').html(startDate.format() + ' ~ ' + endDate.format());
-                        $('#confirm').modal('show')
+                    eventClick: function(calEvent, jsEvent, view) {
+                        // if ($(":input[name=doctor_id]").val()) {
+                            if (calEvent.title == 'Free') {
+                                // update patient's email into calendar event
+                                var url = "{{url_for('patient.updateEventsByDoctorId')}}"
+                                $.post(url, {
+                                    "event_id": calEvent.id, 
+                                    "doctor_id": $(":input[name=doctor_id]").val(), 
+                                    "delete": "false",
+                                    "start": calEvent.start.stripZone().format(),
+                                    "end": calEvent.end.stripZone().format()
+                                }, function(data){
+                                    if(data.code == 1){
+                                        calEvent.backgroundColor = '#EC4296'
+                                        calEvent.title = 'Booked'
+                                        $('#calendar').fullCalendar( 'updateEvent', calEvent )
+                                    } 
+                                })
+                            } else {
+                                // update patient's email into calendar event
+                                var url = "{{url_for('patient.updateEventsByDoctorId')}}"
+                                $.post(url, {
+                                        "event_id": calEvent.id, 
+                                        "doctor_id": '0', 
+                                        "delete": "true"
+                                    }, function(data){
+                                    if(data.code == 1){
+                                        // calEvent.backgroundColor = '#18d895'
+                                        // calEvent.title = 'Free'
+                                        $('#calendar').fullCalendar( 'removeEvents', calEvent.id )
+                                    } 
+                                })
+                            }
+                        // }
                     },
                     defaultDate: new Date(),
                     navLinks: true, // can click day/week names to navigate views
                     editable: true,
                     eventLimit: true, // allow "more" link when too many events
-                    eventBackgroundColor: 'red',
-                    events: myEvents
+                    eventBackgroundColor: '#18d895',
+                    eventTextColor: "white",
+                    eventBorderColor: "transparent",
+                    events: myEvents,
+                    displayEventEnd: true
                     })
                 }
                 });
             })(jQuery);
+            $(function(){
+                $(".list").click(function(){
+                    $(".list").css("backgroundColor", "#fff")
+                    $('#calendar').fullCalendar('removeEvents')
+                    var id = $(this).css("backgroundColor", "#eee").attr("id")
+                    $(":input[name=doctor_id]").val(id)
+                    var url = "/patient/get_events/"+id
+                    $.getJSON(url, function(res){
+                        if (res.code == 1) {
+                            for(var i in res.data) {
+                                var start = res.data[i]['start']['dateTime']
+                                var end = res.data[i]['end']['dateTime']
+                                var summary = res.data[i]['summary']
+                                var eid = res.data[i]['id']
+                                var bg = ''
+                                if (summary == 'Free') {
+                                    bg = '#18d895'
+                                    $('#calendar').fullCalendar('renderEvent', {
+                                        title: summary,
+                                        start: start,
+                                        end: end,
+                                        id: eid,
+                                        backgroundColor: bg,
+                                        allDay: false
+                                    });
+                                }
+                                if (summary == 'Booked') {
+                                    bg = '#EC4296'
+                                }
+                                
+                            }
+                        }
+                    })
+                })
+                let myCalendar = function(){
+                    $.getJSON('{{url_for("patient.getAppointments")}}', function(res){
+                        if (res.code == 1) {
+                            for(var i in res.data) {
+                                var start = res.data[i]['appointed_from']
+                                var end = res.data[i]['appointed_to']
+                                var summary = 'Booked'
+                                var eid = res.data[i]['google_event_id']
+                                var bg = '#EC4296'
+                                $('#calendar').fullCalendar('renderEvent', {
+                                    title: summary,
+                                    start: start,
+                                    end: end,
+                                    id: eid,
+                                    backgroundColor: bg,
+                                    allDay: false
+                                });
+                            }
+                        }
+                    })
+                }
+                myCalendar()
+                $("#my_calendar").click(function(){
+                    $('#calendar').fullCalendar( 'removeEvents' )
+                    $(":input[name=doctor_id]").val("")
+                    myCalendar()
+                })
+            })
         </script>
 {% endblock %}

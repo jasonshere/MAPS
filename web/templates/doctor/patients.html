@@ -9,15 +9,26 @@
           <table class="table table-striped table-hover">
             <thead>
               <tr>
+                <th></th>
                 <th>
-                  User
+                  Username
                 </th>
                 <th>
                   Full name
                 </th>
                 <th>
-                  Status
+                  Email
                 </th>
+                <th>
+                    Age
+                </th>
+                <th>
+                    Sex
+                </th>
+                <th>
+                    Phone
+                </th>
+                
                 <th>
                   Appointment Date
                 </th>
@@ -27,181 +38,49 @@
               </tr>
             </thead>
             <tbody>
+                {% for patient in patients %}
               <tr>
                 <td class="py-1">
                   <img src="{{url_for('static', filename='images/faces-clipart/pic-1.png')}}" alt="image" />
                 </td>
                 <td>
-                  Herman Beck
+                    {{patient['patient']['username']}}
                 </td>
                 <td>
-                    <label class="badge badge-lg badge-danger">Pending</label>
+                    {{patient['patient']['name']}}
                 </td>
                 <td>
-                    June 16, 2015
+                    {{patient['patient']['email']}}
                 </td>
                 <td>
-                    <button type="button" class="btn btn-outline-info btn-xs" onclick="location.href='{{url_for("doctor.editNotes")}}'">
+                    {{patient['patient']['age']}}
+                </td>
+                <td>
+                    {% if patient['patient']['sex'] == 1%}
+                        Male
+                    {% else %}
+                        Female
+                    {% endif %}
+                </td>
+                <td>
+                    {{patient['patient']['phone']}}
+                </td>
+                <td style="width: 100px">
+                    {{patient['appointed_from']}} ~<br> {{patient['appointed_to']}}
+                </td>
+                <td>
+                    <button type="button" class="btn btn-outline-info btn-xs" onclick="location.href='/doctor/edit_notes/{{patient['id']}}'">
                         <i class="mdi mdi-file-document"></i>Add Notes
                     </button>
-                    <button type="button" class="btn btn-outline-primary btn-xs" onclick="location.href='{{url_for("doctor.editDiagnoses")}}'">
+                    <button type="button" class="btn btn-outline-primary btn-xs" onclick="location.href='/doctor/edit_diagnoses/{{patient['id']}}'">
                         <i class="mdi mdi-file-document"></i>Add Diagnoses
                     </button>
-                    <button type="button" class="btn btn-outline-warning btn-xs" onclick="location.href='{{url_for("doctor.history")}}'">
+                    <button type="button" class="btn btn-outline-warning btn-xs" onclick="location.href='/doctor/history/{{patient['patient_id']}}'">
                         <i class="mdi mdi-cloud-download"></i>History
                     </button>
                 </td>
               </tr>
-              <tr>
-                <td class="py-1">
-                  <img src="{{url_for('static', filename='images/faces-clipart/pic-2.png')}}" alt="image" />
-                </td>
-                <td>
-                  Messsy Adam
-                </td>
-                <td>
-                    <label class="badge badge-lg badge-warning">In progress</label>
-                </td>
-                <td>
-                    June 16, 2015
-                </td>
-                <td>
-                    <button type="button" class="btn btn-outline-info btn-xs">
-                        <i class="mdi mdi-file-document"></i>Edit Notes
-                    </button>
-                    <button type="button" class="btn btn-outline-primary btn-xs">
-                        <i class="mdi mdi-file-document"></i>Edit Diagnoses
-                    </button>
-                    <button type="button" class="btn btn-outline-warning btn-xs">
-                        <i class="mdi mdi-cloud-download"></i>History
-                    </button>
-                </td>
-              </tr>
-              <tr>
-                <td class="py-1">
-                  <img src="{{url_for('static', filename='images/faces-clipart/pic-3.png')}}" alt="image" />
-                </td>
-                <td>
-                  John Richards
-                </td>
-                <td>
-                    <label class="badge badge-lg badge-info">Fixed</label>
-                </td>
-                <td>
-                    June 16, 2015
-                </td>
-                <td>
-                    <button type="button" class="btn btn-outline-info btn-xs">
-                        <i class="mdi mdi-file-document"></i>Edit Notes
-                    </button>
-                    <button type="button" class="btn btn-outline-primary btn-xs">
-                        <i class="mdi mdi-file-document"></i>Edit Diagnoses
-                    </button>
-                    <button type="button" class="btn btn-outline-warning btn-xs">
-                        <i class="mdi mdi-cloud-download"></i>History
-                    </button>
-                </td>
-              </tr>
-              <tr>
-                <td class="py-1">
-                  <img src="{{url_for('static', filename='images/faces-clipart/pic-4.png')}}" alt="image" />
-                </td>
-                <td>
-                  Peter Meggik
-                </td>
-                <td>
-                    <label class="badge badge-lg badge-primary">Completed</label>
-                </td>
-                <td>
-                    June 16, 2015
-                </td>
-                <td>
-                    <button type="button" class="btn btn-outline-info btn-xs" href="#">
-                        <i class="mdi mdi-file-document"></i>Edit Notes
-                    </button>
-                    <button type="button" class="btn btn-outline-primary btn-xs">
-                        <i class="mdi mdi-file-document"></i>Edit Diagnoses
-                    </button>
-                    <button type="button" class="btn btn-outline-warning btn-xs">
-                        <i class="mdi mdi-cloud-download"></i>History
-                    </button>
-                </td>
-              </tr>
-              <tr>
-                <td class="py-1">
-                  <img src="{{url_for('static', filename='images/faces-clipart/pic-1.png')}}" alt="image" />
-                </td>
-                <td>
-                  Edward
-                </td>
-                <td>
-                    <label class="badge badge-lg badge-primary">Completed</label>
-                </td>
-                <td>
-                    June 16, 2015
-                </td>
-                <td>
-                    <button type="button" class="btn btn-outline-info btn-xs">
-                        <i class="mdi mdi-file-document"></i>Edit Notes
-                    </button>
-                    <button type="button" class="btn btn-outline-primary btn-xs">
-                        <i class="mdi mdi-file-document"></i>Edit Diagnoses
-                    </button>
-                    <button type="button" class="btn btn-outline-warning btn-xs">
-                        <i class="mdi mdi-cloud-download"></i>History
-                    </button>
-                </td>
-              </tr>
-              <tr>
-                <td class="py-1">
-                  <img src="{{url_for('static', filename='images/faces-clipart/pic-2.png')}}" alt="image" />
-                </td>
-                <td>
-                  John Doe
-                </td>
-                <td>
-                    <label class="badge badge-lg badge-primary">Completed</label>
-                </td>
-                <td>
-                    June 16, 2015
-                </td>
-                <td>
-                    <button type="button" class="btn btn-outline-info btn-xs">
-                        <i class="mdi mdi-file-document"></i>Edit Notes
-                    </button>
-                    <button type="button" class="btn btn-outline-primary btn-xs">
-                        <i class="mdi mdi-file-document"></i>Edit Diagnoses
-                    </button>
-                    <button type="button" class="btn btn-outline-warning btn-xs">
-                        <i class="mdi mdi-cloud-download"></i>History
-                    </button>
-                </td>
-              </tr>
-              <tr>
-                <td class="py-1">
-                  <img src="{{url_for('static', filename='images/faces-clipart/pic-3.png')}}" alt="image" />
-                </td>
-                <td>
-                  Henry Tom
-                </td>
-                <td>
-                    <label class="badge badge-lg badge-primary">Completed</label>
-                </td>
-                <td>
-                    June 16, 2015
-                </td>
-                <td>
-                    <button type="button" class="btn btn-outline-info btn-xs">
-                        <i class="mdi mdi-file-document"></i>Edit Notes
-                    </button>
-                    <button type="button" class="btn btn-outline-primary btn-xs">
-                        <i class="mdi mdi-file-document"></i>Edit Diagnoses
-                    </button>
-                    <button type="button" class="btn btn-outline-warning btn-xs">
-                        <i class="mdi mdi-cloud-download"></i>History
-                    </button>
-                </td>
-              </tr>
+              {% endfor %}
             </tbody>
           </table>
         </div>

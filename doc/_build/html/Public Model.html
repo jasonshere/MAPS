@@ -1,0 +1,245 @@
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>Public Model &#8212; MAPS 1.0.0 documentation</title>
+    <link rel="stylesheet" href="_static/dotted.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="prev" title="Google calendar" href="Google Calendar.html" /> 
+  </head><body>
+        <div class="header">
+          <div class="header-top">
+            <h1 class="heading"><a href="index.html">
+              <span>MAPS 1.0.0 documentation</span></a></h1>
+            <h2 class="heading"><span>Public Model</span></a></h2>
+          </div>
+          <div class="topnav">
+            
+        <p>
+        &#171;&#160;&#160;<a href="Google Calendar.html">Google calendar</a>
+        &#160;&#160;::&#160;&#160;
+        <a class="uplink" href="index.html">Contents</a>
+        </p>
+
+            <div class="globaltoc">
+              <p class="caption"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="Clerk Module.html">Clerk Module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Patient Module.html">Patient Module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Doctor Module.html">Doctor Module</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="Public Module.html">Public Module</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="Google Calendar.html">Google calendar</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Public Model</a></li>
+</ul>
+</li>
+</ul>
+
+            </div>
+          </div>
+        </div>
+        <div class="wrapper">
+
+          <div class="document">
+            <div class="documentwrapper">
+              <div class="bodywrapper">
+                <div class="body">
+                  
+  <div class="section" id="public-model">
+<h1>Public Model<a class="headerlink" href="#public-model" title="Permalink to this headline">¶</a></h1>
+<div class="code highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">This</span> <span class="n">model</span> <span class="ow">is</span> <span class="k">for</span> <span class="n">process</span> <span class="n">the</span> <span class="n">google</span> <span class="n">cloud</span> <span class="n">data</span> <span class="n">of</span> <span class="n">appointment</span><span class="p">,</span>
+<span class="n">it</span> <span class="n">contains</span> <span class="n">several</span> <span class="n">methods</span> <span class="n">that</span> <span class="n">can</span> <span class="n">store</span><span class="p">,</span> <span class="n">update</span><span class="p">,</span> <span class="n">fetch</span> <span class="ow">and</span> <span class="n">delete</span> <span class="n">appointment</span> <span class="n">data</span> <span class="kn">from</span> <span class="nn">google</span> <span class="n">cloud</span> <span class="n">data</span><span class="o">.</span>
+</pre></div>
+</div>
+<p><strong>The supports of Appointment model</strong></p>
+<ul class="simple">
+<li>Support to save appointment data into google cloud</li>
+<li>Support to get appointments by patient id</li>
+<li>Support to get appointments by doctor id</li>
+<li>Support to delete appointment by event id</li>
+<li>Support to delete appointment by appointment id</li>
+<li>Support to get doctor id by event id</li>
+<li>Support to update appointment</li>
+<li>Support to get appointments group by doctor and start date</li>
+</ul>
+<p><strong>Table</strong></p>
+<p><strong>maps_doctor:</strong></p>
+<table border="1" class="colwidths-given docutils">
+<colgroup>
+<col width="13%" />
+<col width="25%" />
+<col width="25%" />
+<col width="13%" />
+<col width="13%" />
+<col width="13%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Field Name</th>
+<th class="head">Description</th>
+<th class="head">Type</th>
+<th class="head">Default</th>
+<th class="head">Unique</th>
+<th class="head">Nullable</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>id</td>
+<td>The primary key</td>
+<td>Integer</td>
+<td>None</td>
+<td>Yes</td>
+<td>No</td>
+</tr>
+<tr class="row-odd"><td>patient_id</td>
+<td>patient’s primary id</td>
+<td>Integer</td>
+<td>None</td>
+<td>Yes</td>
+<td>No</td>
+</tr>
+<tr class="row-even"><td>doctor_id</td>
+<td>doctor’s primary id</td>
+<td>Integer</td>
+<td>None</td>
+<td>Yes</td>
+<td>No</td>
+</tr>
+<tr class="row-odd"><td>appointed_from</td>
+<td>appointment start datetime</td>
+<td>String(100)</td>
+<td>None</td>
+<td>No</td>
+<td>No</td>
+</tr>
+<tr class="row-even"><td>appointed_to</td>
+<td>appointment end datetime</td>
+<td>String(100)</td>
+<td>None</td>
+<td>No</td>
+<td>No</td>
+</tr>
+<tr class="row-odd"><td>google_event_id</td>
+<td>Google’s event id</td>
+<td>String(100)</td>
+<td>None</td>
+<td>No</td>
+<td>Yes</td>
+</tr>
+<tr class="row-even"><td>notes</td>
+<td>appointment’s notes</td>
+<td>String(500)</td>
+<td>None</td>
+<td>No</td>
+<td>Yes</td>
+</tr>
+<tr class="row-odd"><td>diagnoses</td>
+<td>appointment’s diagnoses</td>
+<td>String(500)</td>
+<td>None</td>
+<td>No</td>
+<td>Yes</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Methods</strong></p>
+<table border="1" class="colwidths-given docutils">
+<colgroup>
+<col width="19%" />
+<col width="38%" />
+<col width="25%" />
+<col width="19%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Name</th>
+<th class="head">Description</th>
+<th class="head">Parameters</th>
+<th class="head">Return Value</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>__init__</td>
+<td>The constructor of appoinement model, initialise the appointment data</td>
+<td><a class="reference external" href="data:(dict">data:(dict</a>, appointment object)</td>
+<td>None</td>
+</tr>
+<tr class="row-odd"><td>addAppointment</td>
+<td>The method for saving appointment data into google cloud</td>
+<td>None</td>
+<td>None</td>
+</tr>
+<tr class="row-even"><td>getAllAppointmentByPatientId</td>
+<td>The method for getting all appointments by patient id and doctor model</td>
+<td>patient_id(integer), doctor’s model(Object)</td>
+<td>Boolean, Object</td>
+</tr>
+<tr class="row-odd"><td>getAllAppointmentByDoctorId</td>
+<td>The method for getting all appointments by doctor id and patient model</td>
+<td>doctor_id(integer), patient’s model(Object)</td>
+<td>Boolean, Object</td>
+</tr>
+<tr class="row-even"><td>deleteAppointment</td>
+<td>The method for delete an appointment</td>
+<td>event_id(string, google event id)</td>
+<td>Boolean</td>
+</tr>
+<tr class="row-odd"><td>getAppointmentById</td>
+<td>The method for get one appointment by appointment id</td>
+<td>app_id(integer, appointment primary key)</td>
+<td>Boolean, Object</td>
+</tr>
+<tr class="row-even"><td>getDoctorIdByEventId</td>
+<td>The method for get one appointment by event id</td>
+<td>event_id(string, google event id)</td>
+<td>Boolean, Object</td>
+</tr>
+<tr class="row-odd"><td>update</td>
+<td>The method for update appointment</td>
+<td>app_id(integer, appointment primary key), data(Object)</td>
+<td>None</td>
+</tr>
+<tr class="row-even"><td>getAppointmentsGroupByDoctorAndStartDate</td>
+<td>The method for get appointments by doctor and start date</td>
+<td>None</td>
+<td>None</td>
+</tr>
+</tbody>
+</table>
+</div>
+
+
+                </div>
+              </div>
+
+            </div>
+
+            <div class="clearer"></div>
+          </div>
+        </div>
+
+        <div class="bottomnav">
+          
+        <p>
+        &#171;&#160;&#160;<a href="Google Calendar.html">Google calendar</a>
+        &#160;&#160;::&#160;&#160;
+        <a class="uplink" href="index.html">Contents</a>
+        </p>
+
+        </div>
+
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2018, Jie Li.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.8.1.
+    </div>
+  </body>
+</html>

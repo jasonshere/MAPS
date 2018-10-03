@@ -1,0 +1,452 @@
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>Patient Endpoints &#8212; MAPS 1.0.0 documentation</title>
+    <link rel="stylesheet" href="_static/dotted.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Patient Model" href="Patient Model.html" />
+    <link rel="prev" title="Patient Module" href="Patient Module.html" /> 
+  </head><body>
+        <div class="header">
+          <div class="header-top">
+            <h1 class="heading"><a href="index.html">
+              <span>MAPS 1.0.0 documentation</span></a></h1>
+            <h2 class="heading"><span>Patient Endpoints</span></a></h2>
+          </div>
+          <div class="topnav">
+            
+        <p>
+        &#171;&#160;&#160;<a href="Patient Module.html">Patient Module</a>
+        &#160;&#160;::&#160;&#160;
+        <a class="uplink" href="index.html">Contents</a>
+        &#160;&#160;::&#160;&#160;
+        <a href="Patient Model.html">Patient Model</a>&#160;&#160;&#187;
+        </p>
+
+            <div class="globaltoc">
+              <p class="caption"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="Clerk Module.html">Clerk Module</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="Patient Module.html">Patient Module</a><ul class="current">
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Patient Endpoints</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Patient Model.html">Patient Model</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="Doctor Module.html">Doctor Module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Public Module.html">Public Module</a></li>
+</ul>
+
+            </div>
+          </div>
+        </div>
+        <div class="wrapper">
+
+          <div class="document">
+            <div class="documentwrapper">
+              <div class="bodywrapper">
+                <div class="body">
+                  
+  <div class="section" id="patient-endpoints">
+<h1>Patient Endpoints<a class="headerlink" href="#patient-endpoints" title="Permalink to this headline">¶</a></h1>
+<div class="code highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">This</span> <span class="n">module</span> <span class="n">contains</span> <span class="nb">all</span> <span class="n">of</span> <span class="n">Patient</span> <span class="n">module</span> <span class="n">endpoints</span><span class="o">.</span>
+<span class="n">In</span> <span class="n">order</span> <span class="n">to</span> <span class="n">be</span> <span class="n">able</span> <span class="n">to</span> <span class="n">request</span> <span class="n">endpoints</span><span class="p">,</span> <span class="n">you</span> <span class="n">need</span> <span class="n">to</span> <span class="n">use</span> <span class="n">auth</span> <span class="n">user</span>
+<span class="n">The</span> <span class="n">Test</span> <span class="n">user</span> <span class="ow">and</span> <span class="n">password</span> <span class="n">are</span> <span class="p">:</span> <span class="n">Jason</span><span class="p">:</span><span class="n">secret</span>
+</pre></div>
+</div>
+<p><strong>The supports of Patient endpoints</strong></p>
+<ul class="simple">
+<li>Support to register a patient account</li>
+<li>Support to Sign in the MAPS with a patient account</li>
+<li>Support to update a patient information</li>
+<li>Support to get all patients</li>
+<li>Support to get obe patient by primary key</li>
+<li>Support to get calendar events by calendar id</li>
+<li>Support to update event by calendar id and event id</li>
+<li>Support to delete event by calendar id and event id</li>
+<li>Support to add appointments into db</li>
+<li>Support to get appointments by patient id</li>
+<li>Support to delete appointment by event id</li>
+</ul>
+<p><strong>Endpoints</strong></p>
+<p><strong>POST : http://Jason:secret&#64;localhost:8081/api/v1.0/patient/register</strong></p>
+<ul class="simple">
+<li>Add a new patient account</li>
+</ul>
+<p><strong>Headers:</strong></p>
+<div class="code highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">Content</span><span class="o">-</span><span class="n">Type</span> <span class="p">:</span> <span class="n">application</span><span class="o">/</span><span class="n">json</span>
+</pre></div>
+</div>
+<p><strong>Request Payload:</strong></p>
+<div class="code highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
+    <span class="s2">&quot;patient&quot;</span><span class="p">:</span> <span class="p">{</span>
+        <span class="s2">&quot;username&quot;</span><span class="p">:</span> <span class="s2">&quot;test2&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;email&quot;</span><span class="p">:</span> <span class="s2">&quot;test2@test.com&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;password&quot;</span><span class="p">:</span> <span class="s2">&quot;123123&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;created_at&quot;</span><span class="p">:</span> <span class="s2">&quot;2018-09-09 21:00:00&quot;</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p><strong>Response Payload:</strong></p>
+<div class="code highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
+    <span class="s2">&quot;code&quot;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
+    <span class="s2">&quot;msg&quot;</span><span class="p">:</span> <span class="s2">&quot;Successfully Created!&quot;</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<hr class="docutils" />
+<p><strong>POST : http://Jason:secret&#64;localhost:8081/api/v1.0/patient/login</strong></p>
+<ul class="simple">
+<li>Sign in patient</li>
+</ul>
+<p><strong>Headers:</strong></p>
+<div class="code highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">Content</span><span class="o">-</span><span class="n">Type</span> <span class="p">:</span> <span class="n">application</span><span class="o">/</span><span class="n">json</span>
+</pre></div>
+</div>
+<p><strong>Request Payload:</strong></p>
+<div class="code highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
+    <span class="s2">&quot;patient&quot;</span><span class="p">:</span> <span class="p">{</span>
+        <span class="s2">&quot;username&quot;</span><span class="p">:</span> <span class="s2">&quot;patient_1&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;password&quot;</span><span class="p">:</span> <span class="s2">&quot;patientpass&quot;</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p><strong>Response Payload:</strong></p>
+<div class="code highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
+    <span class="s2">&quot;code&quot;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
+    <span class="s2">&quot;msg&quot;</span><span class="p">:</span> <span class="s2">&quot;Successfully Signed In!&quot;</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<hr class="docutils" />
+<p><strong>PUT : http://Jason:secret&#64;localhost:8081/api/v1.0/patient/calendars/rmit.edu.au_494ojtkhfk9cjulq9ate685ug0&#64;group.calendar.google.com/events/t5kddj5191vhujqv84pngh7tqo</strong></p>
+<ul class="simple">
+<li>Update events</li>
+</ul>
+<p><strong>Headers:</strong></p>
+<div class="code highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">Content</span><span class="o">-</span><span class="n">Type</span> <span class="p">:</span> <span class="n">application</span><span class="o">/</span><span class="n">json</span>
+</pre></div>
+</div>
+<p><strong>Request Payload:</strong></p>
+<div class="code highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
+    <span class="s2">&quot;event&quot;</span><span class="p">:</span> <span class="p">{</span>
+        <span class="s2">&quot;summary&quot;</span><span class="p">:</span> <span class="s2">&quot;Booked&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;email&quot;</span><span class="p">:</span> <span class="s2">&quot;patient@test.com&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;delete&quot;</span><span class="p">:</span> <span class="n">false</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p><strong>Response Payload:</strong></p>
+<div class="code highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
+    <span class="s2">&quot;code&quot;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
+    <span class="s2">&quot;data&quot;</span><span class="p">:</span> <span class="p">{</span>
+        <span class="s2">&quot;attendees&quot;</span><span class="p">:</span> <span class="p">[</span>
+            <span class="p">{</span>
+                <span class="s2">&quot;email&quot;</span><span class="p">:</span> <span class="s2">&quot;doctor1@maps.com&quot;</span><span class="p">,</span>
+                <span class="s2">&quot;responseStatus&quot;</span><span class="p">:</span> <span class="s2">&quot;needsAction&quot;</span>
+            <span class="p">},</span>
+            <span class="p">{</span>
+                <span class="s2">&quot;email&quot;</span><span class="p">:</span> <span class="s2">&quot;test123123123@test.com&quot;</span><span class="p">,</span>
+                <span class="s2">&quot;responseStatus&quot;</span><span class="p">:</span> <span class="s2">&quot;needsAction&quot;</span>
+            <span class="p">}</span>
+        <span class="p">],</span>
+        <span class="s2">&quot;created&quot;</span><span class="p">:</span> <span class="s2">&quot;2018-09-27T20:49:18.000Z&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;creator&quot;</span><span class="p">:</span> <span class="p">{</span>
+            <span class="s2">&quot;email&quot;</span><span class="p">:</span> <span class="s2">&quot;s3620273@student.rmit.edu.au&quot;</span>
+        <span class="p">},</span>
+        <span class="s2">&quot;description&quot;</span><span class="p">:</span> <span class="s2">&quot;This is Event description&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;end&quot;</span><span class="p">:</span> <span class="p">{</span>
+            <span class="s2">&quot;dateTime&quot;</span><span class="p">:</span> <span class="s2">&quot;2018-09-22T02:00:00+10:00&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;timeZone&quot;</span><span class="p">:</span> <span class="s2">&quot;Australia/Melbourne&quot;</span>
+        <span class="p">},</span>
+        <span class="s2">&quot;etag&quot;</span><span class="p">:</span> <span class="s2">&quot;</span><span class="se">\&quot;</span><span class="s2">3076175509242000</span><span class="se">\&quot;</span><span class="s2">&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;htmlLink&quot;</span><span class="p">:</span> <span class="s2">&quot;https://www.google.com/calendar/event?eid=dDVrZGRqNTE5MXZodWpxdjg0cG5naDd0cW8gcm1pdC5lZHUuYXVfNDk0b2p0a2hmazljanVscTlhdGU2ODV1ZzBAZw&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;iCalUID&quot;</span><span class="p">:</span> <span class="s2">&quot;t5kddj5191vhujqv84pngh7tqo@google.com&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;id&quot;</span><span class="p">:</span> <span class="s2">&quot;t5kddj5191vhujqv84pngh7tqo&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;kind&quot;</span><span class="p">:</span> <span class="s2">&quot;calendar#event&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;location&quot;</span><span class="p">:</span> <span class="s2">&quot;MARS&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;organizer&quot;</span><span class="p">:</span> <span class="p">{</span>
+            <span class="s2">&quot;displayName&quot;</span><span class="p">:</span> <span class="s2">&quot;Calendar for doctor1@maps.com&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;email&quot;</span><span class="p">:</span> <span class="s2">&quot;rmit.edu.au_494ojtkhfk9cjulq9ate685ug0@group.calendar.google.com&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;self&quot;</span><span class="p">:</span> <span class="n">true</span>
+        <span class="p">},</span>
+        <span class="s2">&quot;reminders&quot;</span><span class="p">:</span> <span class="p">{</span>
+            <span class="s2">&quot;useDefault&quot;</span><span class="p">:</span> <span class="n">true</span>
+        <span class="p">},</span>
+        <span class="s2">&quot;sequence&quot;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+        <span class="s2">&quot;start&quot;</span><span class="p">:</span> <span class="p">{</span>
+            <span class="s2">&quot;dateTime&quot;</span><span class="p">:</span> <span class="s2">&quot;2018-09-21T02:00:00+10:00&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;timeZone&quot;</span><span class="p">:</span> <span class="s2">&quot;Australia/Melbourne&quot;</span>
+        <span class="p">},</span>
+        <span class="s2">&quot;status&quot;</span><span class="p">:</span> <span class="s2">&quot;confirmed&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;summary&quot;</span><span class="p">:</span> <span class="s2">&quot;Free&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;updated&quot;</span><span class="p">:</span> <span class="s2">&quot;2018-09-28T00:22:30.335Z&quot;</span>
+    <span class="p">},</span>
+    <span class="s2">&quot;msg&quot;</span><span class="p">:</span> <span class="s2">&quot;Successfully fetched!&quot;</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<hr class="docutils" />
+<p><strong>GET : http://Jason:secret&#64;localhost:8081/api/v1.0/patient/all</strong></p>
+<ul class="simple">
+<li>get all patients</li>
+</ul>
+<p><strong>Headers:</strong></p>
+<div class="code highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">Content</span><span class="o">-</span><span class="n">Type</span> <span class="p">:</span> <span class="n">application</span><span class="o">/</span><span class="n">json</span>
+</pre></div>
+</div>
+<p><strong>Response Payload:</strong></p>
+<div class="code highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
+    <span class="s2">&quot;code&quot;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
+    <span class="s2">&quot;data&quot;</span><span class="p">:</span> <span class="p">[</span>
+        <span class="p">{</span>
+            <span class="s2">&quot;age&quot;</span><span class="p">:</span> <span class="mi">30</span><span class="p">,</span>
+            <span class="s2">&quot;birthday&quot;</span><span class="p">:</span> <span class="s2">&quot;2018-09-09&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;calendar_id&quot;</span><span class="p">:</span> <span class="n">null</span><span class="p">,</span>
+            <span class="s2">&quot;email&quot;</span><span class="p">:</span> <span class="s2">&quot;patient_1@maps.com&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;id&quot;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
+            <span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;Lee&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;password&quot;</span><span class="p">:</span> <span class="s2">&quot;23d5c51afade7a8701186250777f3c055c94984ce3d4aaed11438c0c&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;phone&quot;</span><span class="p">:</span> <span class="s2">&quot;402358178&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;sex&quot;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
+            <span class="s2">&quot;username&quot;</span><span class="p">:</span> <span class="s2">&quot;patient_1&quot;</span>
+        <span class="p">}</span>
+    <span class="p">],</span>
+    <span class="s2">&quot;msg&quot;</span><span class="p">:</span> <span class="s2">&quot;Successfully Fetched!&quot;</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<hr class="docutils" />
+<p><strong>GET : http://Jason:secret&#64;localhost:8081/api/v1.0/patient/1</strong></p>
+<ul class="simple">
+<li>Get one patient</li>
+</ul>
+<p><strong>Headers:</strong></p>
+<div class="code highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">Content</span><span class="o">-</span><span class="n">Type</span> <span class="p">:</span> <span class="n">application</span><span class="o">/</span><span class="n">json</span>
+</pre></div>
+</div>
+<p><strong>Response Payload:</strong></p>
+<div class="code highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
+    <span class="s2">&quot;code&quot;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
+    <span class="s2">&quot;data&quot;</span><span class="p">:</span> <span class="p">{</span>
+        <span class="s2">&quot;age&quot;</span><span class="p">:</span> <span class="mi">30</span><span class="p">,</span>
+        <span class="s2">&quot;birthday&quot;</span><span class="p">:</span> <span class="s2">&quot;2018-09-09&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;calendar_id&quot;</span><span class="p">:</span> <span class="n">null</span><span class="p">,</span>
+        <span class="s2">&quot;email&quot;</span><span class="p">:</span> <span class="s2">&quot;patient_1@maps.com&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;id&quot;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
+        <span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;Lee&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;password&quot;</span><span class="p">:</span> <span class="s2">&quot;23d5c51afade7a8701186250777f3c055c94984ce3d4aaed11438c0c&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;phone&quot;</span><span class="p">:</span> <span class="s2">&quot;402358178&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;sex&quot;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
+        <span class="s2">&quot;username&quot;</span><span class="p">:</span> <span class="s2">&quot;patient_1&quot;</span>
+    <span class="p">},</span>
+    <span class="s2">&quot;msg&quot;</span><span class="p">:</span> <span class="s2">&quot;Successfully Fetched!&quot;</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<hr class="docutils" />
+<p><strong>POST : http://Jason:secret&#64;localhost:8081/api/v1.0/patient/appointments</strong></p>
+<ul class="simple">
+<li>Create one appointment</li>
+</ul>
+<p><strong>Headers:</strong></p>
+<div class="code highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">Content</span><span class="o">-</span><span class="n">Type</span> <span class="p">:</span> <span class="n">application</span><span class="o">/</span><span class="n">json</span>
+</pre></div>
+</div>
+<p><strong>Request Payload:</strong></p>
+<div class="code highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
+    <span class="s2">&quot;appointment&quot;</span><span class="p">:</span> <span class="p">{</span>
+        <span class="s2">&quot;patient_id&quot;</span><span class="p">:</span> <span class="s2">&quot;1&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;doctor_id&quot;</span><span class="p">:</span> <span class="s2">&quot;1&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;appointed_from&quot;</span><span class="p">:</span> <span class="s2">&quot;2018-09-28T02:30:00+10:00&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;appointed_to&quot;</span><span class="p">:</span> <span class="s2">&quot;2018-09-28T05:30:00+10:00&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;google_calendar_id&quot;</span><span class="p">:</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;google_event_id&quot;</span><span class="p">:</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;created_at&quot;</span><span class="p">:</span> <span class="s2">&quot;2018-09-21 21:15:00&quot;</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p><strong>Response Payload:</strong></p>
+<div class="code highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
+    <span class="s2">&quot;code&quot;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
+    <span class="s2">&quot;msg&quot;</span><span class="p">:</span> <span class="s2">&quot;Successfully Created!&quot;</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<hr class="docutils" />
+<p><strong>GET : http://Jason:secret&#64;localhost:8081/api/v1.0/patient/1/appointments</strong></p>
+<ul class="simple">
+<li>Get all appointments</li>
+</ul>
+<p><strong>Headers:</strong></p>
+<div class="code highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">Content</span><span class="o">-</span><span class="n">Type</span> <span class="p">:</span> <span class="n">application</span><span class="o">/</span><span class="n">json</span>
+</pre></div>
+</div>
+<p><strong>Response Payload:</strong></p>
+<div class="code highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
+    <span class="s2">&quot;code&quot;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
+    <span class="s2">&quot;data&quot;</span><span class="p">:</span> <span class="p">[</span>
+        <span class="p">{</span>
+            <span class="s2">&quot;appointed_from&quot;</span><span class="p">:</span> <span class="s2">&quot;2018-10-01T00:30:00&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;appointed_to&quot;</span><span class="p">:</span> <span class="s2">&quot;2018-10-01T02:30:00&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;created_at&quot;</span><span class="p">:</span> <span class="s2">&quot;2018-09-30T00:04:28+00:00&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;diagnoses&quot;</span><span class="p">:</span> <span class="s2">&quot;Test2&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;doctor&quot;</span><span class="p">:</span> <span class="p">{</span>
+                <span class="s2">&quot;age&quot;</span><span class="p">:</span> <span class="mi">40</span><span class="p">,</span>
+                <span class="s2">&quot;calendar_id&quot;</span><span class="p">:</span> <span class="s2">&quot;rmit.edu.au_6ch9mp71j3crcb9kdd0tit4u88@group.calendar.google.com&quot;</span><span class="p">,</span>
+                <span class="s2">&quot;created_at&quot;</span><span class="p">:</span> <span class="s2">&quot;2018-09-29T23:58:43+00:00&quot;</span><span class="p">,</span>
+                <span class="s2">&quot;email&quot;</span><span class="p">:</span> <span class="s2">&quot;doctor1@maps.com&quot;</span><span class="p">,</span>
+                <span class="s2">&quot;id&quot;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
+                <span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;Lee&quot;</span><span class="p">,</span>
+                <span class="s2">&quot;password&quot;</span><span class="p">:</span> <span class="s2">&quot;23d5c51afade7a8701186250777f3c055c94984ce3d4aaed11438c0c&quot;</span><span class="p">,</span>
+                <span class="s2">&quot;phone&quot;</span><span class="p">:</span> <span class="s2">&quot;402358178&quot;</span><span class="p">,</span>
+                <span class="s2">&quot;sex&quot;</span><span class="p">:</span> <span class="mi">2</span><span class="p">,</span>
+                <span class="s2">&quot;username&quot;</span><span class="p">:</span> <span class="s2">&quot;doctor_1&quot;</span>
+            <span class="p">},</span>
+            <span class="s2">&quot;doctor_id&quot;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
+            <span class="s2">&quot;google_calendar_id&quot;</span><span class="p">:</span> <span class="s2">&quot;rmit.edu.au_6ch9mp71j3crcb9kdd0tit4u88@group.calendar.google.com&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;google_event_id&quot;</span><span class="p">:</span> <span class="s2">&quot;phnmmt9em0o2t78r9ig76hv44c&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;id&quot;</span><span class="p">:</span> <span class="mi">2</span><span class="p">,</span>
+            <span class="s2">&quot;notes&quot;</span><span class="p">:</span> <span class="s2">&quot;Test1&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;patient_id&quot;</span><span class="p">:</span> <span class="mi">1</span>
+        <span class="p">},</span>
+        <span class="p">{</span>
+            <span class="s2">&quot;appointed_from&quot;</span><span class="p">:</span> <span class="s2">&quot;2018-10-02T09:15:00&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;appointed_to&quot;</span><span class="p">:</span> <span class="s2">&quot;2018-10-02T09:30:00&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;created_at&quot;</span><span class="p">:</span> <span class="s2">&quot;2018-10-01T19:45:54+00:00&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;diagnoses&quot;</span><span class="p">:</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;doctor&quot;</span><span class="p">:</span> <span class="p">{</span>
+                <span class="s2">&quot;age&quot;</span><span class="p">:</span> <span class="mi">40</span><span class="p">,</span>
+                <span class="s2">&quot;calendar_id&quot;</span><span class="p">:</span> <span class="s2">&quot;rmit.edu.au_6ch9mp71j3crcb9kdd0tit4u88@group.calendar.google.com&quot;</span><span class="p">,</span>
+                <span class="s2">&quot;created_at&quot;</span><span class="p">:</span> <span class="s2">&quot;2018-09-29T23:58:43+00:00&quot;</span><span class="p">,</span>
+                <span class="s2">&quot;email&quot;</span><span class="p">:</span> <span class="s2">&quot;doctor1@maps.com&quot;</span><span class="p">,</span>
+                <span class="s2">&quot;id&quot;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
+                <span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;Lee&quot;</span><span class="p">,</span>
+                <span class="s2">&quot;password&quot;</span><span class="p">:</span> <span class="s2">&quot;23d5c51afade7a8701186250777f3c055c94984ce3d4aaed11438c0c&quot;</span><span class="p">,</span>
+                <span class="s2">&quot;phone&quot;</span><span class="p">:</span> <span class="s2">&quot;402358178&quot;</span><span class="p">,</span>
+                <span class="s2">&quot;sex&quot;</span><span class="p">:</span> <span class="mi">2</span><span class="p">,</span>
+                <span class="s2">&quot;username&quot;</span><span class="p">:</span> <span class="s2">&quot;doctor_1&quot;</span>
+            <span class="p">},</span>
+            <span class="s2">&quot;doctor_id&quot;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
+            <span class="s2">&quot;google_calendar_id&quot;</span><span class="p">:</span> <span class="s2">&quot;rmit.edu.au_6ch9mp71j3crcb9kdd0tit4u88@group.calendar.google.com&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;google_event_id&quot;</span><span class="p">:</span> <span class="s2">&quot;9qdrl84ee8ojj4bjl6o6dqrhf8&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;id&quot;</span><span class="p">:</span> <span class="mi">15</span><span class="p">,</span>
+            <span class="s2">&quot;notes&quot;</span><span class="p">:</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;patient_id&quot;</span><span class="p">:</span> <span class="mi">1</span>
+        <span class="p">},</span>
+        <span class="p">{</span>
+            <span class="s2">&quot;appointed_from&quot;</span><span class="p">:</span> <span class="s2">&quot;2018-09-28T02:30:00+10:00&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;appointed_to&quot;</span><span class="p">:</span> <span class="s2">&quot;2018-09-28T05:30:00+10:00&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;created_at&quot;</span><span class="p">:</span> <span class="s2">&quot;2018-09-21T21:15:00+00:00&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;diagnoses&quot;</span><span class="p">:</span> <span class="n">null</span><span class="p">,</span>
+            <span class="s2">&quot;doctor&quot;</span><span class="p">:</span> <span class="p">{</span>
+                <span class="s2">&quot;age&quot;</span><span class="p">:</span> <span class="mi">40</span><span class="p">,</span>
+                <span class="s2">&quot;calendar_id&quot;</span><span class="p">:</span> <span class="s2">&quot;rmit.edu.au_6ch9mp71j3crcb9kdd0tit4u88@group.calendar.google.com&quot;</span><span class="p">,</span>
+                <span class="s2">&quot;created_at&quot;</span><span class="p">:</span> <span class="s2">&quot;2018-09-29T23:58:43+00:00&quot;</span><span class="p">,</span>
+                <span class="s2">&quot;email&quot;</span><span class="p">:</span> <span class="s2">&quot;doctor1@maps.com&quot;</span><span class="p">,</span>
+                <span class="s2">&quot;id&quot;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
+                <span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;Lee&quot;</span><span class="p">,</span>
+                <span class="s2">&quot;password&quot;</span><span class="p">:</span> <span class="s2">&quot;23d5c51afade7a8701186250777f3c055c94984ce3d4aaed11438c0c&quot;</span><span class="p">,</span>
+                <span class="s2">&quot;phone&quot;</span><span class="p">:</span> <span class="s2">&quot;402358178&quot;</span><span class="p">,</span>
+                <span class="s2">&quot;sex&quot;</span><span class="p">:</span> <span class="mi">2</span><span class="p">,</span>
+                <span class="s2">&quot;username&quot;</span><span class="p">:</span> <span class="s2">&quot;doctor_1&quot;</span>
+            <span class="p">},</span>
+            <span class="s2">&quot;doctor_id&quot;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
+            <span class="s2">&quot;google_calendar_id&quot;</span><span class="p">:</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;google_event_id&quot;</span><span class="p">:</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;id&quot;</span><span class="p">:</span> <span class="mi">16</span><span class="p">,</span>
+            <span class="s2">&quot;notes&quot;</span><span class="p">:</span> <span class="n">null</span><span class="p">,</span>
+            <span class="s2">&quot;patient_id&quot;</span><span class="p">:</span> <span class="mi">1</span>
+        <span class="p">}</span>
+    <span class="p">],</span>
+    <span class="s2">&quot;msg&quot;</span><span class="p">:</span> <span class="s2">&quot;Successfully Fetched!&quot;</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<hr class="docutils" />
+<p><strong>DELETE : http://Jason:secret&#64;localhost:8081/api/v1.0/patient/appointments/0hst8b5v55ccjio242ln99tb38</strong></p>
+<ul class="simple">
+<li>Delete one appointment</li>
+</ul>
+<p><strong>Headers:</strong></p>
+<div class="code highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">Content</span><span class="o">-</span><span class="n">Type</span> <span class="p">:</span> <span class="n">application</span><span class="o">/</span><span class="n">json</span>
+</pre></div>
+</div>
+<p><strong>Response Payload:</strong></p>
+<div class="code highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
+    <span class="s2">&quot;code&quot;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
+    <span class="s2">&quot;msg&quot;</span><span class="p">:</span> <span class="s2">&quot;Successfully Deleted!&quot;</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<hr class="docutils" />
+<p><strong>PUT : http://Jason:secret&#64;localhost:8081/api/v1.0/patient/testpatient</strong></p>
+<ul class="simple">
+<li>Update patient information</li>
+</ul>
+<p><strong>Headers:</strong></p>
+<div class="code highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">Content</span><span class="o">-</span><span class="n">Type</span> <span class="p">:</span> <span class="n">application</span><span class="o">/</span><span class="n">json</span>
+</pre></div>
+</div>
+<p><strong>Request Payload:</strong></p>
+<div class="code highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
+    <span class="s2">&quot;patient&quot;</span><span class="p">:</span> <span class="p">{</span>
+        <span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;test&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;age&quot;</span><span class="p">:</span> <span class="mi">20</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p><strong>Response Payload:</strong></p>
+<div class="code highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
+    <span class="s2">&quot;code&quot;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
+    <span class="s2">&quot;msg&quot;</span><span class="p">:</span> <span class="s2">&quot;Successfully Updated!&quot;</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</div>
+
+
+                </div>
+              </div>
+
+            </div>
+
+            <div class="clearer"></div>
+          </div>
+        </div>
+
+        <div class="bottomnav">
+          
+        <p>
+        &#171;&#160;&#160;<a href="Patient Module.html">Patient Module</a>
+        &#160;&#160;::&#160;&#160;
+        <a class="uplink" href="index.html">Contents</a>
+        &#160;&#160;::&#160;&#160;
+        <a href="Patient Model.html">Patient Model</a>&#160;&#160;&#187;
+        </p>
+
+        </div>
+
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2018, Jie Li.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.8.1.
+    </div>
+  </body>
+</html>
