@@ -7,10 +7,10 @@ Welcome to MAPS's documentation!
 ================================
 
 .. toctree::
-   :maxdepth: 2
+   :maxdepth: 3
    :caption: Contents:
 
-   Doctor And Patient
+   Endpoints
 
 
 Indices and tables
