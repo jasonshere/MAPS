@@ -57,7 +57,21 @@ class Appointment(db.Model):
             return True, results.data
         else:
             return False, Exception('error')
-    
+
+    # get next patient by doctor id
+    def getNextPatientByDoctorId(self, doctor_id, ps):
+        results = self.query.filter(\
+            Appointment.doctor_id == doctor_id,
+            db.func.unix_timestamp(Appointment.appointed_from) >= time.time()
+        ).first()
+        results = appointment_schema.dump(results)
+        if results.data :
+            res, d = ps.getOnePatientById(results.data['patient_id'])
+            results.data['patient'] = d
+            return True, results.data
+        else:
+            return False, Exception('error')
+ 
     # delete an appointment
     def deleteAppointment(self, event_id):
         appoint = Appointment.query.filter(\

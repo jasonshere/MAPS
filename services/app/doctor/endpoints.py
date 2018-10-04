@@ -303,3 +303,23 @@ def getAppointmentsByPatientId(patient_id):
             raise data
     except Exception as e:
         return make_response(jsonify({'code': -1, 'msg': str(e)}), 400)
+
+# get next patient by doctor id
+@doctor_blueprint.route('/<doctor_id>/appointments/next_patient', methods=["GET"])
+@auth.login_required
+def getNextPatientByDoctorId(doctor_id):
+    try:
+        if doctor_id is None:
+            raise Exception('Invalid Parameters')
+        appointment = Appointment({})
+        ps = Patient({})
+        results, data = appointment.getNextPatientByDoctorId(doctor_id, ps)
+        if results :
+            return make_response(jsonify({'code': 1, 'msg': 'Successfully Fetched!', 'data': data}), 201)
+        else:
+            raise data
+    except Exception as e:
+        print(str(e))
+        return make_response(jsonify({'code': -1, 'msg': str(e)}), 400)
+
+

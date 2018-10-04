@@ -8,9 +8,8 @@ app = Flask(__name__)
 Bootstrap(app)
 # create secret key for form to avoid CSRF attack
 app.secret_key = os.urandom(32)
-
 conf = configparser.ConfigParser()
-conf.read('config.ini')
+conf.read(os.path.dirname(os.path.abspath(__file__))+'/config.ini')
 # MAIN
 environment = conf.get('MAIN', 'ENVIRONMENT')
 
