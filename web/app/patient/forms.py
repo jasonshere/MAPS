@@ -10,6 +10,9 @@ from init import session
 
 # define the reg form model
 class RegForm(Form):
+    """
+    patient register form
+    """
     username = StringField('username', validators=[
         validators.DataRequired(),
         validators.Length(min=4, max=25)
@@ -29,6 +32,9 @@ class RegForm(Form):
 
 # define the login form model
 class LoginForm(Form):
+    """
+    patient sign in form
+    """
     username = StringField('username', validators=[
         validators.DataRequired()
     ])
@@ -95,6 +101,9 @@ class LoginForm(Form):
 
 # define form for account
 class UpdateForm(Form):
+    """
+    patient update account form
+    """
     username = StringField('Username', validators=[
         validators.DataRequired()
     ])

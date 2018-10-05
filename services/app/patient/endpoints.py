@@ -25,6 +25,10 @@ patient_blueprint = Blueprint(
 @patient_blueprint.route('/register', methods=["POST"])
 @auth.login_required
 def register():
+    """
+    add a new patient
+    :return: json
+    """
     try:
         patient = Patient(request.json['patient'])
         patient.addPatient()
@@ -36,6 +40,10 @@ def register():
 @patient_blueprint.route('/login', methods=["POST"])
 @auth.login_required
 def login():
+    """
+    sign in system as a patient
+    :return: json
+    """
     try:
         patient = Patient(request.json['patient'])
         res, data = patient.login()
@@ -51,6 +59,11 @@ def login():
 @patient_blueprint.route('/<username>', methods=["PUT"])
 @auth.login_required
 def update(username):
+    """
+    update patient by username
+    :param username: patient username
+    :return: json
+    """
     try:
         data = request.json['patient']
         patient = Patient({})
@@ -63,6 +76,10 @@ def update(username):
 @patient_blueprint.route('/all', methods=["GET"])
 @auth.login_required
 def getPatients():
+    """
+    get all patients
+    :return: json
+    """
     try:
         patient = Patient({})
         results = patient.getAllPatients()
@@ -74,6 +91,11 @@ def getPatients():
 @patient_blueprint.route('/<patient_id>', methods=["GET"])
 @auth.login_required
 def getOnePatient(patient_id):
+    """
+    get one patient
+    :param patient_id: patient id
+    :return: json
+    """
     try:
         patient = Patient({})
         results, data = patient.getOnePatientById(patient_id)
@@ -85,6 +107,11 @@ def getOnePatient(patient_id):
 @patient_blueprint.route('/calendars/<calendar_id>/events', methods=["GET"])
 @auth.login_required
 def getEvents(calendar_id):
+    """
+    get all events by calendar id
+    :param calendar_id: calendar id
+    :return: json
+    """
     try:
         if calendar_id is None:
             raise Exception('Invalid Parameters')
@@ -101,6 +128,12 @@ def getEvents(calendar_id):
 @patient_blueprint.route('/calendars/<calendar_id>/events/<event_id>', methods=["PUT"])
 @auth.login_required
 def updateEvents(calendar_id, event_id):
+    """
+    update events by calendar id and event id
+    :param calendar_id: calendar id
+    :param event_id: event id
+    :return: json
+    """
     try:
         postData = request.json
         eventData = postData['event']
@@ -123,6 +156,12 @@ def updateEvents(calendar_id, event_id):
 @patient_blueprint.route('/calendars/<calendar_id>/events/<event_id>', methods=["DELETE"])
 @auth.login_required
 def deleteEvent(calendar_id, event_id):
+    """
+    delete event by calendar id and event id
+    :param calendar_id: calendar id and event id
+    :param event_id: event id
+    :return: json
+    """
     try:
         if calendar_id is None:
             raise Exception('Invalid Parameters')
@@ -141,6 +180,10 @@ def deleteEvent(calendar_id, event_id):
 @patient_blueprint.route('/appointments', methods=["POST"])
 @auth.login_required
 def addAppointments():
+    """
+    add a appointment
+    :return: json
+    """
     try:
         postData = request.json['appointment']
         if postData['patient_id'] is None:
@@ -166,6 +209,11 @@ def addAppointments():
 @patient_blueprint.route('/<patient_id>/appointments', methods=["GET"])
 @auth.login_required
 def getAppointments(patient_id):
+    """
+    get appointments by patient id
+    :param patient_id: patient id
+    :return: json
+    """
     try:
         if patient_id is None:
             raise Exception('Invalid Parameters')
@@ -184,6 +232,11 @@ def getAppointments(patient_id):
 @patient_blueprint.route('/appointments/<event_id>', methods=["DELETE"])
 @auth.login_required
 def deleteAppointment(event_id):
+    """
+    delete appointment by event id
+    :param event_id: event id
+    :return: json
+    """
     try:
         appointment = Appointment({})
         appointment.deleteAppointment(event_id)

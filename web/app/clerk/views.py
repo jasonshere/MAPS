@@ -15,6 +15,10 @@ clerk_blueprint = Blueprint(
 
 # setting
 def clerkSetting():
+    """
+    define menu
+    :return: menu object
+    """
     settings = {
         'title' : 'Clerk',
         'menu' : {
@@ -40,10 +44,18 @@ def clerkSetting():
 
 @clerk_blueprint.route('/index')
 def index():
+    """
+    index
+    :return: default page
+    """
     return redirect(url_for('clerk.addDoctor'))
 
 @clerk_blueprint.route('/add_doctor', methods=['GET', 'POST'])
 def addDoctor():
+    """
+    add a doctor
+    :return: render page or redirect
+    """
     form = AddDoctorForm(request.form)
     if request.method == 'POST' and form.validate():
         # pass the validation, request API
@@ -61,6 +73,10 @@ def addDoctor():
 
 @clerk_blueprint.route('/doctors')
 def doctorsList():
+    """
+    get doctor list
+    :return:render page
+    """
     ds = DoctorService()
     res, doctors = ds.getAll()
     data = doctors['data']
@@ -68,6 +84,10 @@ def doctorsList():
 
 @clerk_blueprint.route('/doctors_calendar')
 def doctorsCalendar():
+    """
+    get doctor calendar
+    :return: render page
+    """
     ds = DoctorService()
     res, doctors = ds.getAll()
     data = doctors['data']
@@ -76,6 +96,11 @@ def doctorsCalendar():
 # set free time
 @clerk_blueprint.route('/set_free_time/<doctor_id>', methods=['POST'])
 def setFreeTime(doctor_id):
+    """
+    set free time for doctor
+    :param doctor_id: doctor id
+    :return: json
+    """
     start = request.form.getlist('start')[0]
     end = request.form.getlist('end')[0]
     ds = DoctorService()
@@ -95,6 +120,11 @@ def setFreeTime(doctor_id):
 # get free time
 @clerk_blueprint.route('/get_free_time/<doctor_id>', methods=['GET'])
 def getFreeTime(doctor_id):
+    """
+    get free time
+    :param doctor_id: doctor id
+    :return: json
+    """
     ds = DoctorService()
     res, data = ds.getDoctorById(doctor_id)
     calendarId = data['data']['calendar_id']
@@ -110,6 +140,11 @@ def getFreeTime(doctor_id):
 # delete free time
 @clerk_blueprint.route('/delete_free_time/<doctor_id>', methods=['POST'])
 def deleteFreeTime(doctor_id):
+    """
+    delete free time
+    :param doctor_id: doctor id
+    :return: json
+    """
     ds = DoctorService()
     res, data = ds.getDoctorById(doctor_id)
     calendarId = data['data']['calendar_id']
@@ -124,11 +159,19 @@ def deleteFreeTime(doctor_id):
 # statistics
 @clerk_blueprint.route('/statistics', methods=['GET'])
 def statistics():
+    """
+    get statistics
+    :return: render page
+    """
     return render_template('clerk/statistics.html', **clerkSetting())
 
 # get Json
 @clerk_blueprint.route('/statistics/json', methods=['GET'])
 def staJson():
+    """
+    get statistics data
+    :return: json
+    """
     cs = ClerkService()
     res, data = cs.getStatistics()
     if res:

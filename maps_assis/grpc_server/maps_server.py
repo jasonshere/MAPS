@@ -32,6 +32,12 @@ _ONE_DAY_IN_SECONDS = 60 * 60 * 24
 class ValidatePatient(maps_pb2_grpc.MAPS_serverServicer):
 
     def ValidatePatient(self, request, context):
+        """
+        validate if patient has arrived
+        :param request: Request
+        :param context: Context
+        :return: Message
+        """
         if detect(request.name) is True:
             thr = threading.Thread(target=show_office, args=[request.office_no])
             thr.start()
@@ -39,11 +45,20 @@ class ValidatePatient(maps_pb2_grpc.MAPS_serverServicer):
         return maps_pb2.MAPSReply(message='2')
 
 def show_office(office_no):
-        sense_hat = SenseHat()
-        text = 'The Doctor office number is {}'. format(office_no)
-        sense_hat.show_message(text)
+    """
+    show office on sense hat
+    :param office_no: office number
+    :return: None
+    """
+    sense_hat = SenseHat()
+    text = 'The Doctor office number is {}'. format(office_no)
+    sense_hat.show_message(text)
 
 def serve():
+    """
+    listen gRPC client
+    :return: None
+    """
     host = os.popen('hostname -I').read() # get the IP address of your Raspberry Pi
     print(host)
     server = grpc.server(futures.ThreadPoolExecutor(max_workers=10))

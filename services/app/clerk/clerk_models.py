@@ -6,6 +6,9 @@ import hashlib
 
 # model for clerk
 class Clerk(db.Model):
+    """
+    Clerk Model
+    """
     
     __tablename__ = '{}clerk'. format(PREFIX)
 
@@ -22,18 +25,30 @@ class Clerk(db.Model):
 
     # initialise model
     def __init__(self, data):
+        """
+        constructor
+        :param data: init data
+        """
         for field in data:
             setattr(self, field, data[field])
         db.create_all()
 
     # add a clerk
     def addClerk(self):
+        """
+        add a new clerk
+        :return: Boolean
+        """
         self.password = hashlib.sha224(self.password.encode('utf-8')).hexdigest()
         db.session.add(self)
         return db.session.commit()
 
     # login a clerk
     def login(self):
+        """
+        sign in clerk
+        :return: Boolean, Object
+        """
         result = self.query.filter(\
                                 Clerk.username == self.username,\
                                 Clerk.password == hashlib.sha224(self.password.encode('utf-8')).hexdigest()\

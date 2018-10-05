@@ -6,6 +6,9 @@ import hashlib
 
 # model for patient
 class Patient(db.Model):
+    """
+    patient model
+    """
     __tablename__ = '{}patient'. format(PREFIX)
 
     id = db.Column(db.Integer, primary_key=True)
@@ -23,18 +26,30 @@ class Patient(db.Model):
 
     # initialise model
     def __init__(self, data):
+        """
+        constructor
+        :param data: init data
+        """
         for field in data:
             setattr(self, field, data[field])
         db.create_all()
 
     # add a patient
     def addPatient(self):
+        """
+        add a new patient
+        :return: boolean
+        """
         self.password = hashlib.sha224(self.password.encode('utf-8')).hexdigest()
         db.session.add(self)
         return db.session.commit()
 
     # login a patient
     def login(self):
+        """
+        sign in as a patient
+        :return: Boolean, Object
+        """
         result = self.query.filter(\
                                 Patient.username == self.username,\
                                 Patient.password == hashlib.sha224(self.password.encode('utf-8')).hexdigest()\
@@ -48,6 +63,11 @@ class Patient(db.Model):
 
     # get one patient by id
     def getOnePatientById(self, customer_id):
+        """
+        get one patient by patient id
+        :param customer_id: patient id
+        :return: Boolean, object
+        """
         result = self.query.get(customer_id)
         result = patient_schema.dump(result)
         if result.data :
@@ -57,6 +77,12 @@ class Patient(db.Model):
 
     # update patient by id
     def updateSchema(self, patientId, data):
+        """
+        update patient
+        :param patientId: patient id
+        :param data: data
+        :return: boolean
+        """
         patient = self.query.get(patientId)
         for field in data:
             setattr(patient, field, data[field])
@@ -64,6 +90,12 @@ class Patient(db.Model):
 
     # update patient by username
     def updateByUsername(self, username, data):
+        """
+        update patient by username
+        :param username: patient username
+        :param data: data
+        :return: boolean
+        """
         patient = self.query.filter(Patient.username == username).first()
         for field in data:
             setattr(patient, field, data[field])
@@ -71,6 +103,10 @@ class Patient(db.Model):
 
     # get all patients
     def getAllPatients(self):
+        """
+        get all patients
+        :return: data
+        """
         all = self.query.all()
         result = patients_schema.dump(all)
         return result.data

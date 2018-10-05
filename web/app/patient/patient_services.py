@@ -7,11 +7,19 @@ import time
 class PatientService():
     # constructor
     def __init__(self):
+        """
+        constructor
+        """
         self.module = 'patient'
         self.baseUrl = '{}://{}:{}@{}/{}'. format(PROTOCOL, APIKEY, APIPASS, SERVICE_ADDRESS, self.module)
 
     # request API of registering patients
     def register(self, payload):
+        """
+        register a patient
+        :param payload: payload
+        :return: boolean,object
+        """
         try:
             url = self.baseUrl + '/register'
             headers = {'Content-type': 'application/json'}
@@ -25,6 +33,11 @@ class PatientService():
 
     # request API of login
     def login(self, payload):
+        """
+        sign in system as patient
+        :param payload: payload
+        :return: boolean,object
+        """
         try:
             url = self.baseUrl + '/login'
             headers = {'Content-type': 'application/json'}
@@ -38,6 +51,11 @@ class PatientService():
 
     # request API of login
     def update(self, payload):
+        """
+        update patient
+        :param payload: data
+        :return: boolean,object
+        """
         try:
             url = self.baseUrl + '/' + payload['patient']['username']
             headers = {'Content-type': 'application/json'}
@@ -51,6 +69,11 @@ class PatientService():
 
     # get patient by id
     def getPatientById(self, patient_id):
+        """
+        get patient by id
+        :param patient_id: patient id
+        :return: boolean,object
+        """
         try:
             url = self.baseUrl + '/{}' .format(patient_id)
             headers = {'Content-type': 'application/json'}
@@ -64,6 +87,11 @@ class PatientService():
 
     # get events
     def getAllEvents(self, calendarId):
+        """
+        get all events
+        :param calendarId: calendar id
+        :return: boolean,object
+        """
         try:
             url = self.baseUrl + '/calendars/' + calendarId + '/events'
             headers = {'Content-type': 'application/json'}
@@ -77,6 +105,11 @@ class PatientService():
 
     # get event connector
     def getEventConnector(self, doctorId):
+        """
+        get event connector
+        :param doctorId: doctor id
+        :return: boolean,object
+        """
         try:
             url = self.baseUrl + '/appointments/' + doctorId
             headers = {'Content-type': 'application/json'}
@@ -91,6 +124,11 @@ class PatientService():
 
     # get events by doctor id
     def getEventsByDoctorId(self, doctorId):
+        """
+        get all events by doctor id
+        :param doctorId: doctor id
+        :return: boolean,object
+        """
         try:
             baseUrl = '{}://{}:{}@{}/{}'. format(PROTOCOL, APIKEY, APIPASS, SERVICE_ADDRESS, 'doctor')
             url = baseUrl + '/' + doctorId
@@ -116,6 +154,14 @@ class PatientService():
 
     # get events by doctor id
     def updateEventsByDoctorId(self, doctorId, eventId, email, delete):
+        """
+        update events by doctor id
+        :param doctorId: doctor id
+        :param eventId: event id
+        :param email: email
+        :param delete: is delete
+        :return: boolean,object
+        """
         try:
             headers = {'Content-type': 'application/json'}
             baseUrl = '{}://{}:{}@{}/{}'. format(PROTOCOL, APIKEY, APIPASS, SERVICE_ADDRESS, 'doctor')
@@ -161,6 +207,15 @@ class PatientService():
 
     # set appointment
     def setAppointment(self, eventId, doctorId, patientId, start, end):
+        """
+        set appointment
+        :param eventId: event id
+        :param doctorId: doctor id
+        :param patientId: patient id
+        :param start: start time
+        :param end: end time
+        :return: boolean,object
+        """
         try:
             baseUrl = '{}://{}:{}@{}/{}'. format(PROTOCOL, APIKEY, APIPASS, SERVICE_ADDRESS, 'doctor')
             url = baseUrl + '/' + doctorId
@@ -200,6 +255,11 @@ class PatientService():
 
     # set appointment
     def deleteAppointment(self, eventId):
+        """
+        delete appointment by event id
+        :param eventId: event id
+        :return: boolean,object
+        """
         try:
             url = self.baseUrl + '/appointments/{}'. format(eventId)
             headers = {'Content-type': 'application/json'}
@@ -214,6 +274,11 @@ class PatientService():
 
     # get all appointments
     def getAppointmentsById(self, patientId):
+        """
+        get appointments by id
+        :param patientId: patient id
+        :return: boolean,object
+        """
         try:
             url = self.baseUrl + '/{}/appointments'. format(patientId)
             headers = {'Content-type': 'application/json'}

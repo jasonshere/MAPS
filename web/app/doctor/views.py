@@ -14,6 +14,10 @@ doctor_blueprint = Blueprint(
 
 # setting
 def doctorSetting():
+    """
+    menu setting
+    :return: menu object
+    """
     settings = {
         'title' : 'Doctor',
         'menu' : {
@@ -32,10 +36,18 @@ def doctorSetting():
 
 @doctor_blueprint.route('/index')
 def index():
+    """
+    index
+    :return: default page
+    """
     return redirect(url_for('doctor.setCalendar'))
 
 @doctor_blueprint.route('/all_patients')
 def patients():
+    """
+    get all patients
+    :return: render page
+    """
     ds = DoctorService()
     doctorId = session['User']['id']
     res, data = ds.getAllPatients(doctorId)    
@@ -43,6 +55,11 @@ def patients():
 
 @doctor_blueprint.route('/edit_notes/<appointment_id>', methods=['GET', 'POST'])
 def editNotes(appointment_id):
+    """
+    edit notes
+    :param appointment_id: app id
+    :return: render page
+    """
     ds = DoctorService()
     form = NoteForm(request.form)
     res, data = ds.getAppointmentById(appointment_id)
@@ -54,6 +71,11 @@ def editNotes(appointment_id):
 
 @doctor_blueprint.route('/edit_diagnoses/<appointment_id>', methods=['GET', 'POST'])
 def editDiagnoses(appointment_id):
+    """
+    edit diagnoses
+    :param appointment_id: app id
+    :return: render page
+    """
     ds = DoctorService()
     form = DiagnoseForm(request.form)
     res, data = ds.getAppointmentById(appointment_id)
@@ -65,17 +87,30 @@ def editDiagnoses(appointment_id):
 
 @doctor_blueprint.route('/history/<patient_id>')
 def history(patient_id):
+    """
+    get all history by patient id
+    :param patient_id: patient id
+    :return: render page
+    """
     ds = DoctorService()
     his, data = ds.getAppointmentsByPatientId(patient_id)
     return render_template('doctor/history.html', **doctorSetting(), history=data['data'])
 
 @doctor_blueprint.route('/set_calendar')
 def setCalendar():
+    """
+    set calendar
+    :return: render page
+    """
     return render_template('doctor/set_calendar.html', **doctorSetting())
 
 # set free time
 @doctor_blueprint.route('/set_free_time', methods=['POST'])
 def setFreeTime():
+    """
+    set free time
+    :return: json
+    """
     start = request.form.getlist('start')[0]
     end = request.form.getlist('end')[0]
     ds = DoctorService()
@@ -94,6 +129,10 @@ def setFreeTime():
 # get free time
 @doctor_blueprint.route('/get_free_time', methods=['GET'])
 def getFreeTime():
+    """
+    get free time
+    :return: json
+    """
     ds = DoctorService()
     calendarId = session['User']['calendar_id']
     if calendarId is None:
@@ -108,6 +147,10 @@ def getFreeTime():
 # delete free time
 @doctor_blueprint.route('/delete_free_time', methods=['POST'])
 def deleteFreeTime():
+    """
+    delete free time
+    :return: json
+    """
     calendarId = session['User']['calendar_id']
     freeId = request.form.getlist('freeid')[0]
     ds = DoctorService()

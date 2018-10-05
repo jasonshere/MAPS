@@ -1,4 +1,7 @@
 class AssistantConf:
+    """
+    The configueration for assistant
+    """
     # grpc host
     GRPC_HOST = '192.168.0.10'
 

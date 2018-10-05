@@ -6,6 +6,9 @@ import hashlib
 
 # model for doctor
 class Doctor(db.Model):
+    """
+    Doctor Model
+    """
     __tablename__ = '{}doctor'. format(PREFIX)
 
     id = db.Column(db.Integer, primary_key=True)
@@ -21,18 +24,30 @@ class Doctor(db.Model):
 
     # initialise model
     def __init__(self, data):
+        """
+        constructor
+        :param data: init data
+        """
         for field in data:
             setattr(self, field, data[field])
         db.create_all()
 
     # add a doctor
     def addDoctor(self):
+        """
+        add a doctor
+        :return: Boolean
+        """
         self.password = hashlib.sha224(self.password.encode('utf-8')).hexdigest()
         db.session.add(self)
         return db.session.commit()
 
     # login a doctor
     def login(self):
+        """
+        sign in as a doctor
+        :return: Boolean, Object
+        """
         result = self.query.filter(\
                                 Doctor.username == self.username,\
                                 Doctor.password == hashlib.sha224(self.password.encode('utf-8')).hexdigest()\
@@ -45,6 +60,11 @@ class Doctor(db.Model):
 
     # get one doctor by id
     def getOneDoctorById(self, customer_id):
+        """
+        Get one doctor by id
+        :param customer_id: doctor id
+        :return: Boolean, Object
+        """
         result = self.query.get(customer_id)
         result = doctor_schema.dump(result)
         if result.data :
@@ -54,6 +74,11 @@ class Doctor(db.Model):
 
     # get one doctor by email
     def getOneDoctorByEmail(self, customer_email):
+        """
+        get one doctor by email
+        :param customer_email: email
+        :return: Boolean, Object
+        """
         result = self.query.filter(\
                     Doctor.email == customer_email
                 ).first()
@@ -65,6 +90,12 @@ class Doctor(db.Model):
 
     # update doctor by id
     def updateSchema(self, doctorId, data):
+        """
+        update fields for doctor
+        :param doctorId: doctor id
+        :param data: data
+        :return: Boolean
+        """
         doctor = self.query.get(doctorId)
         for field in data:
             setattr(doctor, field, data[field])
@@ -72,6 +103,10 @@ class Doctor(db.Model):
 
     # get all doctors
     def getAllDoctors(self):
+        """
+        Get all doctors
+        :return: object
+        """
         all = self.query.all()
         result = doctors_schema.dump(all)
         return result.data

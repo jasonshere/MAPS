@@ -25,6 +25,10 @@ doctor_blueprint = Blueprint(
 @doctor_blueprint.route('/register', methods=["POST"])
 @auth.login_required
 def register():
+    """
+    add a new doctor
+    :return: json
+    """
     try:
         doctor = Doctor(request.json['doctor'])
         doctor.addDoctor()
@@ -36,6 +40,10 @@ def register():
 @doctor_blueprint.route('/login', methods=["POST"])
 @auth.login_required
 def login():
+    """
+    sign in system as a doctor
+    :return: json
+    """
     try:
         doctor = Doctor(request.json['doctor'])
         res, data = doctor.login()
@@ -50,6 +58,10 @@ def login():
 @doctor_blueprint.route('/all', methods=["GET"])
 @auth.login_required
 def getDoctors():
+    """
+    get all doctors
+    :return: json
+    """
     try:
         doctor = Doctor({})
         results = doctor.getAllDoctors()
@@ -61,6 +73,11 @@ def getDoctors():
 @doctor_blueprint.route('/<doctor_id>', methods=["GET"])
 @auth.login_required
 def getOneDoctor(doctor_id):
+    """
+    get one doctor
+    :param doctor_id: doctor id
+    :return: json
+    """
     try:
         doctor = Doctor({})
         results, data = doctor.getOneDoctorById(doctor_id)
@@ -72,6 +89,10 @@ def getOneDoctor(doctor_id):
 @doctor_blueprint.route('/calendars', methods=["POST"])
 @auth.login_required
 def addCalendar():
+    """
+    add a calendar for doctor
+    :return: json
+    """
     try:
         postData = request.json
         calendarData = postData['calendar']
@@ -134,6 +155,11 @@ def addCalendar():
 @doctor_blueprint.route('/calendars/<calendar_id>/events', methods=["POST"])
 @auth.login_required
 def addEvents(calendar_id):
+    """
+    add event for doctor
+    :param calendar_id: calendar id
+    :return: json
+    """
     postData = request.json
     eventData = postData['event']     
 
@@ -181,6 +207,11 @@ def addEvents(calendar_id):
 @doctor_blueprint.route('/calendars/<calendar_id>/events', methods=["GET"])
 @auth.login_required
 def getEvents(calendar_id):
+    """
+    get all events
+    :param calendar_id: calendar_id
+    :return: json
+    """
     try:
         if calendar_id is None:
             raise Exception('Invalid Parameters')
@@ -197,6 +228,12 @@ def getEvents(calendar_id):
 @doctor_blueprint.route('/calendars/<calendar_id>/events/<event_id>', methods=["DELETE"])
 @auth.login_required
 def deleteEvent(calendar_id, event_id):
+    """
+    delete event by calendar and event id
+    :param calendar_id: calendar id
+    :param event_id: event id
+    :return: json
+    """
     try:
         if calendar_id is None:
             raise Exception('Invalid Parameters')
@@ -215,6 +252,11 @@ def deleteEvent(calendar_id, event_id):
 @doctor_blueprint.route('/email/<doctor_email>', methods=["GET"])
 @auth.login_required
 def getOneDoctorByEmail(doctor_email):
+    """
+    get one doctor by email
+    :param doctor_email: doctor email
+    :return: json
+    """
     try:
         doctor = Doctor({})
         results, data = doctor.getOneDoctorByEmail(doctor_email)
@@ -226,6 +268,11 @@ def getOneDoctorByEmail(doctor_email):
 @doctor_blueprint.route('/<doctor_id>/appointments', methods=["GET"])
 @auth.login_required
 def getAppointmentsByDoctorId(doctor_id):
+    """
+    get all appointments by doctor id
+    :param doctor_id: doctor id
+    :return: json
+    """
     try:
         if doctor_id is None:
             raise Exception('Invalid Parameters')
@@ -243,6 +290,11 @@ def getAppointmentsByDoctorId(doctor_id):
 @doctor_blueprint.route('/appointments/event_id/<event_id>', methods=["GET"])
 @auth.login_required
 def getDoctorIdByEventId(event_id):
+    """
+    get doctor by event id
+    :param event_id: event id
+    :return: json
+    """
     try:
         if event_id is None:
             raise Exception('Invalid Parameters')
@@ -259,6 +311,11 @@ def getDoctorIdByEventId(event_id):
 @doctor_blueprint.route('/appointments/<appointment_id>', methods=["PUT"])
 @auth.login_required
 def updateAppointmentById(appointment_id):
+    """
+    update appointment by id
+    :param appointment_id: appointment id
+    :return: json
+    """
     try:
         postData = request.json
         appoData = postData['appointment']  
@@ -275,6 +332,11 @@ def updateAppointmentById(appointment_id):
 @doctor_blueprint.route('/appointments/<appointment_id>', methods=["GET"])
 @auth.login_required
 def getAppointmentById(appointment_id):
+    """
+    get appointment by id
+    :param appointment_id: appointment id
+    :return: json
+    """
     try:
         if appointment_id is None:
             raise Exception('Invalid Parameters')
@@ -291,6 +353,11 @@ def getAppointmentById(appointment_id):
 @doctor_blueprint.route('/appointments/patient/<patient_id>', methods=["GET"])
 @auth.login_required
 def getAppointmentsByPatientId(patient_id):
+    """
+    get appointments by patient id
+    :param patient_id: patient id
+    :return: json
+    """
     try:
         if patient_id is None:
             raise Exception('Invalid Parameters')
@@ -308,6 +375,11 @@ def getAppointmentsByPatientId(patient_id):
 @doctor_blueprint.route('/<doctor_id>/appointments/next_patient', methods=["GET"])
 @auth.login_required
 def getNextPatientByDoctorId(doctor_id):
+    """
+    get next patient by doctor id
+    :param doctor_id: doctor id
+    :return: json
+    """
     try:
         if doctor_id is None:
             raise Exception('Invalid Parameters')

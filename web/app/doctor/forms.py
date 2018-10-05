@@ -10,12 +10,18 @@ from init import session
 
 # define the notes form model
 class NoteForm(Form):
+    """
+    edit notes form
+    """
     description = TextAreaField('Description', validators=[
         validators.DataRequired(),
     ])
 
 # define the diagnoses form model
 class DiagnoseForm(Form):
+    """
+    edit diagnoses form
+    """
     description = TextAreaField('Description', validators=[
         validators.DataRequired(),
     ])

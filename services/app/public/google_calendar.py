@@ -20,6 +20,14 @@ service = build('calendar', 'v3', http=creds.authorize(Http()))
 
 # insert secondary calendar
 def addSecondaryCalendar(summary, description, location, timezone):
+    """
+    add a secondary calendar
+    :param summary: title
+    :param description: description
+    :param location: location
+    :param timezone: timezone
+    :return: boolean,object
+    """
     try:
         calendar = {
             'summary': summary,
@@ -34,6 +42,11 @@ def addSecondaryCalendar(summary, description, location, timezone):
 
 # set Freetime event
 def setFreeTimeGoogleEvent(data):
+    """
+    set free time for doctor
+    :param data: data
+    :return: boolean,object
+    """
     try:
         event = {
             'summary': data['summary'],
@@ -60,6 +73,11 @@ def setFreeTimeGoogleEvent(data):
 
 # add event
 def addGoogleEvent(data):
+    """
+    get google event
+    :param data: data
+    :return: boolean,object
+    """
     try:
         start = time.mktime(time.strptime(data['start']['dateTime'], '%Y-%m-%dT%H:%M:%S'))
         end = time.mktime(time.strptime(data['end']['dateTime'], '%Y-%m-%dT%H:%M:%S'))
@@ -103,6 +121,11 @@ def addGoogleEvent(data):
 
 # get events
 def getGoogleEvents(calendar_id):
+    """
+    get all google events
+    :param calendar_id: calendat id
+    :return: boolean,object
+    """
     try:
         page_token = None
         results = []
@@ -119,6 +142,13 @@ def getGoogleEvents(calendar_id):
 
 # update events
 def updateGoogleEvents(calendar_id, event_id, payload):
+    """
+    update google events
+    :param calendar_id: calendar id
+    :param event_id: event id
+    :param payload: payload
+    :return: boolean,object
+    """
     try:
         # First retrieve the event from the API.
         event = service.events().get(calendarId=calendar_id, eventId=event_id).execute()
@@ -136,6 +166,12 @@ def updateGoogleEvents(calendar_id, event_id, payload):
 
 # delete event
 def deleteGoogleEvent(calendar_id, event_id):
+    """
+    delete google event
+    :param calendar_id: calendar id
+    :param event_id: event id
+    :return: boolean,object
+    """
     try:
         service.events().delete(calendarId = calendar_id, eventId = event_id).execute()
         return True, {}

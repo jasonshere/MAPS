@@ -6,6 +6,9 @@ import time
 
 # model for appointment
 class Appointment(db.Model):
+    """
+    Appointment Model
+    """
     __tablename__ = '{}appointment'. format(PREFIX)
 
     id = db.Column(db.Integer, primary_key=True)
@@ -21,17 +24,31 @@ class Appointment(db.Model):
 
     # initialise model
     def __init__(self, data={}):
+        """
+        constructor
+        :param data: init data
+        """
         for field in data:
             setattr(self, field, data[field])
         db.create_all()
 
     # add an appointment
     def addAppointment(self):
+        """
+        add appointment
+        :return: None
+        """
         db.session.add(self)
         db.session.commit()
 
     # get all appointments by patient id
     def getAllAppointmentByPatientId(self, patient_id, ds):
+        """
+        get all appointments by patient id
+        :param patient_id: patient id
+        :param ds: doctor service
+        :return: boolean,object
+        """
         results = self.query.filter(\
             Appointment.patient_id == patient_id
         ).all()
@@ -46,6 +63,12 @@ class Appointment(db.Model):
 
     # get all appointments by doctor id
     def getAllAppointmentByDoctorId(self, doctor_id, ps):
+        """
+        get all appointments by doctor id
+        :param doctor_id: doctor id
+        :param ps: patient service
+        :return:boolean,object
+        """
         results = self.query.filter(\
             Appointment.doctor_id == doctor_id
         ).all()
@@ -60,6 +83,12 @@ class Appointment(db.Model):
 
     # get next patient by doctor id
     def getNextPatientByDoctorId(self, doctor_id, ps):
+        """
+        get next patient by doctor id
+        :param doctor_id: doctor id
+        :param ps: patient service
+        :return: boolean,object
+        """
         results = self.query.filter(\
             Appointment.doctor_id == doctor_id,
             db.func.unix_timestamp(Appointment.appointed_from) >= time.time()
@@ -74,6 +103,11 @@ class Appointment(db.Model):
  
     # delete an appointment
     def deleteAppointment(self, event_id):
+        """
+        delete appointments
+        :param event_id: event id
+        :return: None
+        """
         appoint = Appointment.query.filter(\
             Appointment.google_event_id == event_id
         ).first()
@@ -84,6 +118,11 @@ class Appointment(db.Model):
 
     # get one appointment
     def getAppointmentById(self, app_id):
+        """
+        get appointment by id
+        :param app_id: appointment id
+        :return: boolean,object
+        """
         result = self.query.filter(Appointment.id == app_id).first()
         result = appointment_schema.dump(result)
         if result.data :
@@ -93,6 +132,11 @@ class Appointment(db.Model):
 
     # get doctor id by event id
     def getDoctorIdByEventId(self, eid):
+        """
+        get doctor id by event id
+        :param eid: event id
+        :return: boolean,object
+        """
         result = self.query.filter(Appointment.google_event_id == eid).first()
         result = appointment_schema.dump(result)
         if result.data :
@@ -102,6 +146,12 @@ class Appointment(db.Model):
 
     # update appointment
     def update(self, appointment_id, data):
+        """
+        update appointment by appointment id and data
+        :param appointment_id: appointment id
+        :param data: data
+        :return: None
+        """
         app = self.query.get(appointment_id)
         for field in data:
             setattr(app, field, data[field])
@@ -109,6 +159,10 @@ class Appointment(db.Model):
 
     # get appointments by doctor and start date
     def getAppointmentsGroupByDoctorAndStartDate(self):
+        """
+        get statistics
+        :return: Object
+        """
         # get All appointments
         
         appointments = self.query.filter(
@@ -153,6 +207,11 @@ class Appointment(db.Model):
 
     # get all doctor_id
     def getAllDoctorIds(self, results):
+        """
+        get all doctors
+        :param results: id
+        :return: boolean/object
+        """
         ids = []
         for i in range(len(results)):
             if results[i]['doctor_id'] not in ids:
@@ -161,6 +220,12 @@ class Appointment(db.Model):
 
     # identify the doctor_id is exists
     def hasDoctorId(self, apps, doctorId):
+        """
+        identify if the doctor id is existing
+        :param apps: appointments
+        :param doctorId: doctor id
+        :return: boolean/ids
+        """
         for i in range(len(apps)):
             if apps[i]['doctor_id'] == doctorId:
                 return apps[i]

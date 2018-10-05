@@ -24,6 +24,10 @@ clerk_blueprint = Blueprint(
 # register clerk
 @clerk_blueprint.route('/register', methods=["POST"])
 def register():
+    """
+    endpoints for adding a new clerk
+    :return: json
+    """
     try:
         clerk = Clerk(request.json['clerk'])
         clerk.addClerk()
@@ -36,6 +40,10 @@ def register():
 @clerk_blueprint.route('/login', methods=["POST"])
 @auth.login_required
 def login():
+    """
+    sign in system as clerk
+    :return: json
+    """
     try:
         clerk = Clerk(request.json['clerk'])
         res, data = clerk.login()
@@ -50,6 +58,10 @@ def login():
 # get statistics
 @clerk_blueprint.route('/statistics', methods=["GET"])
 def getAppointmentsGroupByDoctorAndStartDate():
+    """
+    get statistics data
+    :return:  json
+    """
     appointment = Appointment()
     doctor = Doctor({})
     data = appointment.getAppointmentsGroupByDoctorAndStartDate()
@@ -63,6 +75,11 @@ def getAppointmentsGroupByDoctorAndStartDate():
 
 # Assembly data
 def assemblyData(data):
+    """
+    assemble data
+    :param data: Object
+    :return: Object
+    """
     # return data
     appoints = {}
     labels = []

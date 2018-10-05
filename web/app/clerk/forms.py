@@ -9,6 +9,9 @@ from init import session
 
 # define the reg form model
 class AddDoctorForm(Form):
+    """
+    Add doctor form
+    """
     username = StringField('Username', validators=[
         validators.DataRequired()
     ])

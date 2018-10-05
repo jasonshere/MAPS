@@ -2,7 +2,25 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="b85a6f09-de89-4c3c-8c88-49218cef0124" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/maps_assis/assistant.py" beforeDir="false" afterPath="$PROJECT_DIR$/maps_assis/assistant.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/maps_assis/assistant_conf.py" beforeDir="false" afterPath="$PROJECT_DIR$/maps_assis/assistant_conf.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/maps_assis/grpc_server/maps_server.py" beforeDir="false" afterPath="$PROJECT_DIR$/maps_assis/grpc_server/maps_server.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/services/app/clerk/clerk_models.py" beforeDir="false" afterPath="$PROJECT_DIR$/services/app/clerk/clerk_models.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/services/app/clerk/endpoints.py" beforeDir="false" afterPath="$PROJECT_DIR$/services/app/clerk/endpoints.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/services/app/doctor/doctor_models.py" beforeDir="false" afterPath="$PROJECT_DIR$/services/app/doctor/doctor_models.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/services/app/doctor/endpoints.py" beforeDir="false" afterPath="$PROJECT_DIR$/services/app/doctor/endpoints.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/services/app/patient/endpoints.py" beforeDir="false" afterPath="$PROJECT_DIR$/services/app/patient/endpoints.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/services/app/patient/patient_models.py" beforeDir="false" afterPath="$PROJECT_DIR$/services/app/patient/patient_models.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/services/app/public/google_calendar.py" beforeDir="false" afterPath="$PROJECT_DIR$/services/app/public/google_calendar.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/services/app/public/pub_models.py" beforeDir="false" afterPath="$PROJECT_DIR$/services/app/public/pub_models.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/web/app/clerk/clerk_services.py" beforeDir="false" afterPath="$PROJECT_DIR$/web/app/clerk/clerk_services.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/web/app/clerk/forms.py" beforeDir="false" afterPath="$PROJECT_DIR$/web/app/clerk/forms.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/web/app/clerk/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/web/app/clerk/views.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/web/app/doctor/doctor_services.py" beforeDir="false" afterPath="$PROJECT_DIR$/web/app/doctor/doctor_services.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/web/app/doctor/forms.py" beforeDir="false" afterPath="$PROJECT_DIR$/web/app/doctor/forms.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/web/app/doctor/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/web/app/doctor/views.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/web/app/patient/forms.py" beforeDir="false" afterPath="$PROJECT_DIR$/web/app/patient/forms.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/web/app/patient/patient_services.py" beforeDir="false" afterPath="$PROJECT_DIR$/web/app/patient/patient_services.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/web/app/patient/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/web/app/patient/views.py" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -20,23 +38,119 @@
       </usages-collector>
       <usages-collector id="statistics.file.extensions.edit">
         <counts>
-          <entry key="py" value="236" />
+          <entry key="py" value="5314" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.types.edit">
         <counts>
-          <entry key="Python" value="236" />
+          <entry key="Python" value="5314" />
         </counts>
       </usages-collector>
+      <usages-collector id="statistics.file.extensions.open">
+        <counts>
+          <entry key="py" value="20" />
+        </counts>
+      </usages-collector>
+      <usages-collector id="statistics.file.types.open">
+        <counts>
+          <entry key="Python" value="20" />
+        </counts>
+      </usages-collector>
+      <usages-collector id="statistics.js.language.service.starts" />
+      <usages-collector id="statistics.vcs.git.usages" />
     </session>
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/maps_assis/assistant.py">
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/services/app/public/pub_models.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="445">
-              <caret line="56" column="62" selection-start-line="56" selection-start-column="62" selection-end-line="56" selection-end-column="62" />
+            <state relative-caret-position="3390">
+              <caret line="226" column="28" selection-start-line="226" selection-start-column="28" selection-end-line="226" selection-end-column="28" />
+              <folding>
+                <element signature="e#0#9#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/web/app/clerk/clerk_services.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="510">
+              <caret line="36" column="31" selection-start-line="36" selection-start-column="31" selection-end-line="36" selection-end-column="31" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/web/app/clerk/forms.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="90">
+              <caret line="12" column="19" selection-start-line="12" selection-start-column="19" selection-end-line="12" selection-end-column="19" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/web/app/clerk/views.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="2520">
+              <caret line="172" column="17" selection-start-line="172" selection-start-column="17" selection-end-line="172" selection-end-column="17" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/web/app/doctor/doctor_services.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="4500">
+              <caret line="303" column="31" selection-start-line="303" selection-start-column="31" selection-end-line="303" selection-end-column="31" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/web/app/doctor/forms.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="225">
+              <caret line="22" column="23" selection-start-line="22" selection-start-column="23" selection-end-line="22" selection-end-column="23" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/web/app/doctor/views.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="361">
+              <caret line="151" column="17" selection-start-line="151" selection-start-column="17" selection-end-line="151" selection-end-column="17" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/web/app/patient/forms.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="90">
+              <caret line="104" column="31" selection-start-line="104" selection-start-column="31" selection-end-line="104" selection-end-column="31" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/web/app/patient/patient_services.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="4140">
+              <caret line="279" column="31" selection-start-line="279" selection-start-column="31" selection-end-line="279" selection-end-column="31" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/web/app/patient/views.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="480">
+              <caret line="196" column="17" selection-start-line="196" selection-start-column="17" selection-end-line="196" selection-end-column="17" />
             </state>
           </provider>
         </entry>
@@ -50,6 +164,25 @@
     <option name="CHANGED_PATHS">
       <list>
         <option value="$PROJECT_DIR$/maps_assis/assistant.py" />
+        <option value="$PROJECT_DIR$/maps_assis/assistant_conf.py" />
+        <option value="$PROJECT_DIR$/maps_assis/grpc_server/maps_server.py" />
+        <option value="$PROJECT_DIR$/services/app/clerk/clerk_models.py" />
+        <option value="$PROJECT_DIR$/services/app/clerk/endpoints.py" />
+        <option value="$PROJECT_DIR$/services/app/doctor/doctor_models.py" />
+        <option value="$PROJECT_DIR$/services/app/doctor/endpoints.py" />
+        <option value="$PROJECT_DIR$/services/app/patient/endpoints.py" />
+        <option value="$PROJECT_DIR$/services/app/patient/patient_models.py" />
+        <option value="$PROJECT_DIR$/services/app/public/google_calendar.py" />
+        <option value="$PROJECT_DIR$/services/app/public/pub_models.py" />
+        <option value="$PROJECT_DIR$/web/app/clerk/clerk_services.py" />
+        <option value="$PROJECT_DIR$/web/app/clerk/forms.py" />
+        <option value="$PROJECT_DIR$/web/app/clerk/views.py" />
+        <option value="$PROJECT_DIR$/web/app/doctor/doctor_services.py" />
+        <option value="$PROJECT_DIR$/web/app/doctor/forms.py" />
+        <option value="$PROJECT_DIR$/web/app/doctor/views.py" />
+        <option value="$PROJECT_DIR$/web/app/patient/forms.py" />
+        <option value="$PROJECT_DIR$/web/app/patient/patient_services.py" />
+        <option value="$PROJECT_DIR$/web/app/patient/views.py" />
       </list>
     </option>
   </component>
@@ -92,7 +225,27 @@
             <path>
               <item name="MARS" type="b2602c69:ProjectViewProjectNode" />
               <item name="MARS" type="462c0819:PsiDirectoryNode" />
-              <item name="maps_assis" type="462c0819:PsiDirectoryNode" />
+              <item name="web" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="MARS" type="b2602c69:ProjectViewProjectNode" />
+              <item name="MARS" type="462c0819:PsiDirectoryNode" />
+              <item name="web" type="462c0819:PsiDirectoryNode" />
+              <item name="app" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="MARS" type="b2602c69:ProjectViewProjectNode" />
+              <item name="MARS" type="462c0819:PsiDirectoryNode" />
+              <item name="web" type="462c0819:PsiDirectoryNode" />
+              <item name="app" type="462c0819:PsiDirectoryNode" />
+              <item name="doctor" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="MARS" type="b2602c69:ProjectViewProjectNode" />
+              <item name="MARS" type="462c0819:PsiDirectoryNode" />
+              <item name="web" type="462c0819:PsiDirectoryNode" />
+              <item name="app" type="462c0819:PsiDirectoryNode" />
+              <item name="patient" type="462c0819:PsiDirectoryNode" />
             </path>
           </expand>
           <select />
@@ -140,7 +293,7 @@
       <window_info anchor="bottom" id="Database Changes" show_stripe_button="false" />
       <window_info anchor="bottom" id="Version Control" show_stripe_button="false" />
       <window_info anchor="bottom" id="Python Console" />
-      <window_info anchor="bottom" id="Terminal" />
+      <window_info anchor="bottom" id="Terminal" visible="true" weight="0.32953367" />
       <window_info anchor="bottom" id="Event Log" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" />
@@ -165,10 +318,163 @@
     <option name="myLimit" value="2678400000" />
   </component>
   <component name="editorHistoryManager">
+    <entry file="file://$PROJECT_DIR$/maps_assis/grpc_server/maps_server.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="195">
+          <caret line="13" column="36" selection-start-line="13" selection-start-column="36" selection-end-line="13" selection-end-column="36" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/maps_assis/assistant_conf.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="45">
+          <caret line="3" column="7" lean-forward="true" selection-start-line="3" selection-start-column="7" selection-end-line="3" selection-end-column="7" />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/maps_assis/assistant.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="445">
-          <caret line="56" column="62" selection-start-line="56" selection-start-column="62" selection-end-line="56" selection-end-column="62" />
+        <state relative-caret-position="345">
+          <caret line="25" column="39" lean-forward="true" selection-start-line="25" selection-start-column="39" selection-end-line="25" selection-end-column="39" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/maps_assis/grpc_server/detect.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-175" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/services/app/clerk/clerk_models.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="735">
+          <caret line="49" column="32" selection-start-line="49" selection-start-column="32" selection-end-line="49" selection-end-column="32" />
+          <folding>
+            <element signature="e#0#9#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/services/app/clerk/endpoints.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="256">
+          <caret line="80" column="19" selection-start-line="80" selection-start-column="19" selection-end-line="80" selection-end-column="19" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/services/app/doctor/doctor_models.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1605">
+          <caret line="107" column="23" selection-start-line="107" selection-start-column="23" selection-end-line="107" selection-end-column="23" />
+          <folding>
+            <element signature="e#0#9#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/services/app/doctor/endpoints.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="5685">
+          <caret line="380" column="17" selection-start-line="380" selection-start-column="17" selection-end-line="380" selection-end-column="17" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/services/app/patient/endpoints.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="3540">
+          <caret line="237" column="17" selection-start-line="237" selection-start-column="17" selection-end-line="237" selection-end-column="17" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/services/app/patient/patient_models.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1605">
+          <caret line="107" column="21" selection-start-line="107" selection-start-column="21" selection-end-line="107" selection-end-column="21" />
+          <folding>
+            <element signature="e#0#9#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/services/app/public/google_calendar.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="481">
+          <caret line="172" column="27" selection-start-line="172" selection-start-column="27" selection-end-line="172" selection-end-column="27" />
+          <folding>
+            <element signature="e#0#37#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/services/app/public/pub_models.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="3390">
+          <caret line="226" column="28" selection-start-line="226" selection-start-column="28" selection-end-line="226" selection-end-column="28" />
+          <folding>
+            <element signature="e#0#9#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/web/app/clerk/clerk_services.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="510">
+          <caret line="36" column="31" selection-start-line="36" selection-start-column="31" selection-end-line="36" selection-end-column="31" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/web/app/clerk/forms.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="90">
+          <caret line="12" column="19" selection-start-line="12" selection-start-column="19" selection-end-line="12" selection-end-column="19" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/web/app/clerk/views.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="2520">
+          <caret line="172" column="17" selection-start-line="172" selection-start-column="17" selection-end-line="172" selection-end-column="17" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/web/app/doctor/doctor_services.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="4500">
+          <caret line="303" column="31" selection-start-line="303" selection-start-column="31" selection-end-line="303" selection-end-column="31" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/web/app/doctor/forms.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="225">
+          <caret line="22" column="23" selection-start-line="22" selection-start-column="23" selection-end-line="22" selection-end-column="23" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/web/app/doctor/views.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="361">
+          <caret line="151" column="17" selection-start-line="151" selection-start-column="17" selection-end-line="151" selection-end-column="17" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/web/app/patient/forms.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="90">
+          <caret line="104" column="31" selection-start-line="104" selection-start-column="31" selection-end-line="104" selection-end-column="31" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/web/app/patient/patient_services.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="4140">
+          <caret line="279" column="31" selection-start-line="279" selection-start-column="31" selection-end-line="279" selection-end-column="31" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/web/app/patient/views.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="480">
+          <caret line="196" column="17" selection-start-line="196" selection-start-column="17" selection-end-line="196" selection-end-column="17" />
         </state>
       </provider>
     </entry>

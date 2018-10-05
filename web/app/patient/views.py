@@ -21,6 +21,11 @@ patient_blueprint = Blueprint(
 
 # setting
 def patientSetting():
+
+    """
+    menu setting
+    :return:  object
+    """
     settings = {
         'title' : 'Patient',
         'menu' : {
@@ -39,10 +44,18 @@ def patientSetting():
 
 @patient_blueprint.route('/index')
 def index():
+    """
+    index
+    :return: default page
+    """
     return redirect(url_for('patient.account'))
 
 @patient_blueprint.route('/account', methods=['GET', 'POST'])
 def account():
+    """
+    show account page
+    :return: render page
+    """
     form = UpdateForm(request.form)
     if request.method == 'GET':
         form.username.data = session['User']['username']
@@ -66,6 +79,10 @@ def account():
 # make appointment
 @patient_blueprint.route('/make_appointment')
 def makeAppointment():
+    """
+    make an appointment
+    :return: render page
+    """
     ds = DoctorService()
     res, doctors = ds.getAll()
     data = doctors['data']
@@ -74,6 +91,11 @@ def makeAppointment():
 # get doctor
 @patient_blueprint.route('/get_doctor/<doctor_id>')
 def getDoctor(doctor_id):
+    """
+    get one doctor
+    :param doctor_id: doctor id
+    :return: json
+    """
     ds = DoctorService()
     res, data = ds.getDoctorById(doctor_id)
     if res:
@@ -88,6 +110,10 @@ def getDoctor(doctor_id):
 # register a patient
 @patient_blueprint.route('/register', methods=['GET', 'POST'])
 def register():
+    """
+    register a patient
+    :return:render page
+    """
     form = RegForm(request.form)
     if request.method == 'POST' and form.validate():
         # pass the validation, request API
@@ -108,6 +134,11 @@ def register():
 # get events by doctorid
 @patient_blueprint.route('/get_events/<doctor_id>', methods=['GET'])
 def getEventsByDoctorId(doctor_id):
+    """
+    get all events by doctor id
+    :param doctor_id: doctor id
+    :return: json
+    """
     ps = PatientService()
     res, data = ps.getEventsByDoctorId(doctor_id)
     if res and data is not None:
@@ -119,6 +150,10 @@ def getEventsByDoctorId(doctor_id):
 # get events by doctorid
 @patient_blueprint.route('/update_events', methods=['POST'])
 def updateEventsByDoctorId():
+    """
+    update events by doctor id
+    :return: json
+    """
     doctorId = request.form.getlist('doctor_id')[0]
     eventId = request.form.getlist('event_id')[0]
     delete = request.form.getlist('delete')[0]
@@ -142,6 +177,10 @@ def updateEventsByDoctorId():
 # delete event
 @patient_blueprint.route('/delete_events', methods=['POST'])
 def deleteEvents():
+    """
+    delete events
+    :return: json
+    """
     eventId = request.form.getlist('event_id')[0]
     ps = PatientService()
     calendarId = session['User']['calendar_id']
@@ -153,6 +192,10 @@ def deleteEvents():
 # delete event
 @patient_blueprint.route('/get_appointments', methods=['GET'])
 def getAppointments():
+    """
+    get all appointments
+    :return: json
+    """
     patientId = session['User']['id']
     ps = PatientService()
     res, data = ps.getAppointmentsById(patientId)

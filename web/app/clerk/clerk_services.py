@@ -6,11 +6,19 @@ import json
 class ClerkService():
     # constructor
     def __init__(self):
+        """
+        constructor
+        """
         self.module = 'clerk'
         self.baseUrl = '{}://{}:{}@{}/{}'. format(PROTOCOL, APIKEY, APIPASS, SERVICE_ADDRESS, self.module)
 
     # request API of login
     def login(self, payload):
+        """
+        sign in system
+        :param payload: payload
+        :return: boolean,object
+        """
         try:
             url = self.baseUrl + '/login'
             headers = {'Content-type': 'application/json'}
@@ -24,6 +32,10 @@ class ClerkService():
 
     # request API of statistics
     def getStatistics(self):
+        """
+        get statistics
+        :return: boolean,object
+        """
         try:
             url = self.baseUrl + '/statistics'
             headers = {'Content-type': 'application/json'}
