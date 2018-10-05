@@ -1,0 +1,17 @@
+syntax='proto3';
+// The maps service definition.
+service MAPS_server {
+  // Sends a patient
+  rpc ValidatePatient (MAPSRequest) returns (MAPSReply) {}
+}
+
+// The request message containing the patient's name and office_number.
+message MAPSRequest {
+  string name = 1;
+  string office_no = 2;
+}
+
+// The response message containing the message
+message MAPSReply {
+  string message = 1;
+}
