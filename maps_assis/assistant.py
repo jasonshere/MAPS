@@ -31,6 +31,10 @@ appointment = {}
 channel = grpc.insecure_channel('{}:{}'.format(host, port))
 
 def get_next_patient():
+    """
+    Get next patient
+    :return: None
+    """
     global is_arrived
     global appointment
     global office_no
@@ -50,6 +54,11 @@ def get_next_patient():
         aiy.audio.say('You do not have any appointments yet!')
 
 def edit_notes(notes):
+    """
+    Edit notes for patient
+    :param notes: notes
+    :return: None
+    """
     global is_arrived
     global appointment
     ds = DoctorService()
@@ -60,6 +69,12 @@ def edit_notes(notes):
         aiy.audio.say('Please wait for patient to arrive first!')
 
 def process_event(assistant, event):
+    """
+    Process event
+    :param assistant: assistant object
+    :param event: event object
+    :return: None
+    """
     print(event)
     status_ui = aiy.voicehat.get_status_ui()
     if event.type == EventType.ON_START_FINISHED:
@@ -92,6 +107,12 @@ def process_event(assistant, event):
         sys.exit(1)
 
 def grpc_run(patient, number):
+    """
+    connect to gRPC server
+    :param patient: patient name
+    :param number: office number
+    :return: message
+    """
     global channel
     # NOTE(gRPC Python Team): .close() is possible on a channel and should be
     # used in circumstances in which the with statement does not fit the needs
@@ -107,6 +128,10 @@ def grpc_run(patient, number):
     return response.message
 
 def main():
+    """
+    Main function
+    :return: None
+    """
     if platform.machine() == 'armv6l':
         print('Cannot run hotword demo on Pi Zero!')
         exit(-1)
