@@ -1,0 +1,195 @@
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>Server Module &#8212; MAPS 1.0.0 documentation</title>
+    <link rel="stylesheet" href="_static/dotted.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Client Module" href="Client Module.html" />
+    <link rel="prev" title="Assistant" href="Assistant.html" /> 
+  </head><body>
+        <div class="header">
+          <div class="header-top">
+            <h1 class="heading"><a href="index.html">
+              <span>MAPS 1.0.0 documentation</span></a></h1>
+            <h2 class="heading"><span>Server Module</span></a></h2>
+          </div>
+          <div class="topnav">
+            
+        <p>
+        &#171;&#160;&#160;<a href="Assistant.html">Assistant</a>
+        &#160;&#160;::&#160;&#160;
+        <a class="uplink" href="index.html">Contents</a>
+        &#160;&#160;::&#160;&#160;
+        <a href="Client Module.html">Client Module</a>&#160;&#160;&#187;
+        </p>
+
+            <div class="globaltoc">
+              <p class="caption"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="Clerk Module.html">Clerk Module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Patient Module.html">Patient Module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Doctor Module.html">Doctor Module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Public Module.html">Public Module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Web Interface.html">Web Interface</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="Assistant.html">Assistant</a><ul class="current">
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Server Module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Client Module.html">Client Module</a></li>
+</ul>
+</li>
+</ul>
+
+            </div>
+          </div>
+        </div>
+        <div class="wrapper">
+
+          <div class="document">
+            <div class="documentwrapper">
+              <div class="bodywrapper">
+                <div class="body">
+                  
+  <div class="section" id="server-module">
+<h1>Server Module<a class="headerlink" href="#server-module" title="Permalink to this headline">¶</a></h1>
+<div class="code highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">This</span> <span class="n">part</span> <span class="ow">is</span> <span class="n">to</span> <span class="n">support</span> <span class="n">services</span> <span class="n">on</span> <span class="n">Reception</span> <span class="n">PI</span><span class="p">,</span>
+<span class="n">the</span> <span class="n">services</span> <span class="n">contain</span> <span class="n">gRPC</span> <span class="n">service</span> <span class="ow">and</span> <span class="n">facial</span> <span class="n">recognition</span> <span class="n">service</span><span class="o">.</span>
+</pre></div>
+</div>
+<p><strong>The working flow between Reception PI and Advisor PI:</strong></p>
+<ul class="simple">
+<li><ol class="first arabic">
+<li>When the doctor says “Okay google, <strong>next patient</strong>”, the Advisor PI will get next patient</li>
+</ol>
+</li>
+<li><ol class="first arabic" start="2">
+<li>Then notify the Reception PI by gRPC</li>
+</ol>
+</li>
+<li><ol class="first arabic" start="3">
+<li>When Reception PI get the notification, it will wake the facial recognition up to detect patient</li>
+</ol>
+</li>
+<li><ol class="first arabic" start="4">
+<li>If the patient’s face is detected, it will show the doctor’s office number on Reception PI</li>
+</ol>
+</li>
+<li><ol class="first arabic" start="5">
+<li>Otherwise it will tell the doctor the patient has not arrived yet</li>
+</ol>
+</li>
+</ul>
+<p><strong>The service on Reception PI:</strong></p>
+<ul class="simple">
+<li>Receive the patient information from Advisor PI by gRPC</li>
+<li>Detect patient’s face to identify if the patient has arrived</li>
+<li>Notify the Advisor PI whether the patient has arrived</li>
+<li>Show the doctor’s office number on Reception PI</li>
+<li>Record and encode the patient’s face picture in advance</li>
+</ul>
+<p><strong>Files(Please put maps_assis/grpc_server on Reception PI)</strong></p>
+<table border="1" class="colwidths-given docutils">
+<colgroup>
+<col width="40%" />
+<col width="60%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">File Name</th>
+<th class="head">Functionality</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>maps_assis/grpc_server/record.py</td>
+<td>The file can record the patient face to pictures into the Reception PI</td>
+</tr>
+<tr class="row-odd"><td>maps_assis/grpc_server/encode.py</td>
+<td>Before detecting the patient’s face, please run this file to encode the pictures</td>
+</tr>
+<tr class="row-even"><td>maps_assis/grpc_server/detect.py</td>
+<td>The file has the functionality to detect the patient’s face</td>
+</tr>
+<tr class="row-odd"><td>maps_assis/grpc_server/maps_server.py</td>
+<td>The file if for starting up gRPC servicer to listening and receive the message from Advisor PI and call the detection of patient’s face</td>
+</tr>
+<tr class="row-even"><td>maps_assis/grpc_server/maps.proto</td>
+<td>The file is for generation gRPC server compile file</td>
+</tr>
+<tr class="row-odd"><td>maps_assis/grpc_server/dataset</td>
+<td>The folder saving record face picture</td>
+</tr>
+<tr class="row-even"><td>maps_assis/grpc_server/cv2.so</td>
+<td>The OpenCV library</td>
+</tr>
+<tr class="row-odd"><td>maps_assis/grpc_server/maps_pb2.py</td>
+<td>The gRPC compile file</td>
+</tr>
+<tr class="row-even"><td>maos_assis/grpc_server/maps_pb2_grpc.py</td>
+<td>The gRPC compile file</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Usage</strong></p>
+<ul class="simple">
+<li>Record patient’s face into system:</li>
+</ul>
+<div class="code highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># pi @ raspberrypi : workon cv</span>
+<span class="c1"># pi @ raspberrypi(cv) : python3 record.py // It will record 10 pictures</span>
+<span class="c1"># pi @ raspberrypi(cv) : python3 encode.py // before detection we need to encode pictures first</span>
+</pre></div>
+</div>
+<ul class="simple">
+<li>Detect patient’s face:</li>
+</ul>
+<div class="code highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># pi @ raspberrypi(cv) : python3 detect.py // It will detect the patient&#39;s name</span>
+</pre></div>
+</div>
+<ul class="simple">
+<li>Start up gRPC server:</li>
+</ul>
+<div class="code highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># pi @ raspberrypi(cv) : X // start up X server first</span>
+<span class="c1"># pi @ raspberrypi(cv) : python3 maps_server.py // start up gRPC server</span>
+
+<span class="o">//</span> <span class="n">Next</span><span class="p">,</span> <span class="n">wait</span> <span class="k">for</span> <span class="n">Advisor</span><span class="s1">&#39;s command</span>
+</pre></div>
+</div>
+</div>
+
+
+                </div>
+              </div>
+
+            </div>
+
+            <div class="clearer"></div>
+          </div>
+        </div>
+
+        <div class="bottomnav">
+          
+        <p>
+        &#171;&#160;&#160;<a href="Assistant.html">Assistant</a>
+        &#160;&#160;::&#160;&#160;
+        <a class="uplink" href="index.html">Contents</a>
+        &#160;&#160;::&#160;&#160;
+        <a href="Client Module.html">Client Module</a>&#160;&#160;&#187;
+        </p>
+
+        </div>
+
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2018, Jie Li.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.8.1.
+    </div>
+  </body>
+</html>

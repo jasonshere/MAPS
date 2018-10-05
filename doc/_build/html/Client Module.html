@@ -1,0 +1,185 @@
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>Client Module &#8212; MAPS 1.0.0 documentation</title>
+    <link rel="stylesheet" href="_static/dotted.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="prev" title="Server Module" href="Server Module.html" /> 
+  </head><body>
+        <div class="header">
+          <div class="header-top">
+            <h1 class="heading"><a href="index.html">
+              <span>MAPS 1.0.0 documentation</span></a></h1>
+            <h2 class="heading"><span>Client Module</span></a></h2>
+          </div>
+          <div class="topnav">
+            
+        <p>
+        &#171;&#160;&#160;<a href="Server Module.html">Server Module</a>
+        &#160;&#160;::&#160;&#160;
+        <a class="uplink" href="index.html">Contents</a>
+        </p>
+
+            <div class="globaltoc">
+              <p class="caption"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="Clerk Module.html">Clerk Module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Patient Module.html">Patient Module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Doctor Module.html">Doctor Module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Public Module.html">Public Module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Web Interface.html">Web Interface</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="Assistant.html">Assistant</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="Server Module.html">Server Module</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Client Module</a></li>
+</ul>
+</li>
+</ul>
+
+            </div>
+          </div>
+        </div>
+        <div class="wrapper">
+
+          <div class="document">
+            <div class="documentwrapper">
+              <div class="bodywrapper">
+                <div class="body">
+                  
+  <div class="section" id="client-module">
+<h1>Client Module<a class="headerlink" href="#client-module" title="Permalink to this headline">¶</a></h1>
+<div class="code highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">This</span> <span class="n">part</span> <span class="ow">is</span> <span class="n">to</span> <span class="n">support</span> <span class="n">services</span> <span class="n">on</span> <span class="n">Advisor</span> <span class="n">PI</span><span class="p">,</span>
+<span class="n">the</span> <span class="n">services</span> <span class="n">contain</span> <span class="n">send</span> <span class="n">command</span> <span class="n">to</span> <span class="n">Reception</span> <span class="n">PI</span> <span class="n">by</span> <span class="n">gRPC</span> <span class="ow">and</span> <span class="n">google</span> <span class="n">assistant</span> <span class="n">voice</span> <span class="n">recognition</span> <span class="n">service</span><span class="o">.</span>
+</pre></div>
+</div>
+<p><strong>The working flow between Reception PI and Advisor PI:</strong></p>
+<ul class="simple">
+<li><ol class="first arabic">
+<li>When the doctor says “Okay google, <strong>next patient</strong>”, the Advisor PI will get next patient</li>
+</ol>
+</li>
+<li><ol class="first arabic" start="2">
+<li>Then notify the Reception PI by gRPC</li>
+</ol>
+</li>
+<li><ol class="first arabic" start="3">
+<li>When Reception PI get the notification, it will wake the facial recognition up to detect patient</li>
+</ol>
+</li>
+<li><ol class="first arabic" start="4">
+<li>If the patient’s face is detected, it will show the doctor’s office number on Reception PI</li>
+</ol>
+</li>
+<li><ol class="first arabic" start="5">
+<li>Otherwise it will tell the doctor the patient has not arrived yet</li>
+</ol>
+</li>
+</ul>
+<p><strong>The service on Advisor PI:</strong></p>
+<ul class="simple">
+<li>Receive and recognise doctor’s voice command by google assistant and gRPC</li>
+<li>Get next patient’s information and send to gRPC’s server which is Reception PI</li>
+<li>Get the information that is if the patient has arrived</li>
+<li>Make notes by voice command during appointment</li>
+</ul>
+<p><strong>Files(Please put maps_assis on Advisor PI)</strong></p>
+<table border="1" class="colwidths-given docutils">
+<colgroup>
+<col width="40%" />
+<col width="60%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">File Name</th>
+<th class="head">Functionality</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>maps_assis/assistant.py</td>
+<td>The assistant file that can start up google assistant and gRPC client</td>
+</tr>
+<tr class="row-odd"><td>maps_assis/assistant_conf.py</td>
+<td>Set up the gRPC server address and port, set up doctor’s email and office number</td>
+</tr>
+<tr class="row-even"><td>maps_assis/google_env</td>
+<td>The virtual environment for assistant</td>
+</tr>
+<tr class="row-odd"><td>maps_assis/grpc</td>
+<td>The folder storing gRPC servicer files, do not edit it</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Usage</strong></p>
+<ul class="simple">
+<li>Enable virtual environment:</li>
+</ul>
+<div class="code highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># pi @ raspberrypi : source google_env/bin/activate</span>
+</pre></div>
+</div>
+<ul class="simple">
+<li>Start up connection to gRPC server and google assistant:</li>
+</ul>
+<div class="code highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># pi @ raspberrypi(env) : python3 assistant.py // Next you can give commands by google assistant</span>
+</pre></div>
+</div>
+<p><strong>Actions</strong></p>
+<ul class="simple">
+<li>Define the voice command on Advisor PI:</li>
+</ul>
+<div class="code highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">elif</span> <span class="n">event</span><span class="o">.</span><span class="n">type</span> <span class="o">==</span> <span class="n">EventType</span><span class="o">.</span><span class="n">ON_RECOGNIZING_SPEECH_FINISHED</span> <span class="ow">and</span> <span class="n">event</span><span class="o">.</span><span class="n">args</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;You said:&#39;</span><span class="p">,</span> <span class="n">event</span><span class="o">.</span><span class="n">args</span><span class="p">[</span><span class="s1">&#39;text&#39;</span><span class="p">])</span>
+    <span class="n">text</span> <span class="o">=</span> <span class="n">event</span><span class="o">.</span><span class="n">args</span><span class="p">[</span><span class="s1">&#39;text&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span>
+    <span class="k">if</span> <span class="n">text</span> <span class="o">==</span> <span class="s1">&#39;next patient&#39;</span><span class="p">:</span>
+        <span class="n">assistant</span><span class="o">.</span><span class="n">stop_conversation</span><span class="p">()</span>
+        <span class="n">get_next_patient</span><span class="p">()</span>
+    <span class="k">if</span> <span class="n">text</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s1">&#39;make a note&#39;</span><span class="p">)</span> <span class="o">!=</span> <span class="o">-</span><span class="mi">1</span><span class="p">:</span>
+        <span class="n">assistant</span><span class="o">.</span><span class="n">stop_conversation</span><span class="p">()</span>
+        <span class="n">edit_notes</span><span class="p">(</span><span class="n">text</span><span class="p">[</span><span class="mi">19</span><span class="p">:])</span>
+
+<span class="o">//</span> <span class="n">Right</span> <span class="n">here</span> <span class="n">you</span> <span class="n">can</span> <span class="n">add</span> <span class="n">your</span> <span class="n">actions</span>
+</pre></div>
+</div>
+<ul class="simple">
+<li>get_next_patient() Method can get next patient information</li>
+<li>edit_notes() Method can edit notes gfor current patient</li>
+<li>grpc_run() Method can send message to gRPC server</li>
+</ul>
+</div>
+
+
+                </div>
+              </div>
+
+            </div>
+
+            <div class="clearer"></div>
+          </div>
+        </div>
+
+        <div class="bottomnav">
+          
+        <p>
+        &#171;&#160;&#160;<a href="Server Module.html">Server Module</a>
+        &#160;&#160;::&#160;&#160;
+        <a class="uplink" href="index.html">Contents</a>
+        </p>
+
+        </div>
+
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2018, Jie Li.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.8.1.
+    </div>
+  </body>
+</html>

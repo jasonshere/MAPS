@@ -3,15 +3,12 @@
    You can adapt this file completely to your liking, but it should at least
    contain the root `toctree` directive.
 
-Module
+Assistant
+================================
 
 .. toctree::
-   :maxdepth: 3
+   :maxdepth: 2
    :caption: Contents:
 
-   Clerk Module
-   Patient Module
-   Doctor Module
-   Public Module
-   Web Interface
-   Assistant
+   Server Module
+   Client Module
