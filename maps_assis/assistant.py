@@ -38,19 +38,22 @@ def get_next_patient():
     global is_arrived
     global appointment
     global office_no
-    ds = DoctorService()
-    res, data = ds.getDoctorByEmail(email)
-    doctor_id = data['data']['id']
-    res, next_patient = ds.getNextPatientByDoctorId(doctor_id)
-    if next_patient['code'] == 1:
-        # send to another rasppi
-        appointment = next_patient['data']
-        patient = next_patient['data']['patient']['name']
-        text = 'Your next patient is {}, I have already helped you notify the frent desk. Please wait for a moment.'. format(next_patient['data']['patient']['name'])
-        aiy.audio.say(text)
-        res = grpc_run(patient, office_no)
-        is_arrived = res
-    else:
+    try:
+        ds = DoctorService()
+        res, data = ds.getDoctorByEmail(email)
+        doctor_id = data['data']['id']
+        res, next_patient = ds.getNextPatientByDoctorId(doctor_id)
+        if next_patient['code'] == 1:
+            # send to another rasppi
+            appointment = next_patient['data']
+            patient = next_patient['data']['patient']['name']
+            text = 'Your next patient is {}, I have already helped you notify the frent desk. Please wait for a moment.'. format(next_patient['data']['patient']['name'])
+            aiy.audio.say(text)
+            res = grpc_run(patient, office_no)
+            is_arrived = res
+        else:
+            aiy.audio.say('You do not have any appointments yet!')
+    except Exception as e:
         aiy.audio.say('You do not have any appointments yet!')
 
 def edit_notes(notes):
