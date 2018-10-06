@@ -45,3 +45,9 @@ ma = Marshmallow(app)
 app.config['SESSION_TYPE'] = conf.get(env, 'SESSION_TYPE')
 app.config['SECRET_KEY'] = os.urandom(32)
 #Session(app)
+
+# google config
+GOOGLE_CLIENT_ID = conf.get(env, 'GOOGLE_CLIENT_ID')
+GOOGLE_CLIENT_SECRET = conf.get(env, 'GOOGLE_CLIENT_SECRET')
+
+
