@@ -391,7 +391,6 @@ def getNextPatientByDoctorId(doctor_id):
         else:
             raise data
     except Exception as e:
-        print(str(e))
         return make_response(jsonify({'code': -1, 'msg': str(e)}), 400)
 
 

@@ -4,6 +4,7 @@ from datetime import timedelta
 from googleapiclient.discovery import build
 from httplib2 import Http
 from oauth2client import file, client, tools
+from oauth2client.client import OAuth2WebServerFlow
 import os
 import datetime
 import time
@@ -14,7 +15,10 @@ SCOPES = 'https://www.googleapis.com/auth/calendar'
 store = file.Storage('token.json')
 creds = store.get()
 if not creds or creds.invalid:
-    flow = client.flow_from_clientsecrets(os.path.abspath(os.path.dirname(__file__)) + '/credentials.json', SCOPES)
+    flow = OAuth2WebServerFlow(client_id='550570213199-4oqr6dvuatb9hpciod0oe2a7jnsvqu0b.apps.googleusercontent.com',
+                               client_secret='uEGUqhIPYVOrtylATCWBpFQP',
+                               scope=SCOPES)
+    # flow = client.flow_from_clientsecrets(os.path.abspath(os.path.dirname(__file__)) + '/credentials.json', SCOPES)
     creds = tools.run_flow(flow, store)
 service = build('calendar', 'v3', http=creds.authorize(Http()))
 
@@ -83,7 +87,6 @@ def addGoogleEvent(data):
         end = time.mktime(time.strptime(data['end']['dateTime'], '%Y-%m-%dT%H:%M:%S'))
         n = math.ceil((end - start) / (15 * 60))
         for i in range(n):
-            print(time.strftime('%Y-%m-%dT%H:%M:%S', time.localtime(int(start))), time.strftime('%Y-%m-%dT%H:%M:%S', time.localtime(int(start + (i + 1) * 15 * 60))))
             start1 = {
                 'dateTime': time.strftime('%Y-%m-%dT%H:%M:%S', time.localtime(int(start + i * 15 * 60))),
                 'timeZone': 'Australia/Melbourne'
@@ -92,7 +95,6 @@ def addGoogleEvent(data):
                 'dateTime': time.strftime('%Y-%m-%dT%H:%M:%S', time.localtime(int(start + (i + 1) * 15 * 60))),
                 'timeZone': 'Australia/Melbourne'
             }
-            print(start1, end1)
             event = {
                 'summary': data['summary'],
                 'location': data['location'],
@@ -111,12 +113,10 @@ def addGoogleEvent(data):
                     ],
                 },
             }
-            print(event)
             event = service.events().insert(calendarId=data['calendar_id'], body=event).execute()
         
         return True, event
     except Exception as e:
-        print(str(e))
         return False, e
 
 # get events

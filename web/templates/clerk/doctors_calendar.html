@@ -101,8 +101,8 @@
             var style = getComputedStyle(document.body);
             if ($('#calendar').length) {
                 $('#calendar').fullCalendar({
-                defaultView: 'listWeek',
-                // defaultView: 'agendaFourDay',
+                // defaultView: 'listWeek',
+                defaultView: 'agendaFourDay',
                 views: {
                     agendaFourDay: {
                         type: 'agenda',
@@ -121,8 +121,8 @@
                     $.post(url, {"start": startDate.format(), "end": endDate.format()}, function(res){
                         $('#calendar').fullCalendar('renderEvent', {
                             title: 'Free',
-                            start: res.data['start']['dateTime'],
-                            end: res.data['end']['dateTime'],
+                            start: startDate.format(),
+                            end: endDate.format(),
                             id: res.data['id'],
                             allDay: false
                         });
