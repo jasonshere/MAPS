@@ -90,7 +90,6 @@ def addGoogleEvent(data):
         end = time.mktime(time.strptime(data['end']['dateTime'], '%Y-%m-%dT%H:%M:%S'))
         n = math.ceil((end - start) / (15 * 60))
         for i in range(n):
-            print(time.strftime('%Y-%m-%dT%H:%M:%S', time.localtime(int(start))), time.strftime('%Y-%m-%dT%H:%M:%S', time.localtime(int(start + (i + 1) * 15 * 60))))
             start1 = {
                 'dateTime': time.strftime('%Y-%m-%dT%H:%M:%S', time.localtime(int(start + i * 15 * 60))),
                 'timeZone': 'Australia/Melbourne'
@@ -99,7 +98,6 @@ def addGoogleEvent(data):
                 'dateTime': time.strftime('%Y-%m-%dT%H:%M:%S', time.localtime(int(start + (i + 1) * 15 * 60))),
                 'timeZone': 'Australia/Melbourne'
             }
-            print(start1, end1)
             event = {
                 'summary': data['summary'],
                 'location': data['location'],
@@ -118,12 +116,10 @@ def addGoogleEvent(data):
                     ],
                 },
             }
-            print(event)
             event = service.events().insert(calendarId=data['calendar_id'], body=event).execute()
         
         return True, event
     except Exception as e:
-        print(str(e))
         return False, e
 
 # get events

@@ -28,7 +28,6 @@ class DoctorService():
                 url = self.baseUrl + '/calendars'
                 headers = {'Content-type': 'application/json'}
                 res, resData = self.getDoctorByEmail(payload['doctor']['email'])
-                print(resData)
                 pl = {
                     'calendar': {
                         "summary": "Calendar for {}". format(payload['doctor']['email']),

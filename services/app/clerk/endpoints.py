@@ -87,7 +87,6 @@ def assemblyData(data):
         for j in range(len(data[i]['appointments'])):
             label = data[i]['appointments'][j]['doctor_name']
             if label in appoints:
-                print(data[i]['appointments'][j]['count'])
                 appoints[label].append(data[i]['appointments'][j]['count'])
             else:
                 appoints[label] = [data[i]['appointments'][j]['count']]

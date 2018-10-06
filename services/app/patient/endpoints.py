@@ -52,7 +52,6 @@ def login():
         else:
             return make_response(jsonify({'code': -1, 'msg': 'Username or Password is invalid'}), 400)
     except Exception as e:
-        print(str(e))
         return make_response(jsonify({'code': -1, 'msg': 'Patient not logged in'}), 400)
 
 # Patient update
@@ -149,7 +148,6 @@ def updateEvents(calendar_id, event_id):
             raise events
 
     except Exception as e:
-        print(str(e))
         return make_response(jsonify({'code': -1, 'msg': str(e)}), 400)
 
 # delete patient's google event

@@ -181,7 +181,6 @@ class PatientService():
                 else:
                     url = self.baseUrl + '/calendars/{}/events/{}' .format(calendarId, eventId)
                     headers = {'Content-type': 'application/json'}
-                    print(delete)
                     if delete == "false":
                         payload = {
                             'event': {
