@@ -172,6 +172,6 @@ More details and documentations on folder "\doc" , please check!
 Thank you!
 
 Author [@Jason]
-2018 年 10月 05日    
+2018.10.05   
 
 
